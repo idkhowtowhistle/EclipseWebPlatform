@@ -48,7 +48,7 @@ pageBuilder::buildHeader();
 			"Executing Git Pull...", 
 			[
 				{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
-				{'class':'btn btn-outline-danger', 'text':'Run Again'}
+				{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}
 			]
 		);
 

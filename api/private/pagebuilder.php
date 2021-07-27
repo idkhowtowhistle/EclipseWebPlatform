@@ -408,6 +408,9 @@ class pageBuilder
 						if (button.onclick) {
 							buttonHtml += ' onclick="' + button.onclick + '"';
 						}
+						if (button.disabled) {
+							buttonHtml += ' disabled="disabled"';
+						}
 						buttonHtml += '>' + button.text + '</button>';
 
 
