@@ -9,10 +9,9 @@ if (!$threadInfo) pageBuilder::errorCode(404);
 $authorInfo = users::getUserInfoFromUid($threadInfo->authorId);
 
 $replies = db::run(
-    "SELECT subforum_replies.*, users.username, users.admin 
-    FROM subforum_replies WHERE replyTo = :threadId 
+    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
     INNER JOIN users ON users.id = subforum_replies.authorId
-    ORDER BY datePosted ASC", 
+    WHERE replyTo = :threadId ORDER BY datePosted ASC", 
     [":threadId" => $threadId]
 );
 
