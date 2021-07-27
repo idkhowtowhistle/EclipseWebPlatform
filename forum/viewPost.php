@@ -33,7 +33,7 @@ pageBuilder::buildHeader();
         <?=htmlspecialchars($threadInfo->postTitle)?>
     </div>
     <div class="card-body">
-        <div class="reply">
+        <div class="reply row">
             <div class="col-2 divider-right">
                 <a class="pl-1 <?= $authorInfo->admin > 2 ? 'text-danger font-weight-bold' : ""?> text-truncate" <?=$authorInfo->admin > 2 ? "title='This user is an Administrator'" : ""?> href="/user?id=<?=$authorInfo->id?>"><?=$authorInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : ""?> <?=$authorInfo->username?></a>
                 <br>
@@ -53,7 +53,7 @@ pageBuilder::buildHeader();
 <?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) { ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-body">
-        <div class="reply">
+        <div class="reply row">
             <div class="col-2 divider-right">
                 <a class="pl-1 <?=$reply->admin > 2 ? 'text-danger font-weight-bold' : ""?> text-truncate" <?=$reply->admin > 2 ? "title='This user is an Administrator'" : ""?> href="/user?id=<?=$reply->authorId?>"><?=$reply->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : ""?> <?=$reply->username?></a>
                 <br>
