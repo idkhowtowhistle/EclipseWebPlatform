@@ -13,7 +13,7 @@ $query = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :threadId
 $query->bindParam(":threadId", $threadId, PDO::PARAM_INT);
 $query->execute();
 
-pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false));
+pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
 pageBuilder::buildHeader();
 ?>
