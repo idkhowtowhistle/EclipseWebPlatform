@@ -10,7 +10,7 @@ if (!$threadInfo) pageBuilder::errorCode(404);
 
 $threadPostInfo = users::getUserInfoFromUid($threadInfo->authorId);
 
-$query = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :threadId ORDER BY datePosted DESC");
+$query = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :threadId ORDER BY datePosted ASC");
 $query->bindParam(":threadId", $threadId, PDO::PARAM_INT);
 $query->execute();
 ?>
