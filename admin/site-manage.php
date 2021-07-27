@@ -11,7 +11,7 @@ pageBuilder::buildHeader();
 				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
 				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
 				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
-				<ul><li>This brings any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
+				<ul><li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
 			</div>
 		</div>
     </div>
@@ -28,7 +28,7 @@ pageBuilder::buildHeader();
 				</a>
 			</div>
 			<div class="col-lg-6 mt-2">
-				<a href="/admin/news" class="text-reset text-decoration-none">
+				<a href="#" onclick="gitpull()" class="text-reset text-decoration-none">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
 							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
@@ -40,4 +40,19 @@ pageBuilder::buildHeader();
 		</div>
 	</div>
 </div>
+<script>
+	function gitpull()
+	{
+		showModal(
+			"Git Pull", 
+			"Executing Git Pull...", 
+			[{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'}]
+		);
+
+		$.get("/admin/git-pull", function(data)
+		{
+			$(".global.modal .modal-body").text(data);
+		});
+	}
+</script>
 <?php pageBuilder::buildFooter(); ?>
