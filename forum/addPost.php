@@ -69,6 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $query = $pdo->prepare("UPDATE subforum_threads SET bumpIndex = UNIX_TIMESTAMP() WHERE id = :id");
             $query->bindParam(":id", $postInfo->id, PDO::PARAM_INT);
             $query->execute();
+
+            header("Location: /forum/viewPost?id=" . $postInfo->id);
         } else {
             $query = $pdo->prepare("INSERT INTO subforum_threads (subForumId, postTitle, postContents,  authorId, datePosted, canReply, bumpIndex) VALUES (:subId, :subject, :body, :author, UNIX_TIMESTAMP(), :replies, UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();");
             $query->bindParam(":subject", $subject, PDO::PARAM_STR);
@@ -81,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $query = $pdo->prepare("SELECT id FROM subforum_threads WHERE authorId = :id ORDER BY id DESC");
             $query->bindParam(":id", $userId, PDO::PARAM_INT);
             $query->execute();
+            header("Location: /forum/viewPost?id=" . $query->fetchColumn());
         }
     }
 }
