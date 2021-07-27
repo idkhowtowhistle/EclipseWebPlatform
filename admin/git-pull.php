@@ -1,3 +1,6 @@
 <?php
-exec("git pull", $output);
-echo $output;
+$output = [];
+exec("git pull", $output, $exitcode);
+var_dump($output);
+echo "<br>";
+var_dump($exitcode);
