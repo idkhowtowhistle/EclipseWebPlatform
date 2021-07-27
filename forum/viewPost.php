@@ -21,8 +21,12 @@ $userInfo = users::getUserInfoFromUid($threadInfo->authorId);
             <a class="pl-1 <?= $userInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $userInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?=$userInfo->id?>"><?= $userInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?=$userInfo->username?></a>
             <br>
             <img src="/thumbnails/avatar?id=<?=$threadInfo->authorId?>&amp;x=100&amp;y=100" title="<?=$userInfo->username?>" alt="<?=$userInfo->username?>" class="img-fluid">
-            </div>
+            <br>
+            <span>Total Posts: <?=users::getUserForumPosts($userInfo->id)?></span>
+        </div>
             <div class="col-6">
+            <small class="text-muted">Posted on <?=date("n/j/Y", $threadInfo->datePosted)?> at <?=date("h:i:sa", $threadInfo->datePosted)?></small>
+            <br>
             <?=htmlspecialchars($threadInfo->postContents)?>
             </div>
         </div>
