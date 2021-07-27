@@ -1,0 +1,155 @@
+<?php
+require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+users::requireLogin();
+
+$gameId = $_GET["id"] ?? false;
+
+if (!$gameId) pageBuilder::errorCode(404);
+$gameInfo = games::getGameInfoFromId($gameId);
+if (!$gameInfo) pageBuilder::errorCode(404);
+
+if ($gameInfo->isDeleted) pageBuilder::errorCode(404);
+
+$privateKey = $_GET["privateKey"] ?? false;
+if ($gameInfo->isPrivate && $privateKey != $gameInfo->privateKey) pageBuilder::errorCode(404);
+
+$isHost = games::isHosting($gameInfo->id);
+$players = games::getPlayersInServer($gameInfo->id);
+
+pageBuilder::buildHeader();
+
+
+?>
+<div class="alert alert-danger" role="alert">
+  Make sure you have read the <a href="/games/help">guide</a> before joining and hosting games.
+</div>
+<?php if (SESSION["gameban"]) { ?>
+  <div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
+<?php } ?>
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <hr>
+          <?= $gameInfo->serverDesc ?>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3">
+              <b>Server Size</b>
+              <p class="mb-0"><?= $gameInfo->serverSize ?></p>
+            </div>
+            <div class="col-lg-3">
+              <b class="mb-0">Created On</b>
+              <p class="mb-0"><?= date("n/j/Y", $gameInfo->createdOn) ?></p>
+            </div>
+            <div class="col-lg-3">
+              <b class="mb-0">Last Updated</b>
+              <p class="mb-0"><?= date("n/j/Y", $gameInfo->lastUpdated) ?></p>
+            </div>
+            <div class="col-lg-3">
+              <b>Visits</b>
+              <p class="mb-0"><?= $gameInfo->serverVisits ?></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
+        <hr>
+        <h4 class="font-weight-normal">How to host</h4>
+        <a href="/help/hosting">Guide to hosting</a>
+        <p><?=SITE_CONFIG["site"]["name"]?> Server Start Script<br><code>loadfile('http://banland.xyz/game/gameserver.ashx?ticket=<?= $gameInfo->serverTicket ?>')()</code><br>Insert the MSSS into your Studio command bar after you've inserted your map</p>
+
+
+      <?php } ?>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="font-weight-normal"><?= $gameInfo->serverName ?></h4>
+          <p>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= users::getUsernameFromUid($gameInfo->ownerId) ?></a><br>Gears: <i class="fas fa-bomb"></i><br>Status: <span class="badge badge-<?= ($isHost['online'] ? "success" : "danger") ?>"><?= ($isHost['online'] ? "Active" : "Offline") ?></span></p>
+        </div>
+      </div>
+      <hr>
+      <?php if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="btn-group btn-block">
+              <button type="button" class="btn btn-block btn-sm btn-info">Open Studio</button>
+              <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">no3d mode</a>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="btn-group">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-cogs"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="/games/edit?id=<?= $gameInfo->id ?>">Configure Server</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+      <?php } ?>
+      <button type="button" data-control="join-server" data-server-key="<?= $gameInfo->isPrivate ? "$privateKey" : "false" ?>" data-server-id="<?= $gameInfo->id ?>" class="btn btn-block rounded-0 btn-success join-server" <?= SESSION["gameban"] ? "disabled" : "" ?>><i class="fas fa-play"></i></button>
+      <div class="place-launcher" style="display:none;">
+        <p class="place-launcher-success" style="display:none;"><i class="fas fa-check-circle text-success"></i> Started session</p>
+        <p class="place-launcher-error" style="display:none;"><i class="fas fa-times-circle text-danger"></i></p>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="card">
+    <div class="card-body">
+      <?php if ($players->rowCount()) { ?>
+        <div class="row">
+          <?php while ($player = $players->fetch(PDO::FETCH_OBJ)) { ?>
+            <div class="col-1">
+              <img data-toggle="tooltip" data-placement="top" title="<?=$player->username?>" src="<?=users::getAvatar($player->id)?>" title="<?= $player->username ?>" width="64" height="64">
+            </div>
+          <?php } ?>
+        </div>
+      <?php } else { ?>
+        There are no current players
+      <?php } ?>
+    </div>
+  </div>
+</div>
+<!-- modal -->
+<div class="modal fade" id="place-launcher-install" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Install</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        It seems like you dont have the <?=SITE_CONFIG["site"]["name"]?> Client installed. If you do, just ignore this message.
+        <hr>
+        <a class="btn btn-success btn-block" href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" role="button">Install</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/serverLaunch.js<?= '?t=' . time() ?>"></script>
+<script>
+  $("button[data-control$='join-server']").on("click", function() {
+    mercury_games.join_server($(this).attr("data-server-id"), $(this).attr("data-server-key"));
+  });
+</script>
+<?php pageBuilder::buildFooter(); ?>

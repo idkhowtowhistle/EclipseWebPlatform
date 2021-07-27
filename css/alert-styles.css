@@ -1,0 +1,89 @@
+/* sf ui DONT TELL TASK LOL [SHUT THE FUCK UP - task] */
+@font-face {
+  font-family: sf ui bold;
+  src: local("San Francisco(SF UI) Display Bold"),
+    local("San-Francisco(SF-UI)-Display-Bold"),
+    url(/css/static/font/SFUIDisplay-Bold-548f317bb3fa541ef082229aafe9f5f4.woff2)
+      format("woff2"),
+    url(/css/static/font/SFUIDisplay-Bold-ad7991367ae9b7bd7d207bd09586a533.woff)
+      format("woff"),
+    url(/css/static/font/SFUIDisplay-Bold-a64a8504f458a8c9742930a9a4b9e3a0.ttf)
+      format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: sf ui;
+  src: local("San Francisco(SF UI) Display Regular"),
+    local("San-Francisco(SF-UI)-Display-Regular"),
+    url(/css/static/font/SFUIDisplay-Regular-2a7d15a301e2045942980e8544ccfbb5.woff2)
+      format("woff2"),
+    url(/css/static/font/SFUIDisplay-Regular-766f96ed8bf5efc37825bf60fa04067f.woff)
+      format("woff"),
+    url(/css/static/font/SFUIDisplay-Regular-b8d6156c471232f96b10f3e36a54748f.ttf)
+      format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  .divider-right {
+    border-right: 1px solid #ccc;
+  }
+}
+@font-face {
+  font-family: sf ui light;
+  src: local("SF Pro Display Light"), local("SFProDisplay-Light"),
+    url(/css/static/font/SFProDisplay-Light-0229ea633558c4c9c1fbc1c92e5a0de3.woff2)
+      format("woff2"),
+    url(/css/static/font/SFProDisplay-Light-ee7481b4e87fdad06d71aeac1d173821.woff)
+      format("woff"),
+    url(/css/static/font/SFProDisplay-Light-eebf2894b069d9cb93a29dab12aa31f5.ttf)
+      format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+html,
+body,
+.tooltip {
+  font-family: sf ui, sans-serif;
+}
+
+/* alert main */
+
+.alert {
+  border: 0;
+  border-radius: 0;
+  padding: 0.75rem 1.25rem;
+}
+
+.alert-skinny {
+  padding: 0.4rem !important;
+}
+
+/* alert colors */
+
+.alert-info {
+  background: #1f8898;
+  color: #fff;
+}
+
+.alert-success {
+  background: #007336;
+  color: #fff;
+}
+
+.alert-danger {
+  background: #bd2824;
+  color: #fff;
+}
+
+.alert-primary {
+  background: #0170a7;
+  color: #fff;
+}
+
+.alert-warning {
+  background: #b78105;
+  color: #fff;
+}
