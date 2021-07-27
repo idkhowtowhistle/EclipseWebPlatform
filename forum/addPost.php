@@ -43,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     if (!strlen($body)) $errors["body"] = "Body cannot be empty";
     else if (strlen($body) > 10000 || strlen($body) < 3) $errors["body"] = "Body must be between 3 to 10000 characters";
 
-    $ratecheck = $pdo->prepare("SELECT (SELECT COUNT(*) FROM subforum_threads WHERE authorId = :uid AND datePosted+60 > UNIX_TIMESTAMP()) + (SELECT COUNT(*) FROM subforum_replies WHERE authorId = :uid AND datePosted+60 > UNIX_TIMESTAMP()) AS ratecheck");
+    $ratecheck = $pdo->prepare("SELECT (SELECT COUNT(*) FROM subforum_threads WHERE authorId = :uid AND datePosted+30 > UNIX_TIMESTAMP()) + (SELECT COUNT(*) FROM subforum_replies WHERE authorId = :uid AND datePosted+30 > UNIX_TIMESTAMP()) AS ratecheck");
     $ratecheck->bindParam("uid", $userId, PDO::PARAM_INT);
     $ratecheck->execute();
 
-    if ($ratecheck->fetchColumn()) $errors["general"] = "Please wait 1 minute before sending another forum post";
+    if ($ratecheck->fetchColumn()) $errors["general"] = "Please wait at most 30 seconds before sending another forum post";
 
     if (!$errors["subject"] && !$errors["body"] && !$errors["general"]) 
     {
