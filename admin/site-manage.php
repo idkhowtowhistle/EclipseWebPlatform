@@ -6,8 +6,8 @@ pageBuilder::buildHeader();
 <h3 class="my-4 font-weight-normal"><?=SITE_CONFIG["site"]["name"]?> Site Management</h3>
 <div class="row py-4">
 	<div class="col-4">
-		<div class="card hover-shadow w-100">
-			<div class="card-bodyr">
+		<div class="card hover-shadow w-100 mt-2">
+			<div class="card-body">
 				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
 				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
 				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
@@ -18,7 +18,7 @@ pageBuilder::buildHeader();
     <div class="col-8">
 		<div class="row">
 			<div class="col-lg-6 mt-2">
-				<a href="/admin/news" class="text-reset text-decoration-none">
+				<a href="https://phpmyadmin.pizzaboxer.xyz" class="text-reset text-decoration-none">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
 							<h1 class="display-4 my-4"><i class="fas fa-database"></i></h1>
@@ -40,5 +40,4 @@ pageBuilder::buildHeader();
 		</div>
 	</div>
 </div>
-<a href="https://phpmyadmin.pizzaboxer.xyz">PHPMyAdmin</a>
 <?php pageBuilder::buildFooter(); ?>
