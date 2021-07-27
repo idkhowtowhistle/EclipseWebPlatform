@@ -36,8 +36,8 @@ class pageBuilder
 		"og:image" => "/favicon.ico",
 		"navbar" => true,
 		"coolBackground" => false,
-		"XD" => true,
-		"nobelium" => false
+		"XD" => false,
+		"nobelium" => true
 	];
 
 	public static string $additionalFooterStuff = "";
