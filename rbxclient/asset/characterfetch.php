@@ -13,7 +13,7 @@ $polygonUidMap =
 	13 => 7, // yimy
 	19 => 93, // unexp
 	27 => 1, // pizzaboxer
-	28 => 24 // kjf
+	28 => 24, // kjf
 	90 => 91 // cole
 ];
 
