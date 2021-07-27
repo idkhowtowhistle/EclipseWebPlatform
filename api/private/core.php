@@ -323,7 +323,7 @@ class forum
 	{
 		return db::run(
 			"SELECT subforum_threads.*, users.username, users.admin FROM subforum_threads 
-			INNER JOIN users ON users.id = subforum_threads.authorId WHERE id = :id", 
+			INNER JOIN users ON users.id = subforum_threads.authorId WHERE subforum_threads.id = :id", 
 			[":id" => $threadId]
 		)->fetch(PDO::FETCH_OBJ);
 	}
