@@ -349,7 +349,7 @@ class pageBuilder
 						<div class="modal-header">
 							<h5 class="modal-title" id="primaryModalTitle">Modal title</h5>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body" style="white-space: pre-line">
 							undefined
 						</div>
 						<div class="modal-footer">
