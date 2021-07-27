@@ -321,7 +321,7 @@ class forum
 			INNER JOIN users ON users.id = subforum_threads.authorId WHERE subForumId = :id AND NOT deleted 
 			ORDER BY bumpIndex DESC", 
 			[":id" => $subForumId]
-		)->fetch(PDO::FETCH_OBJ);
+		);
 	}
 
 	static function getThreadInfo($threadId) 
