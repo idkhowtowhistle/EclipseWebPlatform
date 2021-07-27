@@ -1,6 +1,6 @@
 <?php
 $output = [];
-exec("git pull", $output, $exitcode);
-var_dump($output);
-echo "<br>";
-var_dump($exitcode);
+exec("git pull 2>&1", $output, $exitcode);
+
+foreach($output as $line) echo "$line<br>";
+if($exitcode != 1) echo "<br><br> Program exited with code $exitcode";
