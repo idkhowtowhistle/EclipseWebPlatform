@@ -313,14 +313,21 @@ class forum
 	{
 		return db::run("SELECT * FROM subforums WHERE id = :id", [":id" => $subId])->fetch(PDO::FETCH_OBJ);
 	}
+
 	static function getSubForumThreads($subForumId)
 	{
 		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted ORDER BY bumpIndex DESC", [":subId" => $subForumId]);
 	}
+
 	static function getThreadInfo($threadId) 
 	{
-		return db::run("SELECT * FROM subforum_threads WHERE id = :id", [":id" => $threadId])->fetch(PDO::FETCH_OBJ);
+		return db::run(
+			"SELECT subforum_threads.*, users.username, users.admin FROM subforum_threads 
+			INNER JOIN users ON users.id = subforum_threads.authorId WHERE id = :id", 
+			[":id" => $threadId]
+		)->fetch(PDO::FETCH_OBJ);
 	}
+
 	static function getReplyCount($subId)
 	{
 		$query = db::run("

@@ -6,8 +6,6 @@ $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$authorInfo = users::getUserInfoFromUid($threadInfo->authorId);
-
 $replies = db::run(
     "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
     INNER JOIN users ON users.id = subforum_replies.authorId
@@ -35,11 +33,11 @@ pageBuilder::buildHeader();
     <div class="card-body">
         <div class="reply row">
             <div class="col-2 divider-right">
-                <a class="pl-1 <?= $authorInfo->admin > 2 ? 'text-danger font-weight-bold' : ""?> text-truncate" <?=$authorInfo->admin > 2 ? "title='This user is an Administrator'" : ""?> href="/user?id=<?=$authorInfo->id?>"><?=$authorInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : ""?> <?=$authorInfo->username?></a>
+                <a class="pl-1 <?= $threadInfo->admin > 2 ? 'text-danger font-weight-bold' : ""?> text-truncate" <?=$threadInfo->admin > 2 ? "title='This user is an Administrator'" : ""?> href="/user?id=<?=$threadInfo->authorId?>"><?=$threadInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : ""?> <?=$threadInfo->username?></a>
                 <br>
-                <img src="/thumbnails/avatar?id=<?=$threadInfo->authorId?>&amp;x=100&amp;y=100" title="<?=$authorInfo->username?>" alt="<?=$authorInfo->username?>" class="img-fluid">
+                <img src="/thumbnails/avatar?id=<?=$threadInfo->authorId?>&amp;x=100&amp;y=100" title="<?=$threadInfo->username?>" alt="<?=$threadInfo->username?>" class="img-fluid">
                 <br>
-                <span>Total Posts: <?=users::getUserForumPosts($authorInfo->id)?></span>
+                <span>Total Posts: <?=users::getUserForumPosts($threadInfo->authorId)?></span>
             </div>
             <div class="col-6">
                 <small class="text-muted">Posted on <?=date("n/j/Y", $threadInfo->datePosted)?> at <?=date("h:i:sa", $threadInfo->datePosted)?></small>
