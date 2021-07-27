@@ -41,7 +41,7 @@ pageBuilder::buildHeader();
 	</div>
 </div>
 <script>
-	$(".app").on("click", ".gitpull", function() 
+	$("body").on("click", ".gitpull", function() 
 	{
 		showModal(
 			"Git Pull", 
@@ -59,7 +59,7 @@ pageBuilder::buildHeader();
 				data, 
 				[
 					{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
-					{'class':'btn btn-outline-danger gitpull', 'text':'Run Again'}
+					{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}
 				]
 			);
 		});
