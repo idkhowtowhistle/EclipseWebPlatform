@@ -1,6 +1,6 @@
 <?php 
-header("Pragma: no-cache");
-header("Cache-Control: no-cache");
+//header("Pragma: no-cache");
+//header("Cache-Control: no-cache");
 header("content-type: image/png");
 
 $x = $_GET['x'] ?? 100;
