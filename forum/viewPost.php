@@ -51,9 +51,9 @@ $query->execute();
                 <span>Total Posts: <?= users::getUserForumPosts($replyInfo->id) ?></span>
             </div>
             <div class="col-6">
-                <small class="text-muted">Posted on <?= date("n/j/Y", $replyInfo->datePosted) ?> at <?= date("h:i:sa", $replyInfo->datePosted) ?></small>
+                <small class="text-muted">Posted on <?= date("n/j/Y", $row->datePosted) ?> at <?= date("h:i:sa", $row->datePosted) ?></small>
                 <br>
-                <?= htmlspecialchars($row->postContents) ?>
+                <?= htmlspecialchars($row->replyContents) ?>
             </div>
         </div>
     </div>
