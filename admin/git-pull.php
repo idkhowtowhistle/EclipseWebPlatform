@@ -38,7 +38,7 @@ else
 exec("git pull 2>&1", $output_array, $exitcode);
 
 foreach($output_array as $line) $output .= "$line\n";
-if($exitcode != 0) $output .=  "\n\n Git exited with code $exitcode";
+if($exitcode != 0) $output .=  "\n\nGit exited with code $exitcode";
 
 echo $output;
 
