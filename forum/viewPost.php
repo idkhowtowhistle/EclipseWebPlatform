@@ -39,6 +39,7 @@ $query->execute();
         </div>
     </div>
 </div>
+<br>
 <?php while ($row = $query->fetch(PDO::FETCH_OBJ)) { $replyInfo = users::getUserInfoFromUid($row->authorId)?>
     <div class="card rounded-0 shadow-sm">
     <div class="card-body">
@@ -51,7 +52,7 @@ $query->execute();
                 <span>Total Posts: <?= users::getUserForumPosts($replyInfo->id) ?></span>
             </div>
             <div class="col-6">
-                <small class="text-muted">Posted on <?= date("n/j/Y", $row->datePosted) ?> at <?= date("h:i:sa", $row->datePosted) ?></small>
+                <small class="text-muted">Posted on <?= date("n/j/Y", $row->datePosted) ?> at <?= date("h:i:sa", $row->datePosted) ?> - Replying to <?=htmlspecialchars($threadInfo->postTitle)?></small>
                 <br>
                 <?= htmlspecialchars($row->replyContents) ?>
             </div>
