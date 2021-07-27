@@ -316,7 +316,12 @@ class forum
 
 	static function getSubForumThreads($subForumId)
 	{
-		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted ORDER BY bumpIndex DESC", [":subId" => $subForumId]);
+		return db::run(
+			"SELECT subforum_threads.*, users.username, users.admin FROM subforum_threads 
+			INNER JOIN users ON users.id = subforum_threads.authorId WHERE subForumId = :id AND NOT deleted 
+			ORDER BY bumpIndex DESC", 
+			[":id" => $threadId]
+		)->fetch(PDO::FETCH_OBJ);
 	}
 
 	static function getThreadInfo($threadId) 
