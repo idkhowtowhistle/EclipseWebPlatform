@@ -8,15 +8,25 @@ pageBuilder::buildHeader();
 	<div class="col-4">
 		<div class="card hover-shadow w-100 mt-2">
 			<div class="card-body">
-				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
-				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
 				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
 				<ul><li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
+				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
+				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
 			</div>
 		</div>
     </div>
     <div class="col-8">
 		<div class="row">
+			<div class="col-lg-6 mt-2">
+				<a href="#" class="text-reset text-decoration-none gitpull">
+					<div class="card hover-shadow w-100">
+						<div class="card-body text-center">
+							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
+							<h3 class="font-weight-normal my-4">Git Pull</h3>
+						</div>
+					</div>
+				</a>
+			</div>
 			<div class="col-lg-6 mt-2">
 				<a href="https://phpmyadmin.pizzaboxer.xyz" class="text-reset text-decoration-none">
 					<div class="card hover-shadow w-100">
@@ -27,32 +37,32 @@ pageBuilder::buildHeader();
 					</div>
 				</a>
 			</div>
-			<div class="col-lg-6 mt-2">
-				<a href="#" onclick="gitpull()" class="text-reset text-decoration-none">
-					<div class="card hover-shadow w-100">
-						<div class="card-body text-center">
-							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
-							<h3 class="font-weight-normal my-4">Git Pull</h3>
-						</div>
-					</div>
-				</a>
-			</div>
 		</div>
 	</div>
 </div>
 <script>
-	function gitpull()
+	$(".app").on("click", ".gitpull", function() 
 	{
 		showModal(
 			"Git Pull", 
 			"Executing Git Pull...", 
-			[{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'}]
+			[
+				{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+				{'class':'btn btn-outline-danger', 'text':'Run Again'}
+			]
 		);
 
 		$.get("/admin/git-pull", function(data)
 		{
-			$(".global.modal .modal-body").text(data);
+			showModal(
+				"Git Pull", 
+				data, 
+				[
+					{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+					{'class':'btn btn-outline-danger gitpull', 'text':'Run Again'}
+				]
+			);
 		});
-	}
+	});
 </script>
 <?php pageBuilder::buildFooter(); ?>
