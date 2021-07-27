@@ -6,12 +6,7 @@ $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$replies = db::run(
-    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
-    INNER JOIN users ON users.id = subforum_replies.authorId
-    WHERE replyTo = :threadId ORDER BY datePosted ASC", 
-    [":threadId" => $threadId]
-);
+$replies = forum::getThreadReplies($threadId);
 
 pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);

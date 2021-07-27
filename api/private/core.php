@@ -324,6 +324,16 @@ class forum
 		);
 	}
 
+	static function getLastSubForumPost($subForumId)
+	{
+		return db::run(
+			"SELECT subforum_threads.*, users.username, users.admin FROM subforum_threads 
+			INNER JOIN users ON users.id = subforum_threads.authorId WHERE subForumId = :id AND NOT deleted 
+			ORDER BY bumpIndex DESC LIMIT 1", 
+			[":id" => $subForumId]
+		)->fetch(PDO::FETCH_OBJ);
+	}
+
 	static function getThreadInfo($threadId) 
 	{
 		return db::run(
@@ -333,16 +343,26 @@ class forum
 		)->fetch(PDO::FETCH_OBJ);
 	}
 
+	static function getThreadReplies($threadId) 
+	{
+		return db::run(
+		    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
+		    INNER JOIN users ON users.id = subforum_replies.authorId
+		    WHERE replyTo = :threadId ORDER BY datePosted ASC", 
+		    [":threadId" => $threadId]
+		);
+	}
+
 	static function getReplyCount($subId)
 	{
-		$query = db::run("
-		SELECT COUNT(*) FROM subforum_replies
-		WHERE replyTo = :subId AND NOT deleted", 
-		[":subId" => $subId]
-	);
+		$query = db::run(
+			"SELECT COUNT(*) FROM subforum_repliesWHERE replyTo = :subId AND NOT deleted", 
+			[":subId" => $subId]
+		);
 
-	return (int)$query->fetchColumn();
+		return (int)$query->fetchColumn();
 	}
+
 	static function getSubForumNameFromId($id)
 	{
 		return db::run("SELECT subName FROM subforums WHERE id = :id", [":id" => $id])->fetchColumn();
@@ -350,10 +370,7 @@ class forum
 
 	static function getTotalPosts()
 	{
-		$query = db::run("
-		SELECT (SELECT COUNT(*) FROM subforum_threads) + (SELECT COUNT(*) FROM subforum_replies)
-		");
-
+		$query = db::run("SELECT (SELECT COUNT(*) FROM subforum_threads) + (SELECT COUNT(*) FROM subforum_replies)");
 		return (int)$query->fetchColumn();
 	}
 
