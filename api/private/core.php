@@ -356,7 +356,7 @@ class forum
 	static function getReplyCount($subId)
 	{
 		$query = db::run(
-			"SELECT COUNT(*) FROM subforum_repliesWHERE replyTo = :subId AND NOT deleted", 
+			"SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :subId AND NOT deleted", 
 			[":subId" => $subId]
 		);
 
