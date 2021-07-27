@@ -17,10 +17,10 @@ if (isset($_GET["subforumId"])) {
 
 $subForumInfo = forum::getSubForumInfo($subForumId);
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if (SESSION["adminLevel"] < 2) {
+if (SESSION["adminLevel"] < "2") {
     if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
 }
-if (!$postInfo || SESSION["adminLevel"] < 2) {
+if (!$postInfo || SESSION["adminLevel"] < "2") {
     if (!$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 }
 
