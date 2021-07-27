@@ -15,6 +15,8 @@ $replies = db::run(
     [":threadId" => $threadId]
 );
 
+pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
+pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
@@ -42,7 +44,7 @@ pageBuilder::buildHeader();
             <div class="col-6">
                 <small class="text-muted">Posted on <?=date("n/j/Y", $threadInfo->datePosted)?> at <?=date("h:i:sa", $threadInfo->datePosted)?></small>
                 <br>
-                <?=htmlspecialchars($threadInfo->postContents)?>
+                <?=general::filterText($threadInfo->postContents, true, false)?>
             </div>
         </div>
     </div>
@@ -62,7 +64,7 @@ pageBuilder::buildHeader();
             <div class="col-6">
                 <small class="text-muted">Posted on <?=date("n/j/Y", $reply->datePosted)?> at <?=date("h:i:sa", $reply->datePosted)?> - Replying to <?=htmlspecialchars($threadInfo->postTitle)?></small>
                 <br>
-                <?=htmlspecialchars($reply->replyContents)?>
+                <?=general::filterText($reply->replyContents, true, false)?>
             </div>
         </div>
     </div>

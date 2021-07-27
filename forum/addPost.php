@@ -17,8 +17,10 @@ if (isset($_GET["subforumId"])) {
 
 $subForumInfo = forum::getSubForumInfo($subForumId);
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
-if (!$postInfo) {
+if (SESSION["adminLevel"] < "2") {
+    if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
+}
+if (!$postInfo && SESSION["adminLevel"] < 2) {
     if (!$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 }
 
@@ -36,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (strlen($subject) < 3 || strlen($subject) > 64) {
             $errors["subject"] = "Subject must be between 3 to 64 characters";
         }
-        if(isset($_POST["replies"])) {
+        if (isset($_POST["replies"])) {
             $replies = $_POST["replies"] == "false" ? false : true;
         } else {
             $replies = false;
@@ -69,6 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $query = $pdo->prepare("UPDATE subforum_threads SET bumpIndex = UNIX_TIMESTAMP() WHERE id = :id");
             $query->bindParam(":id", $postInfo->id, PDO::PARAM_INT);
             $query->execute();
+
+            header("Location: /forum/viewPost?id=" . $postInfo->id);
         } else {
             $query = $pdo->prepare("INSERT INTO subforum_threads (subForumId, postTitle, postContents,  authorId, datePosted, canReply, bumpIndex) VALUES (:subId, :subject, :body, :author, UNIX_TIMESTAMP(), :replies, UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();");
             $query->bindParam(":subject", $subject, PDO::PARAM_STR);
@@ -81,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $query = $pdo->prepare("SELECT id FROM subforum_threads WHERE authorId = :id ORDER BY id DESC");
             $query->bindParam(":id", $userId, PDO::PARAM_INT);
             $query->execute();
+            header("Location: /forum/viewPost?id=" . $query->fetchColumn());
         }
     }
 }
@@ -89,8 +94,8 @@ pageBuilder::buildHeader();
 <nav class="breadcrumb">
     <a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $subForumId ?>" class="breadcrumb-item"><?= $subForumInfo->subName ?></a>
-    <?php if($postInfo) { ?>
-        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle)?></a>
+    <?php if ($postInfo) { ?>
+        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle) ?></a>
     <?php } ?>
     <span class="breadcrumb-item active">
         <?php if ($postInfo) { ?>

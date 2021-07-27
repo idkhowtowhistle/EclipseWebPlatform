@@ -172,6 +172,13 @@ class general
         return (object)["total" => $total*1024, "free" => $free*1024];
     }
 
+	static function filterText($text, $htmlspecialchars = true, $highlight = true)
+	{
+		if($htmlspecialchars){ $text = htmlspecialchars($text); }
+		$filtertext = $highlight ? "<strong><em>Kyle</em></strong>" : "Kyle";
+		return str_ireplace(["fuck", "shit", "bitch", "nigger", "nigger", "faggot", "nigga", "nibba", "nibber", "dick", "cock", "penis", "sex", "cum", "nya"], $filtertext, $text);
+	}
+
 }
 
 class upload 
@@ -308,7 +315,7 @@ class forum
 	}
 	static function getSubForumThreads($subForumId)
 	{
-		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted", [":subId" => $subForumId]);
+		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted ORDER BY bumpIndex DESC", [":subId" => $subForumId]);
 	}
 	static function getThreadInfo($threadId) 
 	{

@@ -4,7 +4,6 @@ header("content-type: application/json");
 
 if($_SERVER['REQUEST_METHOD'] != 'POST'){ api::respond(405, false, "Method Not Allowed"); }
 api::requireLogin();
-if(SESSION["adminLevel"] < "2"){api::respond(400, false, "Not an administrator!"); }
 if(!isset($_POST["sName"]) || !isset($_POST["sIp"]) || !isset($_POST["sLimit"]) || !isset($_POST["private"]) || !isset($_POST["sDesc"]) || !isset($_POST["sPort"])) api::respond(400, false, "Invalid Request");
 if(!trim(htmlspecialchars($_POST["sName"]))) api::respond(400, false, "You need to give your server a name");
 if(!trim($_POST["sIp"])) api::respond(400, false, "You need to give a server an IPV4 address");
