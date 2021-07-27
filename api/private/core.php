@@ -315,7 +315,7 @@ class forum
 	}
 	static function getSubForumThreads($subForumId)
 	{
-		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted ORDER BY bumpIndex ASC", [":subId" => $subForumId]);
+		return db::run("SELECT * FROM subforum_threads WHERE subForumId = :subId AND NOT deleted ORDER BY bumpIndex DESC", [":subId" => $subForumId]);
 	}
 	static function getThreadInfo($threadId) 
 	{
