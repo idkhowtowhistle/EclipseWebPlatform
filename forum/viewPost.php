@@ -11,6 +11,9 @@ if (!$threadInfo) pageBuilder::errorCode(404);
 $userInfo = users::getUserInfoFromUid($threadInfo->authorId);
 ?>
 <nav class="breadcrumb"><a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a><a href="/forum/" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a><span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span></nav>
+<?php if (!SESSION["ssc"] && $threadInfo->canReply || SESSION["adminLevel"] > 2) { ?>
+        <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+<?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
         <?= htmlspecialchars($threadInfo->postTitle) ?>
@@ -32,4 +35,7 @@ $userInfo = users::getUserInfoFromUid($threadInfo->authorId);
         </div>
     </div>
 </div>
+<?php if (!SESSION["ssc"] && $threadInfo->canReply || SESSION["adminLevel"] > 2) { ?>
+        <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+<?php } ?>
 <?php pageBuilder::buildFooter(); ?>
