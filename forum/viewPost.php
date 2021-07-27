@@ -15,7 +15,7 @@ pageBuilder::buildHeader();
 <nav class="breadcrumb">
     <a href="/" class="breadcrumb-item">Mercury</a> 
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
-    <a href="/forum/" class="breadcrumb-item"><?=forum::getSubForumNameFromId($threadInfo->subForumId)?></a>
+    <a href="/forum/sub?id=<?=$threadInfo->subForumId?>" class="breadcrumb-item"><?=forum::getSubForumNameFromId($threadInfo->subForumId)?></a>
     <span class="breadcrumb-item active"><?=htmlspecialchars($threadInfo->postTitle)?></span>
 </nav>
 <?php if (($threadInfo->canReply && !SESSION["ssc"]) || SESSION["adminLevel"] > 2) { ?>

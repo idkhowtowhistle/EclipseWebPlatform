@@ -6,7 +6,10 @@ $subforums = db::run("SELECT * FROM subforums ORDER BY subImportance DESC");
 
 pageBuilder::buildHeader();
 ?>
-<nav class="breadcrumb"><a href="/" class="breadcrumb-item">Mercury</a> <span class="breadcrumb-item active">Forum Home</span></nav>
+<nav class="breadcrumb">
+   <a href="/" class="breadcrumb-item">Mercury</a> 
+   <span class="breadcrumb-item active">Forum Home</span>
+</nav>
 <table class="table mb-4">
    <thead class="table-bordered bg-light">
       <tr>
