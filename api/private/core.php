@@ -467,6 +467,15 @@ class users
 		return db::run("UPDATE users SET currency = currency + 10, nextStipend = UNIX_TIMESTAMP()+86400 WHERE id = :uid", [":uid" => $userId])->execute();
 	}
 
+	static function getUserForumPosts($uid)
+	{
+		$query = db::run("
+		SELECT (SELECT COUNT(*) FROM subforum_threads WHERE authorId = :uid) + (SELECT COUNT(*) FROM subforum_replies WHERE authorId = :uid)
+		", [":uid" => $uid]);
+
+		return (int)$query->fetchColumn();
+	}
+
     static function getUnreadMessages($userId)
 	{
 		global $pdo;
