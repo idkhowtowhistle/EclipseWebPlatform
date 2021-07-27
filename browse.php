@@ -12,6 +12,7 @@ pageBuilder::buildHeader();
 	<table class="table table-hover" id="usersTable">
 		<thead class="table-bordered bg-light">
 			<tr>
+				<th class="font-weight-normal py-2" scope="col" style="width:3%">ID</th>
 				<th class="font-weight-normal py-2" scope="col" style="width:3%">Avatar</th>
 				<th class="font-weight-normal py-2" scope="col" style="width:5%">Username</th>
 				<th class="font-weight-normal py-2" scope="col" style="width:20%">Blurb</th>
@@ -22,6 +23,7 @@ pageBuilder::buildHeader();
 			<?php while ($row = $query->fetch(PDO::FETCH_OBJ)) {
 				$onlineInfo = users::getOnlineStatus($row->id) ?>
 				<tr>
+					<td><?=$row->id?></td>
 					<td><a href="/user?id=<?=$row->id?>"><img src="/thumbnails/avatar?id=<?=$row->id?>&x=75&y=75" title="<?=$row->username?>" alt="<?=$row->username?>" class="img-fluid"></a></td>
 					<td><a href="/user?id=<?= $row->id ?>"><?= $row->username ?></a></td>
 					<td><?= htmlspecialchars($row->blurb) ?></td>
