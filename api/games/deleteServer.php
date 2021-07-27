@@ -13,6 +13,7 @@ if (!trim($_POST["serverName"])) api::respond(400, false, "You need to enter you
 $gameId = $_POST["gameId"];
 $gameInfo = games::getGameInfoFromId($gameId);
 $serverName = $_POST["serverName"];
+$creatorId = SESSION["userId"];
 
 if (!$gameInfo || $gameInfo->isDeleted) api::respond(400, false, "This server does not exist");
 if (SESSION["adminLevel"] < 2) {
