@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         $subject = $_POST["subject"];
         if (!strlen($subject)) $errors["subject"] = "Subject cannot be empty";
         else if (strlen($subject) < 3 || strlen($subject) > 64) $errors["subject"] = "Subject must be between 3 to 64 characters";
-        $replies = (bool)isset($_POST["replies"]);
+        $replies = (int)isset($_POST["replies"]);
     }
 
     if (!strlen($body)) $errors["body"] = "Body cannot be empty";
