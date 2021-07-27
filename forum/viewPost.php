@@ -13,6 +13,9 @@ $threadPostInfo = users::getUserInfoFromUid($threadInfo->authorId);
 $query = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :threadId AND NOT deleted ORDER BY datePosted ASC");
 $query->bindParam(":threadId", $threadId, PDO::PARAM_INT);
 $query->execute();
+
+pageBuilder::$pageConfig["og:description"] = htmlspecialchars($threadInfo->postContents);
+pageBuilder::$pageConfig["title"] = htmlspecialchars($threadInfo->postTitle);
 ?>
 <nav class="breadcrumb"><a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a><a href="/forum/" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a><span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span></nav>
 <?php if (!SESSION["ssc"] && $threadInfo->canReply || SESSION["adminLevel"] > 2) { ?>
