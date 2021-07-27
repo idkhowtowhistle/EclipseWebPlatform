@@ -17,8 +17,10 @@ if (isset($_GET["subforumId"])) {
 
 $subForumInfo = forum::getSubForumInfo($subForumId);
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
-if (!$postInfo) {
+if (SESSION["adminLevel"] < 2) {
+    if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
+}
+if (!$postInfo || SESSION["adminLevel"] < 2) {
     if (!$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 }
 
@@ -36,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (strlen($subject) < 3 || strlen($subject) > 64) {
             $errors["subject"] = "Subject must be between 3 to 64 characters";
         }
-        if(isset($_POST["replies"])) {
+        if (isset($_POST["replies"])) {
             $replies = $_POST["replies"] == "false" ? false : true;
         } else {
             $replies = false;
@@ -92,8 +94,8 @@ pageBuilder::buildHeader();
 <nav class="breadcrumb">
     <a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $subForumId ?>" class="breadcrumb-item"><?= $subForumInfo->subName ?></a>
-    <?php if($postInfo) { ?>
-        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle)?></a>
+    <?php if ($postInfo) { ?>
+        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle) ?></a>
     <?php } ?>
     <span class="breadcrumb-item active">
         <?php if ($postInfo) { ?>
