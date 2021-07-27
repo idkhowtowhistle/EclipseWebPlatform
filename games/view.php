@@ -113,8 +113,8 @@ pageBuilder::buildHeader();
     <div class="card-body">
       <?php if ($players->rowCount()) { ?>
         <div class="row">
-        <div class="col-1">
-              <p>Playing: 0/10</p>
+        <div class="col-1 divider-right">
+              <p>Playing: <?=games::getPlayerCountInServer($gameInfo->id)?>/<?=$gameInfo->serverSize?></p>
           </div>
           <?php while ($player = $players->fetch(PDO::FETCH_OBJ)) { ?>
             <div class="col-1">
