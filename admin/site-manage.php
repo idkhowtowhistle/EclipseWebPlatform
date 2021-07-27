@@ -1,10 +1,44 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-
-users::requireLogin();
-if(SESSION["adminLevel"] < 2){redirect("/");}
-
+if(!SESSION || SESSION["adminLevel"] < 2) pageBuilder::errorCode(404);
 pageBuilder::buildHeader();
 ?>
-<a href="/shawtylikeamelody">PHPMyAdmin</a>
+<h3 class="my-4 font-weight-normal"><?=SITE_CONFIG["site"]["name"]?> Site Management</h3>
+<div class="row py-4">
+	<div class="col-4">
+		<div class="card hover-shadow w-100">
+			<div class="card-bodyr">
+				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
+				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
+				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
+				<ul><li>This brings any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
+			</div>
+		</div>
+    </div>
+    <div class="col-8">
+		<div class="row">
+			<div class="col-lg-6 mt-2">
+				<a href="/admin/news" class="text-reset text-decoration-none">
+					<div class="card hover-shadow w-100">
+						<div class="card-body text-center">
+							<h1 class="display-4 my-4"><i class="fas fa-database"></i></h1>
+							<h3 class="font-weight-normal my-4">PHPMyAdmin</h3>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-6 mt-2">
+				<a href="/admin/news" class="text-reset text-decoration-none">
+					<div class="card hover-shadow w-100">
+						<div class="card-body text-center">
+							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
+							<h3 class="font-weight-normal my-4">Git Pull</h3>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="https://phpmyadmin.pizzaboxer.xyz">PHPMyAdmin</a>
 <?php pageBuilder::buildFooter(); ?>
