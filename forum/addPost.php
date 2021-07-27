@@ -89,6 +89,9 @@ pageBuilder::buildHeader();
 <nav class="breadcrumb">
     <a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $subForumId ?>" class="breadcrumb-item"><?= $subForumInfo->subName ?></a>
+    <?php if($postInfo) { ?>
+        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle)?></a>
+    <?php } ?>
     <span class="breadcrumb-item active">
         <?php if ($postInfo) { ?>
             New Reply
