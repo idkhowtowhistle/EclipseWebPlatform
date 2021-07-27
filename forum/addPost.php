@@ -2,90 +2,74 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
 
-if (isset($_GET["subforumId"])) {
+if (isset($_GET["subforumId"])) 
+{
     $postInfo = false;
-    $subForumId = $_GET["subforumId"];
-} elseif (isset($_GET["postId"])) {
-    $postInfo = forum::getThreadInfo($_GET["postId"]);
-    if (!$postInfo || $postInfo && $postInfo->deleted) {
-        pageBuilder::errorCode(404);
-    }
+    $subForumId = $_GET["subforumId"] ?? false;
+} 
+elseif (isset($_GET["postId"])) 
+{
+    $postInfo = forum::getThreadInfo($_GET["postId"] ?? false);
+    if (!$postInfo || $postInfo->deleted) pageBuilder::errorCode(404);
     $subForumId = $postInfo->subForumId;
-} else {
+} 
+else 
+{
     pageBuilder::errorCode(404);
 }
 
 $subForumInfo = forum::getSubForumInfo($subForumId);
+
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if (SESSION["adminLevel"] < "2") {
-    if (SESSION["ssc"] || $postInfo && !$postInfo->canReply) pageBuilder::errorCode(404);
-}
-if (!$postInfo && SESSION["adminLevel"] < 2) {
-    if (!$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
-}
+if ($postInfo && !$postInfo->canReply && SESSION["ssc"] && SESSION["adminLevel"] < 2) pageBuilder::errorCode(404);
+if (!$postInfo && SESSION["adminLevel"] < 2 && !$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 
 $errors = ["subject" => false, "body" => false, "general" => false];
 $subject = $body = false;
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") 
+{
     $body = $_POST["body"];
     $userId = SESSION["userId"];
 
-    if (!$postInfo) {
+    if (!$postInfo) 
+    {
         $subject = $_POST["subject"];
-        if (!trim($subject)) {
-            $errors["subject"] = "Subject cannot be empty";
-        }
-        if (strlen($subject) < 3 || strlen($subject) > 64) {
-            $errors["subject"] = "Subject must be between 3 to 64 characters";
-        }
-        if (isset($_POST["replies"])) {
-            $replies = $_POST["replies"] == "false" ? false : true;
-        } else {
-            $replies = false;
-        }
+        if (!strlen($subject)) $errors["subject"] = "Subject cannot be empty";
+        else if (strlen($subject) < 3 || strlen($subject) > 64) $errors["subject"] = "Subject must be between 3 to 64 characters";
+        $replies = isset($_POST["replies"]);
     }
-    if (!trim($body)) {
-        $errors["body"] = "Body cannot be empty";
-    }
-    if (strlen($body) > 10000 || strlen($body) < 3) {
-        $errors["body"] = "Body must be between 3 to 10000 characters";
-    }
+
+    if (!strlen($body)) $errors["body"] = "Body cannot be empty";
+    else if (strlen($body) > 10000 || strlen($body) < 3) $errors["body"] = "Body must be between 3 to 10000 characters";
 
     $ratecheck = $pdo->prepare("SELECT (SELECT COUNT(*) FROM subforum_threads WHERE authorId = :uid AND datePosted+60 > UNIX_TIMESTAMP()) + (SELECT COUNT(*) FROM subforum_replies WHERE authorId = :uid AND datePosted+60 > UNIX_TIMESTAMP()) AS ratecheck");
     $ratecheck->bindParam("uid", $userId, PDO::PARAM_INT);
     $ratecheck->execute();
 
-    if ($ratecheck->fetchColumn()) {
-        $errors["general"] = "Please wait 1 minute before sending another forum post";
-    }
+    if ($ratecheck->fetchColumn()) $errors["general"] = "Please wait 1 minute before sending another forum post";
 
-    if (!$errors["subject"] && !$errors["body"] && !$errors["general"]) {
-        if ($postInfo) {
-            $query = $pdo->prepare("INSERT INTO subforum_replies (replyContents, replyTo, subForumId, authorId, datePosted) VALUES (:body, :threadId, :subId, :author, UNIX_TIMESTAMP())");
-            $query->bindParam(":body", $body, PDO::PARAM_STR);
-            $query->bindParam(":threadId", $postInfo->id, PDO::PARAM_INT);
-            $query->bindParam(":subId", $subForumId, PDO::PARAM_STR);
-            $query->bindParam(":author", $userId, PDO::PARAM_INT);
-            $query->execute();
+    if (!$errors["subject"] && !$errors["body"] && !$errors["general"]) 
+    {
+        if ($postInfo) 
+        {
+            db::run(
+                "INSERT INTO subforum_replies (replyContents, replyTo, subForumId, authorId, datePosted) VALUES (:body, :threadId, :subId, :author, UNIX_TIMESTAMP())",
+                [":body" => $body, ":threadId" => $postInfo->id, ":subId" => $subForumId, ":author" => $userId]
+            );
 
-            $query = $pdo->prepare("UPDATE subforum_threads SET bumpIndex = UNIX_TIMESTAMP() WHERE id = :id");
-            $query->bindParam(":id", $postInfo->id, PDO::PARAM_INT);
-            $query->execute();
+            db::run("UPDATE subforum_threads SET bumpIndex = UNIX_TIMESTAMP() WHERE id = :id", [":id" => $postInfo->id]);
 
             header("Location: /forum/viewPost?id=" . $postInfo->id);
-        } else {
-            $query = $pdo->prepare("INSERT INTO subforum_threads (subForumId, postTitle, postContents,  authorId, datePosted, canReply, bumpIndex) VALUES (:subId, :subject, :body, :author, UNIX_TIMESTAMP(), :replies, UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();");
-            $query->bindParam(":subject", $subject, PDO::PARAM_STR);
-            $query->bindParam(":body", $body, PDO::PARAM_STR);
-            $query->bindParam(":subId", $subForumId, PDO::PARAM_INT);
-            $query->bindParam(":replies", $replies, PDO::PARAM_INT);
-            $query->bindParam(":author", $userId, PDO::PARAM_INT);
-            $query->execute();
+        } 
+        else 
+        {
+            db::run(
+                "INSERT INTO subforum_threads (subForumId, postTitle, postContents,  authorId, datePosted, canReply, bumpIndex) VALUES (:subId, :subject, :body, :author, UNIX_TIMESTAMP(), :replies, UNIX_TIMESTAMP())",
+                [":subject" => $subject, ":body" => $body, ":subId" => $subForumId, ":replies" => $replies, ":author" => $author]
+            );
 
-            $query = $pdo->prepare("SELECT id FROM subforum_threads WHERE authorId = :id ORDER BY id DESC");
-            $query->bindParam(":id", $userId, PDO::PARAM_INT);
-            $query->execute();
-            header("Location: /forum/viewPost?id=" . $query->fetchColumn());
+            header("Location: /forum/viewPost?id=" . $pdo->lsatInsertId());
         }
     }
 }
@@ -95,15 +79,9 @@ pageBuilder::buildHeader();
     <a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $subForumId ?>" class="breadcrumb-item"><?= $subForumInfo->subName ?></a>
     <?php if ($postInfo) { ?>
-        <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle) ?></a>
+    <a href="/forum/viewPost?id=<?= $postInfo->id ?>" class="breadcrumb-item"><?= htmlspecialchars($postInfo->postTitle) ?></a>
     <?php } ?>
-    <span class="breadcrumb-item active">
-        <?php if ($postInfo) { ?>
-            New Reply
-        <?php } else { ?>
-            New Post
-        <?php } ?>
-    </span>
+    <span class="breadcrumb-item active">New <?= $postInfo ? "Reply" : "Thread" ?></span>
 </nav>
 <h2 class="font-weight-normal">New <?= $postInfo ? 'Reply' : 'Thread' ?></h2>
 <div class="row">
@@ -112,10 +90,8 @@ pageBuilder::buildHeader();
             <div class="form-group">
                 <?php if (!$postInfo) { ?>
                     <label for="subject">Subject</label>
-                    <input type="text" class="form-control<?= $errors["subject"] ? ' is-invalid' : '' ?>" id="subject" name="subject" placeholder="64 characters max" value="<?= $subject ?>" required>
-                    <div class="invalid-feedback">
-                        <?= $errors["subject"] ?>
-                    </div>
+                    <input type="text" class="form-control<?= $errors["subject"] ? ' is-invalid' : '' ?>" id="subject" name="subject" placeholder="64 characters max" value="<?= htmlspecialchars($subject) ?>" required>
+                    <div class="invalid-feedback"><?= $errors["subject"] ?></div>
                 <?php } else { ?>
                     <p>Replying to: <?= $postInfo->postContents ?></p>
                 <?php } ?>
@@ -123,9 +99,7 @@ pageBuilder::buildHeader();
             <div class="form-group">
                 <label for="body">Body</label>
                 <textarea class="form-control<?= $errors["body"] ? ' is-invalid' : '' ?>" name="body" placeholder="3-10,000 characters max" id="body" rows="3"></textarea>
-                <div class="invalid-feedback">
-                    <?= $errors["body"] ?>
-                </div>
+                <div class="invalid-feedback"><?= $errors["body"] ?></div>
             </div>
             <?php if (!$postInfo) { ?>
                 <div class="form-group form-check">
@@ -140,12 +114,8 @@ pageBuilder::buildHeader();
     </div>
     <div class="col-5">
         <div class="card">
-            <div class="card-header">
-                Mercury Forum Rules
-            </div>
-            <div class="card-body">
-                Make sure you post respectfully and follow the Site Rules when posting.
-            </div>
+            <div class="card-header">Mercury Forum Rules</div>
+            <div class="card-body">Make sure you post respectfully and follow the Site Rules when posting.</div>
         </div>
     </div>
 </div>

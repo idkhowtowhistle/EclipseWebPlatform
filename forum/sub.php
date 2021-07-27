@@ -24,7 +24,7 @@ pageBuilder::buildHeader();
             <th class="font-weight-normal py-2 col-7" scope="col">Post title</th>
             <th class="font-weight-normal py-2" scope="col">Replies</th>
             <th class="font-weight-normal py-2" scope="col">Author</th>
-            <th class="font-weight-normal py-2" scope="col"><span class="float-right">Last Active</span></th>
+            <th class="font-weight-normal py-2 text-right" scope="col">Last Active</th>
         </tr>
     </thead>
     <tbody class="bg-white border rounded">
