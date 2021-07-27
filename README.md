@@ -1,2 +1,2 @@
 # mercury-website
-nigga balls 420
+Yeet ALSO KJF IS ACTUALLY A NERD BRUH - task
