@@ -115,7 +115,7 @@ pageBuilder::buildHeader();
         <div class="row">
           <?php while ($player = $players->fetch(PDO::FETCH_OBJ)) { ?>
             <div class="col-1">
-              <img data-toggle="tooltip" data-placement="top" title="<?=$player->username?>" src="<?=users::getAvatar($player->id)?>" title="<?= $player->username ?>" width="64" height="64">
+              <img data-toggle="tooltip" data-placement="top" title="<?=$player->username?>" src="/thumbnails/avatar?id=<?=$player->id?>&x=75&y=75" title="<?= $player->username ?>" width="64" height="64">
             </div>
           <?php } ?>
         </div>
