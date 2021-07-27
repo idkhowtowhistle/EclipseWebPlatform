@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         {
             db::run(
                 "INSERT INTO subforum_threads (subForumId, postTitle, postContents,  authorId, datePosted, canReply, bumpIndex) VALUES (:subId, :subject, :body, :author, UNIX_TIMESTAMP(), :replies, UNIX_TIMESTAMP())",
-                [":subject" => $subject, ":body" => $body, ":subId" => $subForumId, ":replies" => $replies, ":author" => $author]
+                [":subject" => $subject, ":body" => $body, ":subId" => $subForumId, ":replies" => $replies, ":author" => $userId]
             );
 
             header("Location: /forum/viewPost?id=" . $pdo->lsatInsertId());
