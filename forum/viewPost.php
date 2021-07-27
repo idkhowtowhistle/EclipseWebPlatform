@@ -1,7 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
-pageBuilder::buildHeader();
 $threadId = $_GET["id"] ?? false;
 if (!$threadId) pageBuilder::errorCode(404);
 
@@ -14,16 +13,17 @@ $query = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :threadId
 $query->bindParam(":threadId", $threadId, PDO::PARAM_INT);
 $query->execute();
 
-pageBuilder::$pageConfig["og:description"] = htmlspecialchars($threadInfo->postContents);
-pageBuilder::$pageConfig["title"] = htmlspecialchars($threadInfo->postTitle);
+pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false));
+pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
+pageBuilder::buildHeader();
 ?>
-<nav class="breadcrumb"><a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a><a href="/forum/" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a><span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span></nav>
+<nav class="breadcrumb"><a href="/" class="breadcrumb-item">Mercury</a> <a href="/forum/" class="breadcrumb-item">Forum Home</a><a href="/forum/" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a><span class="breadcrumb-item active"><?= general::filterText($threadInfo->postTitle, true, false) ?></span></nav>
 <?php if (!SESSION["ssc"] && $threadInfo->canReply || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-        <?= htmlspecialchars($threadInfo->postTitle) ?>
+        <?= general::filterText($threadInfo->postTitle, true, false) ?>
     </div>
     <div class="card-body">
         <div class="row">
@@ -37,7 +37,7 @@ pageBuilder::$pageConfig["title"] = htmlspecialchars($threadInfo->postTitle);
             <div class="col-6">
                 <small class="text-muted">Posted on <?= date("n/j/Y", $threadInfo->datePosted) ?> at <?= date("h:i:sa", $threadInfo->datePosted) ?></small>
                 <br>
-                <?= htmlspecialchars($threadInfo->postContents) ?>
+                <?= general::filterText($threadInfo->postContents, true, false) ?>
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@ pageBuilder::$pageConfig["title"] = htmlspecialchars($threadInfo->postTitle);
             <div class="col-6">
                 <small class="text-muted">Posted on <?= date("n/j/Y", $row->datePosted) ?> at <?= date("h:i:sa", $row->datePosted) ?> - Replying to <?=htmlspecialchars($threadInfo->postTitle)?></small>
                 <br>
-                <?= htmlspecialchars($row->replyContents) ?>
+                <?= general::filterText($row->replyContents, true, false) ?>
             </div>
         </div>
     </div>

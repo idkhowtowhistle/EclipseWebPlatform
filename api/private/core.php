@@ -172,6 +172,14 @@ class general
         return (object)["total" => $total*1024, "free" => $free*1024];
     }
 
+	static function filterText($text, $htmlspecialchars = true, $highlight = true)
+	{
+		if($htmlspecialchars){ $text = htmlspecialchars($text); }
+		if(SESSION && !SESSION["filter"]){ return $text; }
+		$filtertext = $highlight ? "<strong><em>Kyle</em></strong>" : "Kyle";
+		return str_ireplace(["fuck", "shit", "bitch", "nigger", "nigger", "faggot", "nigga", "nibba", "nibber", "dick", "cock", "penis", "sex", "cum", "nya"], $filtertext, $text);
+	}
+
 }
 
 class upload 
