@@ -8,7 +8,6 @@ $polygonUidMap =
 	2 => 4, // multako
 	4 => 30, // debian
 	7 => 50, // trout
-	9 => 3, // bucks
 	11 => 12, // chess
 	13 => 7, // yimy
 	19 => 93, // unexp
