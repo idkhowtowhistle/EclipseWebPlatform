@@ -36,6 +36,6 @@ $userInfo = users::getUserInfoFromUid($threadInfo->authorId);
     </div>
 </div>
 <?php if (!SESSION["ssc"] && $threadInfo->canReply || SESSION["adminLevel"] > 2) { ?>
-        <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+        <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
 <?php pageBuilder::buildFooter(); ?>
