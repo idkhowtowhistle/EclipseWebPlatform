@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
                 [":subject" => $subject, ":body" => $body, ":subId" => $subForumId, ":replies" => $replies, ":author" => $userId]
             );
 
-            header("Location: /forum/viewPost?id=" . $pdo->lsatInsertId());
+            header("Location: /forum/viewPost?id=" . $pdo->lastInsertId());
         }
     }
 }
