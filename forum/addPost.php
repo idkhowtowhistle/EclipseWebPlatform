@@ -59,9 +59,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!$errors["subject"] && !$errors["body"] && !$errors["general"]) {
         if ($postInfo) {
-            $query = $pdo->prepare("INSERT INTO subforum_replies (postContents, replyTo, authorId, datePosted) VALUES (:body, :threadId, :author, UNIX_TIMESTAMP())");
+            $query = $pdo->prepare("INSERT INTO subforum_replies (replyContents, replyTo, subForumId, authorId, datePosted) VALUES (:body, :threadId, :subId, :author, UNIX_TIMESTAMP())");
             $query->bindParam(":body", $body, PDO::PARAM_STR);
             $query->bindParam(":threadId", $postInfo->id, PDO::PARAM_INT);
+            $query->bindParam(":subId", $subForumId, PDO::PARAM_STR);
             $query->bindParam(":author", $userId, PDO::PARAM_INT);
             $query->execute();
 

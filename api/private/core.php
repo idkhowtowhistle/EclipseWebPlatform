@@ -342,6 +342,11 @@ class forum
 	{
       return db::run("SELECT COUNT(*) FROM subforum_threads WHERE subForumId = :id", [":id" => $subId])->fetchColumn();
 	}
+
+	static function getPostsInSubForum($subId)
+	{
+		return db::run("SELECT (SELECT COUNT(*) FROM subforum_threads WHERE subForumId = :id) + (SELECT COUNT(*) FROM subforum_replies WHERE subForumId = :id)", [":id" => $subId])->fetchColumn();
+	}
 }
 
 class games 

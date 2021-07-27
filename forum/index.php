@@ -23,7 +23,7 @@ $query->execute();
                <p class="my-0"><a href="/forum/sub?id=<?=$row->id?>"><?= $row->subName ?></a></p>
                <p class="my-0"><?= $row->subDesc ?></p>
             </td>
-            <td class="table-4-col-2">0</td>
+            <td class="table-4-col-2"><?=forum::getPostsInSubForum($row->id)?></td>
             <td class="table-4-col-3"><?=forum::getThreadsInSubForum($row->id)?></td>
             <td class="table-4-col-4 text-right">
                <p class="my-0"><a href="#" title="remember our discord exists">Welcome to Mercury!</a></p>
