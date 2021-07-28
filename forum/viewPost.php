@@ -27,7 +27,7 @@ pageBuilder::buildHeader();
         <?=htmlspecialchars($threadInfo->postTitle)?>
         </div>
         <?php if(SESSION["adminLevel"] > 1) {?> 
-        <div class="d-inline" style="margin-left:80%;">
+        <div class="d-inline float-right">
             <button type="button" class="btn btn-danger"><i class="fas fa-lock"></i> Lock Post</button>
         </div>
         <?php } ?>
