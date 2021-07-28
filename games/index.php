@@ -48,7 +48,7 @@ $games = db::run(
 						<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
 						</a>
 						<div class="card-body">
-							<a href="/games/view?id=<?=$game->id?><?=$row->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
+							<a href="/games/view?id=<?=$game->id?><?=$game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
 								<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=htmlspecialchars($game->serverName)?></h5>
 							</a>
 							<hr>
