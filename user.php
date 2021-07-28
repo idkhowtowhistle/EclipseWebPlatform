@@ -169,13 +169,13 @@ pageBuilder::buildHeader();
 									<div class="col-5">
 										<a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $game->id ?>" role="button">Play</a>
 									</div>
-									<div class="col-2">
+									<div class="col-2 text-center">
 										<h5>Status <br> <span class="badge badge-<?= ($game->serverOnline ? "success" : "danger") ?>"><?= ($game->serverOnline ? "Active" : "Offline") ?></span></h5>
 									</div> 
-									<div class="col-2">
+									<div class="col-2 text-center">
 	                                    <h5>Visits <br> <?=$game->visitCount?></h5>
 									</div> 
-									<div class="col-3">
+									<div class="col-3 text-center">
 	                                    <h5>Playing <br> <?=$game->playerCount?></h5>
 									</div> 
 								</div>
