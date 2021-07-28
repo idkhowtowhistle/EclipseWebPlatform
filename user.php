@@ -7,7 +7,7 @@ $userInfo = users::getUserInfoFromUid($userId);
 if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404);
 
 $onlineInfo = users::getOnlineStatus($userInfo->id);
-$userGames = users::getGames($userInfo->id);
+$userGames = games::getGamesFromUser($userInfo->id);
 
 if(SESSION && SESSION["adminLevel"]) 
 {
