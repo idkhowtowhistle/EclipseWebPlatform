@@ -9,9 +9,14 @@ pageBuilder::buildHeader();
 		<div class="card hover-shadow w-100 mt-2">
 			<div class="card-body">
 				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
-				<ul><li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
+				<ul>
+					<li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li>
+					<li>Here's a secret tip: you can do Ctrl + / on any page to do a Git Pull from anywhere!</li>
+				</ul>
 				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
-				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
+				<ul>
+					<li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li>
+				</ul>
 			</div>
 		</div>
     </div>
