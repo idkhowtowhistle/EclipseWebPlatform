@@ -12,6 +12,9 @@
 # with this source code.
 #
 #
+# modified by pizzaboxer for use on project polygon
+# modification adds support to enable and disable image embeds
+# 19/03/2021
 
 class Parsedown
 {
@@ -21,8 +24,12 @@ class Parsedown
 
     # ~
 
-    function text($text)
+    function text($text, $embedsEnabled = false)
     {
+        $this->setEmbedsEnabled($embedsEnabled);
+
+        if(!$embedsEnabled) $text = preg_replace(["/!\[(.*)\]\((.*)\)/i", "/!\[(.*)\]\((.*) \"(.*)\"\)/i"], ["$2", "[$3]($2)"], $text);
+
         # make sure no definitions are set
         $this->DefinitionData = array();
 
@@ -74,6 +81,15 @@ class Parsedown
     }
 
     protected $urlsLinked = true;
+
+    function setEmbedsEnabled($embedsEnabled)
+    {
+        $this->embedsEnabled = $embedsEnabled;
+
+        return $this;
+    }
+
+    protected $embedsEnabled = false;
 
     function setSafeMode($safeMode)
     {
@@ -1223,12 +1239,12 @@ class Parsedown
 
     protected function inlineImage($Excerpt)
     {
-        if ( ! isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '[')
+        if (! isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '[')
         {
             return;
         }
 
-        $Excerpt['text']= substr($Excerpt['text'], 1);
+        $Excerpt['text'] = substr($Excerpt['text'], 1);
 
         $Link = $this->inlineLink($Excerpt);
 
