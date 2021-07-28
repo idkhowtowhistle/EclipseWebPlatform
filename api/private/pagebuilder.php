@@ -457,17 +457,19 @@ class pageBuilder
 		</html>
 	<?php }
 
-		static function errorCode($code)
+		static function errorCode($code, $custom = [])
 		{
-			http_response_code($code);
 			$text =
-				[
-					400 => ["title" => "Bad request", "text" => "There was a problem with your request"],
-					404 => ["title" => "Requested page not found", "text" => "You may have clicked an expired link or mistyped the address"],
-					420 => ["title" => "Website is currently under maintenance", "text" => "check back later"],
-					500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"],
-					1337 => ["title" => "Account limit reached", "text" => "You can only create a maximum of two accounts"]
-				];
+			[
+				400 => ["title" => "Bad request", "text" => "There was a problem with your request"],
+				404 => ["title" => "Requested page not found", "text" => "You may have clicked an expired link or mistyped the address"],
+				420 => ["title" => "Website is currently under maintenance", "text" => "check back later"],
+				500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
+			];
+
+			if(count($custom)) $text[200] = $custom;
+
+			http_response_code($code);
 			self::buildHeader();
 	?>
 		<div class="card mx-auto" style="max-width:640px;">

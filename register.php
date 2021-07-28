@@ -4,7 +4,7 @@ if(SESSION) redirect("/");
 
 $ip = getIPAddress();
 $ipCheck = db::run("SELECT COUNT(*) FROM users WHERE ip = :ip", [":ip" => $ip])->fetchColumn();
-if ($ipCheck >= 2) pageBuilder::errorCode(1337);
+if ($ipCheck >= 2) pageBuilder::errorCode(200, ["title" => "Account limit reached", "text" => "You can only create a maximum of two accounts"]);
 
 $errors = ["username" => false, "email" => false, "password" => false, "confirmpassword" => false, "invitekey" => false, "captcha" => false];
 $username = $email = $password = $confirmpassword = $invitekey = $captcha = false;
