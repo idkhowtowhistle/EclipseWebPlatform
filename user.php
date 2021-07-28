@@ -13,20 +13,26 @@ if(SESSION && SESSION["adminLevel"])
 {
 	$alts = [];
 	
-	function recurseAlts($ip)
+	function getAltsFromSession($ip)
 	{
 		global $alts;
 		$altLookup = db::run(
-			"SELECT users.username, userId, users.jointime, loginIp FROM sessions 
-			INNER JOIN users ON users.id = userId WHERE loginIp = :ip GROUP BY userId",
+			"SELECT users.username, userId, users.joined, ip FROM sessions 
+			INNER JOIN users ON users.id = userId WHERE ip = :ip GROUP BY userId",
 			[":ip" => $ip]
 		);
 
 		while($alt = $altLookup->fetch(PDO::FETCH_OBJ)) 
-			$alts[] = ["username" => $alt->username, "userid" => $alt->userId, "created" => $alt->jointime, "ip" => $alt->loginIp];
+			$alts[] = 
+			[
+				"username" => $alt->username, 
+				"userid" => $alt->userId, 
+				"created" => $alt->joined, 
+				"ip" => $alt->ip
+			];
 	}
 
-	recurseAlts($userInfo->regip);
+	getAltsFromSession($userInfo->regip);
 }
 
 pageBuilder::buildHeader();
