@@ -26,7 +26,7 @@ if(SESSION && SESSION["adminLevel"])
 			$alts[] = ["username" => $alt->username, "userid" => $alt->userId, "created" => $alt->jointime, "ip" => $alt->loginIp];
 	}
 
-	recurseAlts($info->regip);
+	recurseAlts($userInfo->regip);
 }
 
 pageBuilder::buildHeader();
