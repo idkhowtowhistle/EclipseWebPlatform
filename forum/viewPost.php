@@ -18,7 +18,7 @@ pageBuilder::buildHeader();
     <a href="/forum/sub?id=<?= $threadInfo->subForumId ?>" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a>
     <span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span>
 </nav>
-<?php if (($threadInfo->canReply && !SESSION["ssc"]) || SESSION["adminLevel"] > 2) { ?>
+<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
@@ -87,7 +87,7 @@ pageBuilder::buildHeader();
         </div>
     </div>
 <?php }
-if (($threadInfo->canReply && !SESSION["ssc"]) || SESSION["adminLevel"] > 2) { ?>
+if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
 <?php pageBuilder::buildFooter(); ?>
