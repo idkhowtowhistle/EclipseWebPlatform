@@ -17,7 +17,7 @@ if(SESSION && SESSION["adminLevel"])
 	{
 		global $alts;
 		$altLookup = db::run(
-			"SELECT users.username, userId, users.joined, ip FROM mercury.sessions 
+			"SELECT users.username, userId, users.joined, sessions.ip FROM mercury.sessions 
 			INNER JOIN mercury.users ON users.id = userId 
 			WHERE ip IN (SELECT sessions.ip FROM mercury.sessions WHERE userId = :id) 
 			AND userId != :id GROUP BY userId",

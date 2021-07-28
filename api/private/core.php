@@ -68,6 +68,11 @@ function getFolderSize($path)
 	return getFileSize($size);
 }
 
+function getIPAddress()
+{
+	 return $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
+}
+
 class db
 {
 	static function run($sql, $params = false)
