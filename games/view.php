@@ -66,11 +66,11 @@ pageBuilder::buildHeader();
       <div class="card">
         <div class="card-body">
           <h4 class="font-weight-normal"><?= htmlspecialchars($gameInfo->serverName) ?></h4>
-          <p>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= $gameInfo->username ?></a></p>
+          <span>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= $gameInfo->username ?></a></span>
           <br>
-          <p>Gears: <i class="fas fa-bomb"></i></p>
+          <span>Gears: <i class="fas fa-bomb"></i></span>
           <br>
-          <p>Status: <span class="badge badge-<?= ($gameInfo->serverOnline ? "success" : "danger") ?>"><?= ($gameInfo->serverOnline ? "Active" : "Offline") ?></span></p>
+          <span>Status: <span class="badge badge-<?= ($gameInfo->serverOnline ? "success" : "danger") ?>"><?= ($gameInfo->serverOnline ? "Active" : "Offline") ?></span></span>
         </div>
       </div>
       <hr>
