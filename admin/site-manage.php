@@ -9,9 +9,14 @@ pageBuilder::buildHeader();
 		<div class="card hover-shadow w-100 mt-2">
 			<div class="card-body">
 				<h4 class="font-weight-normal"><u>Git Pull</u></h4>
-				<ul><li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li></ul>
+				<ul>
+					<li>This downloads any new updates on the GitHub repository onto the website. You'll probably be using this very frequently.</li>
+					<li>Here's a secret tip: you can do Ctrl + / on any page to do a Git Pull from anywhere!</li>
+				</ul>
 				<h4 class="font-weight-normal"><u>PHPMyAdmin</u></h4>
-				<ul><li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li></ul>
+				<ul>
+					<li>Need to directly interact with the database? This is exactly what you need, just as long as you have the credentials.</li>
+				</ul>
 			</div>
 		</div>
     </div>
@@ -21,7 +26,7 @@ pageBuilder::buildHeader();
 				<a href="#" class="text-reset text-decoration-none gitpull">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
-							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
+							<h1 class="display-4 my-4"><i class="fab fa-git-alt text-danger"></i></h1>
 							<h3 class="font-weight-normal my-4">Git Pull</h3>
 						</div>
 					</div>
@@ -31,7 +36,7 @@ pageBuilder::buildHeader();
 				<a href="https://phpmyadmin.pizzaboxer.xyz" class="text-reset text-decoration-none">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
-							<h1 class="display-4 my-4"><i class="fas fa-database"></i></h1>
+							<h1 class="display-4 my-4"><i class="fal fa-database text-warning"></i></h1>
 							<h3 class="font-weight-normal my-4">PHPMyAdmin</h3>
 						</div>
 					</div>
@@ -40,29 +45,4 @@ pageBuilder::buildHeader();
 		</div>
 	</div>
 </div>
-<script>
-	$("body").on("click", ".gitpull", function() 
-	{
-		showModal(
-			"Git Pull", 
-			"Executing Git Pull...", 
-			[
-				{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
-				{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}
-			]
-		);
-
-		$.get("/admin/git-pull", function(data)
-		{
-			showModal(
-				"Git Pull", 
-				data, 
-				[
-					{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
-					{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}
-				]
-			);
-		});
-	});
-</script>
 <?php pageBuilder::buildFooter(); ?>

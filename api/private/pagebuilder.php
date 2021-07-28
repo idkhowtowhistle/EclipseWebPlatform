@@ -394,7 +394,7 @@ class pageBuilder
 				function showModal(title, body, buttons, options) {
 					if (options == undefined) options = "show";
 					var modalFooter = $("#primaryModal").find(".modal-footer").find(".mx-auto");
-					$("#primaryModal").find(".modal-title").text(title);
+					$("#primaryModal").find(".modal-title").html(title);
 					$("#primaryModal").find(".modal-body").html(body);
 					$("#primaryModal").modal(options);
 
@@ -418,21 +418,58 @@ class pageBuilder
 					});
 				}
 			</script>
+			<?php if(SESSION && SESSION["adminLevel"] >= 2) { ?>
+			<script>
+				function gitpull()
+				{
+					showModal(
+						"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+						"<span class=\"spinner-border spinner-border-sm text-danger\" role=\"status\" aria-hidden=\"true\"></span> Executing Git Pull...", 
+						[
+							{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+							{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}
+						]
+					);
+
+					$.get("/admin/git-pull", function(data)
+					{
+						showModal(
+							"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+							"<pre class=\"mb-0\">"+data+"</pre>", 
+							[
+								{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+								{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}
+							]
+						);
+					});
+				}
+
+				$("body").on("click", ".gitpull", gitpull);
+
+				$("body").keydown(function(event) 
+				{
+					if (event.originalEvent.ctrlKey && event.originalEvent.key == "/") gitpull();
+				});
+			</script>
+			<?php } ?>
 		</body>
 
 		</html>
 	<?php }
 
-		static function errorCode($code)
+		static function errorCode($code, $custom = [])
 		{
-			http_response_code($code);
 			$text =
-				[
-					400 => ["title" => "Bad request", "text" => "There was a problem with your request"],
-					404 => ["title" => "Requested page not found", "text" => "You may have clicked an expired link or mistyped the address"],
-					420 => ["title" => "Website is currently under maintenance", "text" => "check back later"],
-					500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
-				];
+			[
+				400 => ["title" => "Bad request", "text" => "There was a problem with your request"],
+				404 => ["title" => "Requested page not found", "text" => "You may have clicked an expired link or mistyped the address"],
+				420 => ["title" => "Website is currently under maintenance", "text" => "check back later"],
+				500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
+			];
+
+			if(count($custom)) $text[200] = $custom;
+
+			http_response_code($code);
 			self::buildHeader();
 	?>
 		<div class="card mx-auto" style="max-width:640px;">

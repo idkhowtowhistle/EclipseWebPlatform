@@ -68,6 +68,11 @@ function getFolderSize($path)
 	return getFileSize($size);
 }
 
+function getIPAddress()
+{
+	 return $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
+}
+
 class db
 {
 	static function run($sql, $params = false)
@@ -387,9 +392,30 @@ class forum
 
 class games 
 {
-	static function getGameInfoFromId($gameId)
+	static function getGameInfoFromId($gameId, $moreInfo = false)
 	{
-      return db::run("SELECT * FROM games WHERE id = :id", [":id" => $gameId])->fetch(PDO::FETCH_OBJ);
+		if(!$moreInfo)
+			return db::run("SELECT * FROM games WHERE id = :id", [":id" => $gameId])->fetch(PDO::FETCH_OBJ);
+			
+		return db::run(
+			"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount FROM games 
+			INNER JOIN users ON users.id = games.ownerId 
+			WHERE games.id = :id",
+			[":id" => $gameId]
+		)->fetch(PDO::FETCH_OBJ);
+	}
+
+	static function getGamesFromUser($userId, $isPrivate = false)
+	{
+		return db::run(
+			"SELECT games.*, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount FROM games 
+			WHERE ownerId = :uid AND isPrivate = :private AND NOT isDeleted ORDER BY id DESC",
+			[":uid" => $userId, ":private" => $isPrivate]
+		);
 	}
 
 	static function getGameInfoFromTicket($tick)
@@ -466,11 +492,18 @@ class games
 		$query->execute();
 	}
 
+	static function getTotalVisitsOfUser($userId)
+	{
+		return db::run(
+			"SELECT COUNT(*) FROM game_sessions WHERE ping > 0
+			AND serverId IN (SELECT id FROM games WHERE ownerId = :uid AND NOT isDeleted)",
+			[":uid" => $userId]
+		)->fetchColumn();
+	}
 }
 
 class users 
 {
-
 	static function getOnlineStatus($userId)
 	{
 		global $pdo;
