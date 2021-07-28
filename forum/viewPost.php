@@ -36,7 +36,7 @@ pageBuilder::buildHeader();
                     $(button).attr("disabled", "disabled").find("span").show();
                     $.post('/api/forum/lockPost', {
                         "postId": "<?=$threadId?>",
-                        "locked": "<?=$threadId->locked?"true":"false"?>"
+                        "locked": "<?=$threadInfo->locked?"true":"false"?>"
                     }, function(data) {
                         if (data.success) {
                             location.reload();
