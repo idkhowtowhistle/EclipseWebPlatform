@@ -25,7 +25,7 @@ if(strtotime("2 weeks", SESSION["userInfo"]["joined"]) > time())
 
 if(strtotime("2 months", $lastInvite) > time())
 {
-	api::respond(200, false, "You must wait ".ceil((strtotime("2 months", $lastInvite)-time())/strotime("1 day", 0))." days before making a new key.");
+	api::respond(200, false, "You must wait ".ceil((strtotime("2 months", $lastInvite)-time())/strtotime("1 day", 0))." days before making a new key.");
 }
 
 $inviteKey = invite::generateKey();
