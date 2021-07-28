@@ -26,13 +26,13 @@ $output_array = [];
 
 if($emergency)
 {
-	$webhook .= "Git Pull intiated by [[[EMERGENCY]]]\n";
+	$webhook .= sprintf("[%s] Git Pull intiated by %s\n", date('d/m/Y h:i:s A'), "[[[EMERGENCY]]]");
 }
 else
 {
 	require $_SERVER["DOCUMENT_ROOT"]."/api/private/core.php";
 	if(!SESSION || SESSION["adminLevel"] < 2) die(http_response_code(404));
-	$webhook .= "Git Pull executed by ".SESSION["userName"]."\n";
+	$webhook .= sprintf("[%s] Git Pull executed by %s\n", date('d/m/Y h:i:s A'), SESSION["userName"]);
 }
 
 exec("git pull 2>&1", $output_array, $exitcode);
