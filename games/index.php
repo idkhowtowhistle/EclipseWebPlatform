@@ -21,7 +21,7 @@ $games = db::run(
 	<div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
 <?php } ?>
 <div class="row">
-	<div class="col-lg-4 mt-3" style="display: block;">
+	<div class="col-lg-3 mt-3" style="display: block;">
 		<div class="card">
 			<div class="card-body">
 				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?=SITE_CONFIG["site"]["name"]?> 2013." class="btn btn-block btn-success">Download Client</a>
@@ -30,7 +30,7 @@ $games = db::run(
 			</div>
 		</div>
 	</div>
-	<div id="games" class="col-lg-8 row mt-3">
+	<div id="games" class="col-lg-9 row mt-3">
 		<div class="w-100">
 			<form class="mb-3 d-flex" method="post">
 				<input aria-controls="bannerTable" id="search" name="search" value="<?= $_POST['search'] ?? '' ?>" placeholder="Search for a game" class="form-control w-100" type="search">
@@ -40,7 +40,7 @@ $games = db::run(
 		</div>
 		<?php if ($games->rowCount()) { ?>
 			<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
-				<div class="col-md-6 px-2 pb-3">
+				<div class="col-md-4 px-2 pb-3">
 					<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
 					</a>
 					<div class="card hover-shadow">
