@@ -8,7 +8,7 @@ $serverName = isset($_POST['search']) ? "%" . $_POST['search'] . "%" : "%";
 $uid = SESSION["userId"];
 
 $games = db::run(
-	"SELECT *, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
+	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
 	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount
 	FROM games INNER JOIN users ON users.id = ownerId WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted 
 	ORDER BY playerCount DESC, serverPing DESC",
@@ -48,15 +48,15 @@ $games = db::run(
 						<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
 						</a>
 						<div class="card-body">
-							<a href="/games/view?id=<?=$game->id?><?=$game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
+							</span><a href="/games/view?id=<?=$game->id?><?=$game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
 								<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=htmlspecialchars($game->serverName)?></h5>
-							</a>
+							</a></div>
 							<hr>
-							<small>By: <a href="/user?id=<?=$game->ownerId?>"><?=$game->username?></a></small>
+							<span><small>By: <a href="/user?id=<?=$game->ownerId?>"><?=$game->username?></a></small></span>
 							<br>
-							<small>Status: <span class="badge badge-<?=$game->serverOnline?"success":"danger"?>"><?=$game->serverOnline?"Active":"Offline"?></span></small>
+							<span><small>Status: <span class="badge badge-<?=$game->serverOnline?"success":"danger"?>"><?=$game->serverOnline?"Active":"Offline"?></span></small></span>
 							<br>
-							<small>Playing: <?=(int)$game->playerCount?>/<?=$game->serverSize?></small>
+							<span><small>Playing: <?=(int)$game->playerCount?>/<?=$game->serverSize?></small></span>
 						</div>
 					</div>
 				</div>
