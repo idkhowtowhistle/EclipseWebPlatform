@@ -51,7 +51,7 @@ pageBuilder::buildHeader();
       <hr class="my-2">
       <label for="banreason" class="form-label mb-0">Reason:</label>
       <br>
-      <code id="banreason"><?=$markdown->text($moderationInfo->reason)?></code>
+      <code id="banreason"><?=$markdown->text($moderationInfo->reason, true)?></code>
       <hr class="mb-2">
       <p class="mb-0"><?=$text["footer"][$moderationInfo->type]?></p>
       <hr class="md-2">
