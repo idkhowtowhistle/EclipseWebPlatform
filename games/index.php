@@ -9,7 +9,7 @@ $uid = SESSION["userId"];
 
 $games = db::run(
 	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
-	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount
+	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount
 	FROM games INNER JOIN users ON users.id = ownerId WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted 
 	ORDER BY playerCount DESC, serverPing DESC",
 	[":serverName" => $serverName, ":uid" => $uid]

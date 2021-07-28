@@ -399,7 +399,7 @@ class games
 			
 		return db::run(
 			"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
-			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount,
 			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount FROM games 
 			INNER JOIN users ON users.id = games.ownerId 
 			WHERE games.id = :id",
@@ -411,7 +411,7 @@ class games
 	{
 		return db::run(
 			"SELECT games.*, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
-			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount,
 			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount FROM games 
 			WHERE ownerId = :uid AND isPrivate = :private AND NOT isDeleted ORDER BY id DESC",
 			[":uid" => $userId, ":private" => $isPrivate]
