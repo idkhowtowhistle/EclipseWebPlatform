@@ -148,7 +148,7 @@ pageBuilder::buildHeader();
 						</div>
 					</div>
 				</div>
-               <?php }  else { ?>
+               <?php } } else { ?>
 				<p class="text-left py-1"><?= $userInfo->username ?> doesn't have any games.</p>
                <?php } ?>
             </div>

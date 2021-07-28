@@ -21,7 +21,7 @@ pageBuilder::buildHeader();
 				<a href="#" class="text-reset text-decoration-none gitpull">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
-							<h1 class="display-4 my-4"><i class="fab fa-git-alt"></i></h1>
+							<h1 class="display-4 my-4"><i class="fab fa-git-alt text-danger"></i></h1>
 							<h3 class="font-weight-normal my-4">Git Pull</h3>
 						</div>
 					</div>
@@ -31,7 +31,7 @@ pageBuilder::buildHeader();
 				<a href="https://phpmyadmin.pizzaboxer.xyz" class="text-reset text-decoration-none">
 					<div class="card hover-shadow w-100">
 						<div class="card-body text-center">
-							<h1 class="display-4 my-4"><i class="fas fa-database"></i></h1>
+							<h1 class="display-4 my-4"><i class="fal fa-database text-warning"></i></h1>
 							<h3 class="font-weight-normal my-4">PHPMyAdmin</h3>
 						</div>
 					</div>
@@ -44,8 +44,8 @@ pageBuilder::buildHeader();
 	$("body").on("click", ".gitpull", function() 
 	{
 		showModal(
-			"Git Pull", 
-			"Executing Git Pull...", 
+			"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+			"<span class=\"spinner-border spinner-border-sm text-danger\" role=\"status\" aria-hidden=\"true\" style=\"display: none;\"></span> Executing Git Pull...", 
 			[
 				{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
 				{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}
@@ -55,8 +55,8 @@ pageBuilder::buildHeader();
 		$.get("/admin/git-pull", function(data)
 		{
 			showModal(
-				"Git Pull", 
-				data, 
+				"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+				"<pre>"+data+"</pre>", 
 				[
 					{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
 					{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}
