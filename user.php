@@ -25,13 +25,18 @@ if(SESSION && SESSION["adminLevel"])
 		);
 
 		while($alt = $altLookup->fetch(PDO::FETCH_OBJ)) 
+		{
+			$ipParts = explode(".", $alt->ip);
+
 			$alts[] = 
 			[
 				"username" => $alt->username, 
 				"userid" => $alt->userId, 
 				"created" => $alt->joined, 
-				"ip" => $alt->ip
+				"ip" => $alt->ip,
+				"ipcensored" => $ipParts[0].".".$ipParts[1].".xxx.xxx"
 			];
+		}
 	}
 
 	recurseAlts($userInfo->id);
@@ -138,9 +143,9 @@ pageBuilder::buildHeader();
                <div class="card-header">Alternative Accounts</div>
                <div class="card-body">
                		<?php foreach($alts as $alt) { ?>
-                  	<a class="btn btn-light btn-block py-1 mb-2" href="/user?id=<?=$alt["userid"]?>"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
+                  	<a class="btn btn-light btn-block text-left py-1 mb-2" href="/user?id=<?=$alt["userid"]?>" title="<?=$alt["ipcensored"]?>" data-toggle="tooltip"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
               		<?php } if(!count($alts)) { ?>
-              		<p>This user does not have any alternate accounts</p>
+              		<p class="mb-0">This user does not have any alternate accounts</p>
               		<?php } ?>
                </div>
             </div>
