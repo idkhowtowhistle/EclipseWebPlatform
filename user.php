@@ -5,12 +5,9 @@ users::requireLogin();
 $userId = $_GET["id"] ?? false;
 $userInfo = users::getUserInfoFromUid($userId);
 if (!$userInfo) pageBuilder::errorCode(404);
-$onlineInfo = users::getOnlineStatus($userInfo->id);
-// date("n/j/Y", $userInfo->joined)
 
-$query = $pdo->prepare("SELECT * FROM games WHERE (ownerId = :uid AND NOT isPrivate) AND NOT isDeleted");
-$query->bindParam(":uid", $userId, PDO::PARAM_INT);
-$query->execute();
+$onlineInfo = users::getOnlineStatus($userInfo->id);
+$userGames = users::getGames($userInfo->id);
 
 if(users::getUserModeration($userId)) pageBuilder::errorCode(404);
 pageBuilder::buildHeader();
@@ -126,37 +123,33 @@ pageBuilder::buildHeader();
          <div class="card">
             <div class="card-header">Games</div>
             <div class="card-body">
-               <?php if ($query->rowCount()) { ?>
-                  <?php while ($row = $query->fetch(PDO::FETCH_OBJ)) { ?>
-                     <div class="items mb-3">
-                        <div class="item mt-0"><a class="btn btn-primary rounded-0 btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $row->id ?>"><?= htmlspecialchars($row->serverName) ?></a></div>
-                     </div>
-                     <div class="collapse" id="gameCol-<?= $row->id ?>">
-                        <div class="card rounded-0" style="margin-bottom:15px;">
-                           <div class="card-body">
-                              <p><?= htmlspecialchars($row->serverDesc) ?></p>
-                              <div class="row">
-                                 <div class="col-5">
-                                    <a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $row->id ?>" role="button">Play</a>
-                                 </div>
-                                 <div class="col-2">
-                                    <h5>Status: <br><span class="badge badge-success">Online</span></h5>
-                                 </div> 
-                                 <div class="col-2">
-                                    <h5>Visits: <br><?=$row->serverVisits?></h5>
-                                 </div> 
-                                 <div class="col-3">
-                                    <h5>Playing: <br><?=games::getPlayerCountInServer($row->id)?></h5>
-                                 </div> 
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  <?php } ?>
-               <?php } else { ?>
-                  <div class="items">
-                     <div class="item mt-0"><a class="btn btn-light btn-block text-left py-1" href="#"><?= $userInfo->username ?> doesn't have any games.</a></div>
-                  </div>
+               	<?php if ($query->rowCount()) { while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
+				<div class="items mb-3">
+                    <div class="item mt-0"><a class="btn btn-primary rounded-0 btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a></div>
+				</div>
+				<div class="collapse" id="gameCol-<?= $game->id ?>">
+					<div class="card rounded-0" style="margin-bottom:15px;">
+						<div class="card-body">
+							<p><?= htmlspecialchars($game->serverDesc) ?></p>
+							<div class="row">
+								<div class="col-5">
+									<a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $game->id ?>" role="button">Play</a>
+								</div>
+								<div class="col-2">
+									<h5>Status: <br><span class="badge badge-success">Online</span></h5>
+								</div> 
+								<div class="col-2">
+                                    <h5>Visits: <br><?=$game->serverVisits?></h5>
+								</div> 
+								<div class="col-3">
+                                    <h5>Playing: <br><?=games::getPlayerCountInServer($game->id)?></h5>
+								</div> 
+							</div>
+						</div>
+					</div>
+				</div>
+               <?php }  else { ?>
+				<p class="text-left py-1"><?= $userInfo->username ?> doesn't have any games.</p>
                <?php } ?>
             </div>
          </div>
