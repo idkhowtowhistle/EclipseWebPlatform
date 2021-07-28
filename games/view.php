@@ -76,13 +76,7 @@ pageBuilder::buildHeader();
         <div class="row">
           <div class="col-lg-9">
             <div class="btn-group btn-block">
-              <button type="button" class="btn btn-block btn-sm btn-info">Open Studio</button>
-              <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">no3d mode</a>
-              </div>
+              <button type="button" class="btn btn-block btn-sm btn-info" onclick="mercury_games.launch('mercury-player:1+launchmode:ide')">Open Studio</button>
             </div>
           </div>
           <div class="col">
