@@ -28,7 +28,7 @@ $ticket = generateUUID();
 
 if(SESSION["gameban"]) api::respond(400, false, "Your account has been gamebanned");
 
-$query = $pdo->prepare("INSERT INTO games (serverName, serverDesc, serverIp, serverPort, serverSize, createdOn, lastUpdated, ownerId, isPrivate, privateKey, serverTicket, serverPing) VALUES (:sName, :sDesc, :sIp, :sPort, :sLimit, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :oId, :isPrivate, :privateKey, :sTicket, UNIX_TIMESTAMP())");
+$query = $pdo->prepare("INSERT INTO games (serverName, serverDesc, serverIp, serverPort, serverSize, createdOn, lastUpdated, ownerId, isPrivate, privateKey, serverTicket) VALUES (:sName, :sDesc, :sIp, :sPort, :sLimit, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :oId, :isPrivate, :privateKey, :sTicket)");
 $query->bindParam(":sName", $serverName, PDO::PARAM_STR);
 $query->bindParam(":sDesc", $serverDesc, PDO::PARAM_STR);
 $query->bindParam(":sIp", $serverIp, PDO::PARAM_STR);
