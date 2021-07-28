@@ -104,7 +104,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && !$maxAccounts)
 pageBuilder::buildHeader();
 ?>
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<div style="max-width:48rem">
+<div class="mx-auto" style="max-width:48rem">
 	<div class="alert alert-warning py-2 text-center">Make sure to make your password unique.</div>
 	<div class="card">
 		<div class="card-header">Register</div>
