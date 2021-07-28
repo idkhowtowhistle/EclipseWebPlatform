@@ -5,6 +5,7 @@ $uid = $_GET['userId'] ?? $_GET['userid'] ?? false;
 $polygonUidMap = 
 [
 	1 => 6, // task
+	9 => 3, // bucks
 	2 => 4, // multako
 	4 => 30, // debian
 	7 => 50, // trout
@@ -13,7 +14,8 @@ $polygonUidMap =
 	19 => 93, // unexp
 	27 => 1, // pizzaboxer
 	28 => 24, // kjf
-	97 => 26 // heree
+	97 => 26, // heree
+	90 => 91 // cole
 ];
 
 header("Pragma: no-cache");
