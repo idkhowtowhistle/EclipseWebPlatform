@@ -54,7 +54,7 @@ ob_start(); ?>
                <hr class="my-2">
                <label for="banreason" class="form-label mb-0">Reason:</label>
                <br>
-               <code id="banreason"><?=$markdown->text(trim($_POST["reason"]))?></code>
+               <code id="banreason"><?=$markdown->text(trim($_POST["reason"]), true)?></code>
                <hr class="mb-2">
                <p class="mb-0"><?=$text["footer"][$type]?></p>
                <hr class="mb-2">
