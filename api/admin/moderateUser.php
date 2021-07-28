@@ -25,7 +25,7 @@ if(!$bannedInfo) api::respond(400, false, "This user doesn't exist!");
 $date = strtotime($_POST["date"]. " " . date("G:i:s"));
 $bannedId = $bannedInfo->id;
 
-api::lastAction();
+
 
 if($type == 4)
 {
