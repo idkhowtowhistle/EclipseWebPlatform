@@ -152,30 +152,32 @@ pageBuilder::buildHeader();
             <div class="card-body">
                	<?php while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
 				<div class="items mb-3">
-                    <div class="item mt-0"><a class="btn btn-primary rounded-0 btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a></div>
-				</div>
-				<div class="collapse" id="gameCol-<?= $game->id ?>">
-					<div class="card rounded-0" style="margin-bottom:15px;">
-						<div class="card-body">
-							<p><?= htmlspecialchars($game->serverDesc) ?></p>
-							<div class="row">
-								<div class="col-5">
-									<a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $game->id ?>" role="button">Play</a>
+                    <div class="item mt-0">
+                    	<a class="btn btn-primary rounded btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a>
+                    </div>
+                    <div class="collapse" id="gameCol-<?= $game->id ?>">
+						<div class="card rounded" style="margin-bottom:15px;">
+							<div class="card-body">
+								<p><?= htmlspecialchars($game->serverDesc) ?></p>
+								<div class="row">
+									<div class="col-5">
+										<a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $game->id ?>" role="button">Play</a>
+									</div>
+									<div class="col-2">
+										<h5>Status: <br><span class="badge badge-success">Online</span></h5>
+									</div> 
+									<div class="col-2">
+	                                    <h5>Visits: <br><?=$game->serverVisits?></h5>
+									</div> 
+									<div class="col-3">
+	                                    <h5>Playing: <br><?=games::getPlayerCountInServer($game->id)?></h5>
+									</div> 
 								</div>
-								<div class="col-2">
-									<h5>Status: <br><span class="badge badge-success">Online</span></h5>
-								</div> 
-								<div class="col-2">
-                                    <h5>Visits: <br><?=$game->serverVisits?></h5>
-								</div> 
-								<div class="col-3">
-                                    <h5>Playing: <br><?=games::getPlayerCountInServer($game->id)?></h5>
-								</div> 
 							</div>
 						</div>
 					</div>
 				</div>
-               <?php } if ($userGames->rowCount()) { ?>
+               <?php } if (!$userGames->rowCount()) { ?>
 				<p class="text-left py-1"><?= $userInfo->username ?> doesn't have any games.</p>
                <?php } ?>
             </div>
