@@ -68,11 +68,11 @@ $abuserID = explode(":", $report_parts[0])[1];
 $abuse = $report_parts[1];
 $description = $report_parts[2];
 
-//if(!games::checkIfPlayerInServer($reporterID, $gameInfo->id))
-	//die("ERROR: Reporter is not in server");
+if(!games::checkIfPlayerInServer($reporterID, $gameInfo->id))
+	die("ERROR: Reporter is not in server");
 
-//if(!games::checkIfPlayerInServer($abuserID, $gameInfo->id))
-//	die("ERROR: Abuser is not in server");
+if(!games::checkIfPlayerInServer($abuserID, $gameInfo->id))
+	die("ERROR: Abuser is not in server");
 
 if(!in_array($abuse, $abuses))
 	die("ERROR: Invalid abuse detail");
