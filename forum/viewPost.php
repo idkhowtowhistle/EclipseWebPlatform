@@ -28,7 +28,7 @@ pageBuilder::buildHeader();
         </div>
         <?php if (SESSION["adminLevel"] > 1) { ?>
             <div class="d-inline float-right">
-                <button type="button" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"":"-open"?>"></i> <?=$threadInfo->locked?"L":"Unl"?>ock Post</button>
+                <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"":"-open"?>"></i> <?=$threadInfo->locked?"L":"Unl"?>ock Post</button>
             </div>
             <script>
                 $('button[data-control="lockPost"]').on('click', this, function() {
@@ -36,7 +36,7 @@ pageBuilder::buildHeader();
                     $(button).attr("disabled", "disabled").find("span").show();
                     $.post('/api/forum/lockPost', {
                         "postId": "<?=$threadId?>",
-                        "locked": "<?=$threadInfo->locked?"true":"false"?>"
+                        "locked": $(this).attr("data-locked")
                     }, function(data) {
                         if (data.success) {
                             location.reload();
