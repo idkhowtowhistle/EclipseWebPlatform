@@ -418,6 +418,40 @@ class pageBuilder
 					});
 				}
 			</script>
+			<?php if(SESSION["adminLevel"] >= 2) { ?>
+			<script>
+				function gitpull()
+				{
+					showModal(
+						"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+						"<span class=\"spinner-border spinner-border-sm text-danger\" role=\"status\" aria-hidden=\"true\"></span> Executing Git Pull...", 
+						[
+							{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+							{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}
+						]
+					);
+
+					$.get("/admin/git-pull", function(data)
+					{
+						showModal(
+							"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
+							"<pre class=\"mb-0\">"+data+"</pre>", 
+							[
+								{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
+								{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}
+							]
+						);
+					});
+				}
+
+				$("body").on("click", ".gitpull", gitpull);
+
+				$("body").keydown(function(event) 
+				{
+					if (event.originalEvent.ctrlKey && event.originalEvent.key == "/") gitpull();
+				});
+			</script>
+			<?php } ?>
 		</body>
 
 		</html>
