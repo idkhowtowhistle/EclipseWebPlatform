@@ -21,4 +21,11 @@ $query->bindParam(":locked", $locked, PDO::PARAM_INT);
 $query->bindParam(":id", $postId, PDO::PARAM_INT);
 $query->execute();
 
-api::respond(200, true, "ya yeet");
+$text = [
+    true => "Locked",
+    false => "Unlocked"
+];
+
+
+admin::updateAuditLogs($userId, 1, "Forum", $text[$locked] . " post #" . $postId);
+api::respond(200, true, "Post lock status changed");

@@ -31,7 +31,7 @@ pageBuilder::buildHeader();
         <?php while ($thread = $threads->fetch(PDO::FETCH_OBJ)) { ?>
         <tr>
             <td class="table-4-col-7">
-                <p class="my-0"><?=$thread->locked?'<i class="fas fa-lock"></i>':''?> <a href="/forum/viewPost?id=<?=$thread->id?>"><?=htmlspecialchars($thread->postTitle)?></a></p>
+                <p class="my-0"><?=$thread->locked?'<i class="fas fa-lock text-danger font-weight-bold"></i>':''?> <a href="/forum/viewPost?id=<?=$thread->id?>"><?=htmlspecialchars($thread->postTitle)?></a></p>
             </td>
             <td class="table-4-col-3"><?=forum::getReplyCount($thread->id)?></td>
             <td>
