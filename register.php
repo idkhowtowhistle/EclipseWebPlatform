@@ -6,114 +6,97 @@ if(SESSION) redirect("/");
 
 function swearFilter($text)
 {
-$swearList = ["shit", "fuck", "nigg", "nigga", "Nig", "NIg", "NIG", "nig", "tranny", "faggot"];
-if (str_ireplace($swearList, "", $text) != $text) return true;
+    $swearList = ["shit", "fuck", "nigg", "nigga", "Nig", "NIg", "NIG", "nig", "tranny", "faggot"];
+    if (str_ireplace($swearList, "", $text) != $text) return true;
 }
 
 $errors = ["username" => false, "email" => false, "password" => false, "confirmpassword" => false, "invitekey" => false, "captcha" => false];
 $username = $email = $password = $confirmpassword = $invitekey = $captcha = false;
+
 function getLabel($field)
 {
-  if($_SERVER['REQUEST_METHOD'] != "POST") return;
-  global $errors;
-  $class = " is-";
-  $class .= $errors[$field] ? "invalid" : "valid";
-  return $class;
+	if($_SERVER['REQUEST_METHOD'] != "POST") return;
+	global $errors;
+	$class = " is-";
+	$class .= $errors[$field] ? "invalid" : "valid";
+	return $class;
 }
 
 function getError($field)
 {
-  global $errors;
-  if(!$errors[$field]) return;
-  return '<div class="invalid-feedback d-block">'.$errors[$field].'</div>';
+	global $errors;
+	if(!$errors[$field]) return;
+	return '<div class="invalid-feedback d-block">'.$errors[$field].'</div>';
 }
+
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
-  foreach($_POST as $key => $val){ $_POST[$key] = trim($val); } //sanitize input
+	$username = $_POST['username'] ?? false;
+	$captcha = $_POST["g-recaptcha-response"] ?? false;
+	$email = $_POST['email'] ?? false;
+	$password = $_POST['password'] ?? false;
+	$confirmpassword = $_POST['confirmpassword'] ?? false;
+	$invitekey = $_POST["invitekey"] ?? false;
+	$blurb = "Welcome to ".SITE_CONFIG["site"]["name"]."!";
 
-  $username = $_POST['username'] ?? false;
-  $captcha = $_POST["g-recaptcha-response"] ?? false;
-  $email = $_POST['email'] ?? false;
-  $password = $_POST['password'] ?? false;
-  $confirmpassword = $_POST['confirmpassword'] ?? false;
-  $invitekey = $_POST["invitekey"] ?? false;
-  $blurb = "Welcome to ".SITE_CONFIG["site"]["name"]."!";
+	if (!$username) 
+		$errors["username"] = "Please enter a username";
+	elseif (strlen($username) < 3 || strlen($username) > 20) 
+		$errors["username"] = "Username must be between 3 and 20 characters";
+	elseif (!ctype_alnum($username)) 
+		$errors["username"] = "Your username can only contain letters and numbers";
+	elseif (swearFilter($username))
+		$errors["username"] = "You can't have an inappropriate username!";
+	elseif (users::getUidFromUsername($username))
+		$errors["username"] = "Seems like someone else already has that username, sorry :(";
 
-  if(!$username) 
-    $errors["username"] = "Please enter a username";
-  elseif(strlen($username) < 3 || strlen($username) > 20) 
-    $errors["username"] = "Username must be between 3 and 20 characters";
-  elseif(!ctype_alnum($username)) 
-    $errors["username"] = "Your username can only contain letters and numbers";
-  elseif(swearFilter($username))
-    $errors["username"] = "You can't have an inappropriate username!";
-  else
-  {
-    $query = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
-    $query->bindParam(":username", $username, PDO::PARAM_STR);
-    $query->execute();
-    if($query->fetchColumn())
-      $errors["username"] = "Seems like someone else already has that username, sorry :(";
-  }
-
-  $verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . SITE_CONFIG['captcha']['privateKey'] . "&response=".$_POST['g-recaptcha-response']);
+	$verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . SITE_CONFIG['captcha']['privateKey'] . "&response=".$_POST['g-recaptcha-response']);
     $responseData = json_decode($verifyResponse);
-    if(!$responseData->success) {
-      $errors["captcha"] = "You failed the captcha";
-    }
+	if(!$responseData->success) 
+		$errors["captcha"] = "Could not verify CAPTCHA, Please try again";
 
-  if(!$email)
-    $errors["email"] = "Please enter your e-mail address";
-  elseif(!filter_var($email, FILTER_VALIDATE_EMAIL))
-    $errors["email"] = "That's not a valid e-mail address";
-  elseif(strlen($email) > 255)
-    $errors["email"] = "Your e-mail address must be shorter than 255 characters - how is your e-mail that long??";
-  else
-  {
-    $query = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-    $query->bindParam(":email", $email, PDO::PARAM_STR);
-    $query->execute();
-    if($query->fetchColumn())
-      $errors["email"] = "Seems like someone else has already registered with that e-mail address";
-  }
+	if (!$email)
+		$errors["email"] = "Please enter your e-mail address";
+	elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+		$errors["email"] = "That's not a valid e-mail address";
+	elseif (strlen($email) > 255)
+		$errors["email"] = "Your e-mail address must be shorter than 255 characters - how is your e-mail that long??";
+	elseif (db::run("SELECT COUNT(*) FROM users WHERE email = :email", [":email" => $email])->rowCount())
+      	$errors["email"] = "Seems like someone else has already registered with that e-mail address";
 
-  if(!$password)
-    $errors["password"] = "Please enter a password";
-  elseif(strlen($password) < 8)
-    $errors["password"] = "Your password must be at least 8 characters";
-  elseif(!strlen(preg_replace('/[^0-9]/', "", $password)))
-    $errors["password"] = "Your password is too weak. Make sure it contains at least one number";
-  elseif(strlen(preg_replace('/[0-9]/', "", $password)) < 6)
-    $errors["password"] = "Your password is too weak. Make sure it contains at least six non-numeric characters";
+	if (!$password)
+		$errors["password"] = "Please enter a password";
+	elseif (strlen($password) < 8)
+		$errors["password"] = "Your password must be at least 8 characters";
+	elseif (!strlen(preg_replace('/[^0-9]/', "", $password)))
+		$errors["password"] = "Your password is too weak. Make sure it contains at least one number";
+	elseif (strlen(preg_replace('/[0-9]/', "", $password)) < 6)
+		$errors["password"] = "Your password is too weak. Make sure it contains at least six non-numeric characters";
 
-  if(!$confirmpassword)
-    $errors["confirmpassword"] = "Please enter a password";
-  elseif($password != $confirmpassword)
-    $errors["confirmpassword"] = "Passwords do not match";
+	if (!$confirmpassword)
+		$errors["confirmpassword"] = "Please enter a password";
+	elseif ($password != $confirmpassword)
+		$errors["confirmpassword"] = "Passwords do not match";
 
-  if(!$invitekey)
-    $errors["invitekey"] = "Please enter an invite key";
-  else
-  {
-    if(invite::validateInviteKey($invitekey) === false)
-      $errors["invitekey"] = "This invite key is invalid";
-  }
+	if (!$invitekey)
+		$errors["invitekey"] = "Please enter an invite key";
+	elseif (!invite::validateInviteKey($invitekey))
+		$errors["invitekey"] = "This invite key is invalid";
 
+  	if(count(array_unique($errors)) === 1 && !current($errors)) //if all errors are false
+  	{
+  		// TODO: use password_lock instead
+    	$passwordhash = password_hash($password.SITE_CONFIG["site"]["pwsalt"], PASSWORD_BCRYPT);
 
-  if(count(array_unique($errors)) === 1 && !current($errors)) //if all errors are false
-  {
-    $passwordhash = password_hash($password.SITE_CONFIG["site"]["pwsalt"], PASSWORD_BCRYPT);
-    $query = $pdo->prepare("INSERT INTO users (username, password, email, blurb, joined, lastonline) VALUES (:username, :password, :email, :blurb, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
-    $query->bindParam(":username", $username, PDO::PARAM_STR);
-    $query->bindParam(":password", $passwordhash, PDO::PARAM_STR);
-    $query->bindParam(":email", $email, PDO::PARAM_STR);
-    $query->bindParam(":blurb", $blurb, PDO::PARAM_STR);
-    $query->execute();
+    	db::run(
+    		"INSERT INTO users (username, password, email, blurb, joined, lastonline) VALUES (:username, :password, :email, :blurb, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+    		[":username" => $username, ":password" => $passwordhash, ":email" => $email, ":blurb" => $blurb]
+    	);
 
-    session::create($pdo->lastInsertId());
-    invite::useKey($invitekey, $username);
-    redirect("/dashboard");
-  }
+    	session::create($pdo->lastInsertId());
+    	invite::useKey($invitekey, $username);
+    	redirect("/dashboard");
+  	}
 }
 
 pageBuilder::buildHeader();
