@@ -50,7 +50,7 @@ $games = db::run(
 						<div class="card-body">
 							</span><a href="/games/view?id=<?=$game->id?><?=$game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
 								<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=htmlspecialchars($game->serverName)?></h5>
-							</a></div>
+							</a></span>
 							<hr>
 							<span><small>By: <a href="/user?id=<?=$game->ownerId?>"><?=$game->username?></a></small></span>
 							<br>
