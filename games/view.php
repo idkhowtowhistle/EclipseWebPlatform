@@ -70,7 +70,7 @@ pageBuilder::buildHeader();
           <br>
           <p>Gears: <i class="fas fa-bomb"></i></p>
           <br>
-          <p>Status: <span class="badge badge-<?= ($gameInfo->serverOnline['online'] ? "success" : "danger") ?>"><?= ($gameInfo->serverOnline['online'] ? "Active" : "Offline") ?></span></p>
+          <p>Status: <span class="badge badge-<?= ($gameInfo->serverOnline ? "success" : "danger") ?>"><?= ($gameInfo->serverOnline ? "Active" : "Offline") ?></span></p>
         </div>
       </div>
       <hr>
