@@ -137,10 +137,11 @@ pageBuilder::buildHeader();
             <div class="card mt-3">
                <div class="card-header">Alternative Accounts</div>
                <div class="card-body">
-                  <a class="btn btn-light btn-block py-1">
-                     <div class="float-left" href="/user"></div>
-                     <div class="text-right"></div>
-                  </a>
+               		<?php foreach($alts as $alt) ?>
+                  	<a class="btn btn-light btn-block py-1 mb-2" href="/user?id=<?=$alt["userid"]?>"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
+              		<?php } if(!count($alts)) { ?>
+              		<p>This user does not have any alternate accounts</p>
+              		<?php } ?>
                </div>
             </div>
          <?php } ?>
@@ -151,12 +152,12 @@ pageBuilder::buildHeader();
             <div class="card-header">Games</div>
             <div class="card-body">
                	<?php while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
-				<div class="items mb-3">
+				<div class="items mb-2">
                     <div class="item mt-0">
                     	<a class="btn btn-primary rounded btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a>
                     </div>
                     <div class="collapse" id="gameCol-<?= $game->id ?>">
-						<div class="card rounded" style="margin-bottom:15px;">
+						<div class="card rounded">
 							<div class="card-body">
 								<p><?= htmlspecialchars($game->serverDesc) ?></p>
 								<div class="row">
