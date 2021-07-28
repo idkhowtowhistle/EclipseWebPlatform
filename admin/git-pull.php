@@ -32,7 +32,7 @@ else
 {
 	require $_SERVER["DOCUMENT_ROOT"]."/api/private/core.php";
 	if(!SESSION || SESSION["adminLevel"] < 2) die(http_response_code(404));
-	$webhook .= "Git Pull intiated by ".SESSION["userName"]."\n";
+	$webhook .= "Git Pull executed by ".SESSION["userName"]."\n";
 }
 
 exec("git pull 2>&1", $output_array, $exitcode);
@@ -42,8 +42,7 @@ if($exitcode != 0) $output .=  "\n\nGit exited with code $exitcode";
 
 echo $output;
 
-$webhook .= "Output:\n";
-$webhook .= "```bash\n";
+$webhook .= "```yaml\n";
 $webhook .= $output;
 $webhook .= "```";
 
