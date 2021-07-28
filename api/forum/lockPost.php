@@ -16,4 +16,5 @@ $locked = $_POST["locked"] == "false" ? false : true;
 $postInfo = forum::getThreadInfo($postId);
 if(!$postInfo) api::respond(400, false, "This post doesn't exist");
 
-if($postInfo->locked && $locked || !$postInfo->locked && !$locked) api::respond(400, false, "This post is already locked");
+if($postInfo->locked && $locked == true) api::respond(400, false, "This post is already locked");
+if(!$postInfo->locked && $locked == false) api::respond(400, false, "This post is already unlocked");
