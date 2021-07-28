@@ -21,7 +21,7 @@ else
 $subForumInfo = forum::getSubForumInfo($subForumId);
 
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if ($postInfo && !$postInfo->canReply || SESSION["ssc"] || SESSION["adminLevel"] < 2 || $postInfo->locked) pageBuilder::errorCode(404);
+if ($postInfo && !$postInfo->canReply && SESSION["adminLevel"] < 2 || SESSION["ssc"] || $postInfo->locked) pageBuilder::errorCode(404);
 if (!$postInfo && SESSION["adminLevel"] < 2 && !$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 
 $errors = ["subject" => false, "body" => false, "general" => false];
