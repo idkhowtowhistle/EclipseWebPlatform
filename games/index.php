@@ -40,7 +40,7 @@ $games = db::run(
 		</div>
 		<?php if ($games->rowCount()) { ?>
 			<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
-				<div class="col-md-4 px-2 pb-3">
+				<div class="col-md-4 pb-3">
 					<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
 					</a>
 					<div class="card hover-shadow">
