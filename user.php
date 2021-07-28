@@ -133,7 +133,7 @@ pageBuilder::buildHeader();
                   </div>
                   <div class="col-lg-4">
                      <b>Visits</b>
-                     <p class="mb-0">0</p>
+                     <p class="mb-0"><?=games::getTotalVisitsOfUser($userInfo->id)?></p>
                   </div>
                </div>
             </div>
@@ -170,13 +170,13 @@ pageBuilder::buildHeader();
 										<a class="btn btn-lg btn-block btn-secondary" href="/games/view?id=<?= $game->id ?>" role="button">Play</a>
 									</div>
 									<div class="col-2">
-										<h5>Status: <br><span class="badge badge-success">Online</span></h5>
+										<h5>Status <br> <span class="badge badge-<?= ($game->serverOnline ? "success" : "danger") ?>"><?= ($game->serverOnline ? "Active" : "Offline") ?></span></h5>
 									</div> 
 									<div class="col-2">
-	                                    <h5>Visits: <br><?=$game->serverVisits?></h5>
+	                                    <h5>Visits <br> <?=$game->visitCount?></h5>
 									</div> 
 									<div class="col-3">
-	                                    <h5>Playing: <br><?=games::getPlayerCountInServer($game->id)?></h5>
+	                                    <h5>Playing <br> <?$game->playerCount?></h5>
 									</div> 
 								</div>
 							</div>

@@ -487,6 +487,14 @@ class games
 		$query->execute();
 	}
 
+	static function getTotalVisitsOfUser($userId)
+	{
+		return db::run(
+			"SELECT COUNT(*) FROM game_sessions WHERE ping > 0
+			AND serverId IN (SELECT id FROM games WHERE ownerId = :uid AND NOT isDeleted)",
+			[":uid" => $userId]
+		)->fetchColumn();
+	}
 }
 
 class users 
