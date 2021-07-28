@@ -127,7 +127,6 @@ if(count($message_array))
 	$webhook .= "```";
 	foreach (array_slice($message_array, -6, 6) as $message)
 	{
-		$webhook .= users::getUsernameFromUid($message["UserID"]) . ": " . str_replace("`", "", $message["Message"]) . "\n";
 		$webhook .= sprintf("%s: %s\n", users::getUsernameFromUid($message["UserID"]), str_replace("`", "", $message["Message"]));
 	}
 	$webhook .= "```";
