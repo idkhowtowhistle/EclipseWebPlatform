@@ -99,7 +99,7 @@ db::run(
 	[":reporterID" => $reporterID, ":abuserID" => $abuserID, ":abuse" => $abuse, ":description" => $description, ":messages" => $message_json]
 );
 
-$webhook .= "New report received at " . date('d/m/Y h:i:s A') . "\n";
+/* $webhook .= "New report received at `" . date('d/m/Y h:i:s A') . "`\n";
 $webhook .= "Reporter: " . users::getUsernameFromUid($reporterID) . "\n";
 $webhook .= "Abuser: " . users::getUsernameFromUid($abuserID) . "\n";
 $webhook .= "Reason: " . $abuse . "\n";
@@ -111,6 +111,24 @@ if(count($message_array))
 	foreach (array_slice($message_array, -6, 6) as $message)
 	{
 		$webhook .= users::getUsernameFromUid($message["UserID"]) . ": " . str_replace("`", "", $message["Message"]) . "\n";
+	}
+	$webhook .= "```";
+} */
+
+$webhook .= sprintf("New report received at `%s`!\n", date('d/m/Y h:i:s A'));
+$webhook .= sprintf("`%s` is reporting `%s` for `%s`\n", users::getUsernameFromUid($reporterID), users::getUsernameFromUid($abuserID), $abuse);
+
+if(strlen($description)) 
+	$webhook .= sprintf("Their additional comment reads `%s`\n", str_replace("`", "", $description));
+
+if(count($message_array)) 
+{
+	$webhook .= "Here's the last 6 messages that were sent \n";
+	$webhook .= "```";
+	foreach (array_slice($message_array, -6, 6) as $message)
+	{
+		$webhook .= users::getUsernameFromUid($message["UserID"]) . ": " . str_replace("`", "", $message["Message"]) . "\n";
+		$webhook .= sprintf("%s: %s\n", users::getUsernameFromUid($message["UserID"]), str_replace("`", "", $message["Message"]));
 	}
 	$webhook .= "```";
 }
