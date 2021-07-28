@@ -176,7 +176,7 @@ pageBuilder::buildHeader();
 	                                    <h5>Visits <br> <?=$game->visitCount?></h5>
 									</div> 
 									<div class="col-3 text-center">
-	                                    <h5>Playing <br> <?=$game->playerCount?></h5>
+	                                    <h5>Playing <br> <?=(int)$game->playerCount?></h5>
 									</div> 
 								</div>
 							</div>
