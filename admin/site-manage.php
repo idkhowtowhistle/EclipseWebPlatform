@@ -45,7 +45,7 @@ pageBuilder::buildHeader();
 	{
 		showModal(
 			"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
-			"<span class=\"spinner-border spinner-border-sm text-danger\" role=\"status\" aria-hidden=\"true\" style=\"display: none;\"></span> Executing Git Pull...", 
+			"<span class=\"spinner-border spinner-border-sm text-danger\" role=\"status\" aria-hidden=\"true\"></span> Executing Git Pull...", 
 			[
 				{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
 				{'class':'btn btn-outline-danger disabled', 'disabled':true, 'text':'Run Again'}

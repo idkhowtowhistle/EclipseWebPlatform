@@ -394,7 +394,7 @@ class pageBuilder
 				function showModal(title, body, buttons, options) {
 					if (options == undefined) options = "show";
 					var modalFooter = $("#primaryModal").find(".modal-footer").find(".mx-auto");
-					$("#primaryModal").find(".modal-title").text(title);
+					$("#primaryModal").find(".modal-title").html(title);
 					$("#primaryModal").find(".modal-body").html(body);
 					$("#primaryModal").modal(options);
 
