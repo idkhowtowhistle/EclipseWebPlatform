@@ -104,63 +104,65 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && !$maxAccounts)
 pageBuilder::buildHeader();
 ?>
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<div class="alert alert-warning py-2 text-center">Make sure to make your password unique.</div>
-<div class="card">
-	<div class="card-header">Register</div>
-	<div class="card-body">
-		<form role="form" method="POST" action="/register">
-			<div class="form-group row">
-				<label for="username" class="col-md-3 col-form-label text-md-right">Username</label> 
-				<div class="col-md-9">
-					<input type="text" id="username" name="username" value="<?=htmlspecialchars($username)?>" required="required" autofocus="autofocus" class="form-control"> 
-					<small id="nameHelp" class="form-text text-muted">Your account will be banned if you sign up with an inappropriate name.</small>
-					<?=getError("username")?>
+<div style="max-width:48rem">
+	<div class="alert alert-warning py-2 text-center">Make sure to make your password unique.</div>
+	<div class="card">
+		<div class="card-header">Register</div>
+		<div class="card-body">
+			<form role="form" method="POST" action="/register">
+				<div class="form-group row">
+					<label for="username" class="col-md-3 col-form-label text-md-right">Username</label> 
+					<div class="col-md-9">
+						<input type="text" id="username" name="username" value="<?=htmlspecialchars($username)?>" required="required" autofocus="autofocus" class="form-control"> 
+						<small id="nameHelp" class="form-text text-muted">Your account will be banned if you sign up with an inappropriate name.</small>
+						<?=getError("username")?>
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="email" class="col-md-3 col-form-label text-md-right">Email Address</label>
-				<div class="col-md-9">
-					<input type="email" id="email" name="email" value="<?=htmlspecialchars($email)?>" required="required" class="form-control"> 
-					<small id="email" class="form-text text-muted">Please give us a valid email, if you use an invalid email you will lose your account.</small>
-					<?=getError("email")?>
+				<div class="form-group row">
+					<label for="email" class="col-md-3 col-form-label text-md-right">Email Address</label>
+					<div class="col-md-9">
+						<input type="email" id="email" name="email" value="<?=htmlspecialchars($email)?>" required="required" class="form-control"> 
+						<small id="email" class="form-text text-muted">Please give us a valid email, if you use an invalid email you will lose your account.</small>
+						<?=getError("email")?>
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="password" class="col-md-3 col-form-label text-md-right">Password</label>  
-				<div class="col-md-9">
-					<input type="password" id="password" name="password" required="required" class="form-control"> 
-					<?=getError("password")?>     
-					<small id="nameHelp" class="form-text text-muted">Passwords should be 8 or more characters.</small>
+				<div class="form-group row">
+					<label for="password" class="col-md-3 col-form-label text-md-right">Password</label>  
+					<div class="col-md-9">
+						<input type="password" id="password" name="password" required="required" class="form-control"> 
+						<?=getError("password")?>     
+						<small id="nameHelp" class="form-text text-muted">Passwords should be 8 or more characters.</small>
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="confirmpassword" class="col-md-3 col-form-label text-md-right">Confirm Password</label> 
-				<div class="col-md-9">
-					<input type="password" id="confirmpassword" name="confirmpassword" required="required" class="form-control">
-					<?=getError("confirmpassword")?>
+				<div class="form-group row">
+					<label for="confirmpassword" class="col-md-3 col-form-label text-md-right">Confirm Password</label> 
+					<div class="col-md-9">
+						<input type="password" id="confirmpassword" name="confirmpassword" required="required" class="form-control">
+						<?=getError("confirmpassword")?>
+					</div>
 				</div>
-			</div>
-			<hr>
-			<div class="form-group row">
-				<label for="invitekey" class="col-md-3 col-form-label text-md-right">Invite Key</label> 
-				<div class="col-md-9">
-					<input type="text" id="invitekey" name="invitekey" required="required" class="form-control">
-					<small id="invitekey" class="form-text text-muted">Invite Keys are <i>one time</i> only.</small>
-					<?=getError("invitekey")?>
+				<hr>
+				<div class="form-group row">
+					<label for="invitekey" class="col-md-3 col-form-label text-md-right">Invite Key</label> 
+					<div class="col-md-9">
+						<input type="text" id="invitekey" name="invitekey" required="required" class="form-control">
+						<small id="invitekey" class="form-text text-muted">Invite Keys are <i>one time</i> only.</small>
+						<?=getError("invitekey")?>
+					</div>
 				</div>
-			</div>
-			<div class="form-group row">
-				<label for="captcha" class="col-md-3 col-form-label text-md-right">Captcha</label> 
-				<div class="col-md-9">
-					<div class="g-recaptcha" data-sitekey="<?php echo SITE_CONFIG['captcha']['siteKey']?>"></div>
-					<?=getError("captcha")?>
+				<div class="form-group row">
+					<label for="captcha" class="col-md-3 col-form-label text-md-right">Captcha</label> 
+					<div class="col-md-9">
+						<div class="g-recaptcha" data-sitekey="<?php echo SITE_CONFIG['captcha']['siteKey']?>"></div>
+						<?=getError("captcha")?>
+					</div>
 				</div>
-			</div>
-			<p class="text-center">By registering on this site, <b>you agree to our <a href="/rules">rules</a>.</b></p>
-			<div class="form-group mb-1">
-				<button type="submit" class="btn btn-primary btn-block">Register</button>
-			</div>
-		</form>
+				<p class="text-center">By registering on this site, <b>you agree to our <a href="/rules">rules</a>.</b></p>
+				<div class="form-group mb-1">
+					<button type="submit" class="btn btn-primary btn-block">Register</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 <?php pageBuilder::buildFooter(); ?>
