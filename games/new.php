@@ -23,7 +23,7 @@ pageBuilder::buildHeader();
       </div>
       <div class="form-group mb-3">
          <label for="ipAddress">IP Address</label>
-         <input type="text" class="form-control" id="serverIp" placeholder="IPV4" value="<?=$_SERVER["REMOTE_ADDR"]?>">
+         <input type="text" class="form-control" id="serverIp" placeholder="IPV4" value="<?=getIPAddress()?>">
       </div>
       <div class="form-group mb-3">
          <label for="serverPort">Server Port</label>
@@ -31,7 +31,7 @@ pageBuilder::buildHeader();
       </div>
       <div class="form-group mb-3">
          <label for="limit">Player Limit</label>
-         <input type="number" min="1" placeholder="Server Limit" class="form-control" name="limit" id="limit" value="1">  
+         <input type="number" min="1" placeholder="Server Limit" class="form-control" name="limit" id="limit" value="10">  
       </div>
       <hr>
       <div class="form-group mb-3">

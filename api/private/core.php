@@ -712,6 +712,7 @@ class session //most of the session code here comes from my old roblonium code; 
 		$checkIfKeyExists = db::run("SELECT COUNT(*) FROM sessions WHERE sessionKey = :sesskey", [":sesskey" => $sessionkey]);
 		if($checkIfKeyExists->fetchColumn()) goto keygen; //if a session with the same key already exists then repeat key generation process
 
+		$ip = getIPAddress();
 		$csrf = bin2hex(random_bytes(32));
 
 		$params = 
@@ -719,7 +720,7 @@ class session //most of the session code here comes from my old roblonium code; 
 			":sesskey" => $sessionkey, 
 			":uid" => $userId, 
 			":agent" => $_SERVER['HTTP_USER_AGENT'], 
-			":ip" => $_SERVER['REMOTE_ADDR'],
+			":ip" => $ip,
 			":csrf" => $csrf,
 			":expires" => 0,
 			":2fa" => 0
