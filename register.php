@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 		$errors["email"] = "That's not a valid e-mail address";
 	elseif (strlen($email) > 255)
 		$errors["email"] = "Your e-mail address must be shorter than 255 characters - how is your e-mail that long??";
-	elseif (db::run("SELECT COUNT(*) FROM users WHERE email = :email", [":email" => $email])->rowCount())
+	elseif (db::run("SELECT COUNT(*) FROM users WHERE email = :email", [":email" => $email])->fetchColumn())
       	$errors["email"] = "Seems like someone else has already registered with that e-mail address";
 
 	if (!$password)
