@@ -472,7 +472,7 @@ class users
 {
 	static function getGames($userId, $isPrivate = false)
 	{
-		db::run(
+		return db::run(
 			"SELECT * FROM games WHERE ownerId = :uid AND isPrivate = :private AND NOT isDeleted",
 			[":uid" => $userId, ":private" => $isPrivate]
 		);

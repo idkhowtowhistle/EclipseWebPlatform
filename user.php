@@ -13,13 +13,15 @@ if(SESSION && SESSION["adminLevel"])
 {
 	$alts = [];
 	
-	function getAltsFromSession($ip)
+	function recurseAlts($userID)
 	{
 		global $alts;
 		$altLookup = db::run(
-			"SELECT users.username, userId, users.joined, ip FROM sessions 
-			INNER JOIN users ON users.id = userId WHERE ip = :ip GROUP BY userId",
-			[":ip" => $ip]
+			"SELECT users.username, userId, users.joined, ip FROM mercury.sessions 
+			INNER JOIN mercury.users ON users.id = userId 
+			WHERE ip IN (SELECT sessions.ip FROM mercury.sessions WHERE userId = :id) 
+			AND userId != :id GROUP BY userId",
+			[":id" => $userID]
 		);
 
 		while($alt = $altLookup->fetch(PDO::FETCH_OBJ)) 
@@ -32,7 +34,7 @@ if(SESSION && SESSION["adminLevel"])
 			];
 	}
 
-	getAltsFromSession($userInfo->regip);
+	recurseAlts($userInfo->id);
 }
 
 pageBuilder::buildHeader();
