@@ -137,7 +137,7 @@ pageBuilder::buildHeader();
             <div class="card mt-3">
                <div class="card-header">Alternative Accounts</div>
                <div class="card-body">
-               		<?php foreach($alts as $alt) ?>
+               		<?php foreach($alts as $alt) { ?>
                   	<a class="btn btn-light btn-block py-1 mb-2" href="/user?id=<?=$alt["userid"]?>"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
               		<?php } if(!count($alts)) { ?>
               		<p>This user does not have any alternate accounts</p>
