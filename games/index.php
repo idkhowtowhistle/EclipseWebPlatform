@@ -21,7 +21,7 @@ $games = db::run(
 	<div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
 <?php } ?>
 <div class="row">
-	<div class="col-lg-3 mx-2 mt-3">
+	<div class="col-lg-3 px-2 mt-3">
 		<div class="card">
 			<div class="card-body">
 				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?=SITE_CONFIG["site"]["name"]?> 2013." class="btn btn-block btn-success">Download Client</a>
