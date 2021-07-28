@@ -2,6 +2,24 @@
 require $_SERVER['DOCUMENT_ROOT']."/api/private/core.php";
 header("content-type: text/plain; charset=utf-8");
 
+$webhook = "";
+function sendSystemWebhook($message) 
+{
+	// example payload:
+	// $payload = ["username" => "test", "content" => "test", "avatar_url" => "https://polygon.pizzaboxer.xyz/thumbs/avatar?id=1&x=100&y=100"];
+	$payload = ["content" => $message];
+	$ch = curl_init();  
+
+	curl_setopt($ch, CURLOPT_URL, "https://discord.com/api/webhooks/870048492096192542/RWnJrWqKulFqfZ0Htx2fX5CF2vDc1dgATXCw-D9lyGtHJZNMvBXFww7Kzbjrv8dRQFXG");
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['payload_json' => json_encode($payload)]));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$response = curl_exec($ch);
+	curl_close($ch);
+	return $response;
+}
+
 if($_SERVER['HTTP_USER_AGENT'] != "Roblox/WinInet") die("ERROR: Dumb nigga detected");
 
 $ticket = $_GET['ticket'] ?? false;
@@ -17,7 +35,10 @@ if(!$gameInfo) die("ERROR: Invalid server ticket");
 	</messages>
 </report>'; */
 
-$abuses = [
+$xml = file_get_contents("php://input");
+$xml_parsed = simplexml_load_string($xml);
+$abuses = 
+[
 	"Swearing",
 	"Bullying",
 	"Scamming",
@@ -34,8 +55,6 @@ $abuses = [
 	"Rude or Mean Behavior",
 	"False Reporting Me"
 ];
-$xml = file_get_contents("php://input");
-$xml_parsed = simplexml_load_string($xml);
 
 if(!$xml_parsed) die("ERROR: Invalid XML");
 $xml_parsed = (array)$xml_parsed;
@@ -80,20 +99,20 @@ db::run(
 	[":reporterID" => $reporterID, ":abuserID" => $abuserID, ":abuse" => $abuse, ":description" => $description, ":messages" => $message_json]
 );
 
-/*
-echo "Reporter ID: ".$userID."<br>";
-echo "Abuser ID: ".$abuserID."<br>";
-echo "Reason: ".$abuse."<br>";
-echo "Comment: ".$comment."<br>";
-
-echo "<br><br>";
-*/
-foreach($messages as $message)
+$webhook .= "New report received at " . date('d/m/Y h:i:s A') . "\n";
+$webhook .= "Reporter: " . users::getUsernameFromUid($reporterID) . "\n";
+$webhook .= "Abuser: " . users::getUsernameFromUid($abuserID) . "\n";
+$webhook .= "Reason: " . $abuse . "\n";
+if(strlen($description)) $webhook .= "Comment: `" . str_replace("`", "", $description) . "`\n";
+if(count($message_array)) 
 {
-	echo "User ID: ".$message->attributes()["userID"]."<br>";
-	echo "Message: ".$message[0]."<br>";
-	echo "<br>";
+	$webhook .= "Chat logs (last 6 messages): \n";
+	$webhook .= "```";
+	foreach (array_slice($message_array, -6, 6) as $message)
+	{
+		$webhook .= users::getUsernameFromUid($message["UserID"]) . ": " . str_replace("`", "", $message["Message"]) . "\n";
+	}
+	$webhook .= "```";
 }
-
 
 die("OK");
