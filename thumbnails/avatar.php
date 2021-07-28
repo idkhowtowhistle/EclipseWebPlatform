@@ -1,6 +1,7 @@
 <?php 
 //header("Pragma: no-cache");
 //header("Cache-Control: no-cache");
+header("cache-control: max-age=2628000");
 header("content-type: image/png");
 
 $x = $_GET['x'] ?? 100;
