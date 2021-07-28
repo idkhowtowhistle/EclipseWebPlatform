@@ -3,17 +3,12 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
 
 $gameId = $_GET["id"] ?? false;
-
-if (!$gameId) pageBuilder::errorCode(404);
-$gameInfo = games::getGameInfoFromId($gameId);
-if (!$gameInfo) pageBuilder::errorCode(404);
-
-if ($gameInfo->isDeleted) pageBuilder::errorCode(404);
-
 $privateKey = $_GET["privateKey"] ?? false;
-if ($gameInfo->isPrivate && $privateKey != $gameInfo->privateKey) pageBuilder::errorCode(404);
+$gameInfo = games::getGameInfoFromId($gameId, true);
 
-$isHost = games::isHosting($gameInfo->id);
+if (!$gameInfo || $gameInfo->isDeleted) pageBuilder::errorCode(404);
+if ($gameInfo->isPrivate && $privateKey !== $gameInfo->privateKey) pageBuilder::errorCode(404);
+
 $players = games::getPlayersInServer($gameInfo->id);
 
 pageBuilder::buildHeader();
@@ -53,7 +48,7 @@ pageBuilder::buildHeader();
             </div>
             <div class="col-lg-3">
               <b>Visits</b>
-              <p class="mb-0"><?= $gameInfo->serverVisits ?></p>
+              <p class="mb-0"><?= $gameInfo->visitCount ?></p>
             </div>
           </div>
         </div>
@@ -70,8 +65,12 @@ pageBuilder::buildHeader();
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h4 class="font-weight-normal"><?= $gameInfo->serverName ?></h4>
-          <p>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= users::getUsernameFromUid($gameInfo->ownerId) ?></a><br>Gears: <i class="fas fa-bomb"></i><br>Status: <span class="badge badge-<?= ($isHost['online'] ? "success" : "danger") ?>"><?= ($isHost['online'] ? "Active" : "Offline") ?></span></p>
+          <h4 class="font-weight-normal"><?= htmlspecialchars($gameInfo->serverName) ?></h4>
+          <p>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= $gameInfo->username ?></a></p>
+          <br>
+          <p>Gears: <i class="fas fa-bomb"></i></p>
+          <br>
+          <p>Status: <span class="badge badge-<?= ($gameInfo->serverOnline['online'] ? "success" : "danger") ?>"><?= ($gameInfo->serverOnline['online'] ? "Active" : "Offline") ?></span></p>
         </div>
       </div>
       <hr>
@@ -113,9 +112,7 @@ pageBuilder::buildHeader();
     <div class="card-body">
       <?php if ($players->rowCount()) { ?>
         <div class="row">
-        <div class="col-1 divider-right">
-              <p>Playing: <?=games::getPlayerCountInServer($gameInfo->id)?>/<?=$gameInfo->serverSize?></p>
-          </div>
+          <div class="col-1 divider-right"><p>Playing: <?=games::getPlayerCountInServer($gameInfo->id)?>/<?=$gameInfo->serverSize?></p></div>
           <?php while ($player = $players->fetch(PDO::FETCH_OBJ)) { ?>
             <div class="col-1">
               <img data-toggle="tooltip" data-placement="top" title="<?=$player->username?>" src="/thumbnails/avatar?id=<?=$player->id?>&x=75&y=75" title="<?= $player->username ?>" width="64" height="64">

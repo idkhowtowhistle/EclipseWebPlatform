@@ -387,9 +387,18 @@ class forum
 
 class games 
 {
-	static function getGameInfoFromId($gameId)
+	static function getGameInfoFromId($gameId, $moreInfo = false)
 	{
-      return db::run("SELECT * FROM games WHERE id = :id", [":id" => $gameId])->fetch(PDO::FETCH_OBJ);
+		if(!$moreInfo)
+			return db::run("SELECT * FROM games WHERE id = :id", [":id" => $gameId])->fetch(PDO::FETCH_OBJ);
+			
+		return db::run(
+			"SELECT *, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP() GROUP BY userId) AS playerCount,
+			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount
+			FROM games INNER JOIN users ON users.id = ownerId WHERE id = :id",
+			[":id" => $gameId]
+		);
 	}
 
 	static function getGameInfoFromTicket($tick)
