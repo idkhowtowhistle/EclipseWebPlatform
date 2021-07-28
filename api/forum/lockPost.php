@@ -11,10 +11,14 @@ api::lastAction();
 
 $userId = SESSION["userId"];
 $postId = $_POST["postId"];
-$locked = $_POST["locked"] == "false" ? false : true;
+$locked = $_POST["locked"] == "false" ? true : false;
 
 $postInfo = forum::getThreadInfo($postId);
 if(!$postInfo) api::respond(400, false, "This post doesn't exist");
 
-if($postInfo->locked && $locked == true) api::respond(400, false, "This post is already locked");
-if(!$postInfo->locked && $locked == false) api::respond(400, false, "This post is already unlocked");
+$query = $pdo->prepare("UPDATE subforum_threads SET locked = :locked WHERE id = :id");
+$query->bindParam(":locked", $locked, PDO::PARAM_INT);
+$query->bindParam(":id", $postId, PDO::PARAM_INT);
+$query->execute();
+
+api::respond(200, true, "ya yeet");
