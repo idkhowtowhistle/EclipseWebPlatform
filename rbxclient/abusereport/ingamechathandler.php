@@ -115,4 +115,6 @@ if(count($message_array))
 	$webhook .= "```";
 }
 
+sendSystemWebhook($webhook);
+
 die("OK");
