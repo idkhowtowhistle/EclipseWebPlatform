@@ -21,7 +21,7 @@ $games = db::run(
 	<div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
 <?php } ?>
 <div class="row">
-	<div class="col-lg-3 mt-3" style="display: block;">
+	<div class="col-lg-3 mx-2 mt-3">
 		<div class="card">
 			<div class="card-body">
 				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?=SITE_CONFIG["site"]["name"]?> 2013." class="btn btn-block btn-success">Download Client</a>
@@ -30,14 +30,15 @@ $games = db::run(
 			</div>
 		</div>
 	</div>
-	<div id="games" class="col-lg-9 row mt-3">
-		<div class="col-12 px-2">
-			<form class="mb-3 d-flex" method="post">
-				<input aria-controls="bannerTable" id="search" name="search" value="<?= $_POST['search'] ?? '' ?>" placeholder="Search for a game" class="form-control w-100" type="search">
-				<button type="submit" class="btn btn-secondary d-inline ml-2 px-4"><i class="fas fa-search"></i></button>
-				<a type="button" href="/games" class="btn btn-danger d-inline ml-2 px-4"><i class="fas fa-redo-alt"></i></a>
-			</form>
-		</div>
+	<div id="games" class="col-lg-9 mt-3">
+		<div class="row">
+			<div class="col-12 px-2">
+				<form class="mb-3 d-flex" method="post">
+					<input aria-controls="bannerTable" id="search" name="search" value="<?= $_POST['search'] ?? '' ?>" placeholder="Search for a game" class="form-control w-100" type="search">
+					<button type="submit" class="btn btn-secondary d-inline ml-2 px-4"><i class="fas fa-search"></i></button>
+					<a type="button" href="/games" class="btn btn-danger d-inline ml-2 px-4"><i class="fas fa-redo-alt"></i></a>
+				</form>
+			</div>
 		<?php if ($games->rowCount()) { ?>
 			<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
 				<div class="col-md-4 px-2 pb-3">
@@ -65,6 +66,7 @@ $games = db::run(
 				<p>Could not find any results <a class="btn btn-danger btn-sm" href="/games">Reset search</a></p>
 			</div>
 		<?php } ?>
+		</div>
 	</div>
 </div>
 <?php pageBuilder::buildFooter(); ?>
