@@ -465,7 +465,7 @@ class pageBuilder
 					400 => ["title" => "Bad request", "text" => "There was a problem with your request"],
 					404 => ["title" => "Requested page not found", "text" => "You may have clicked an expired link or mistyped the address"],
 					420 => ["title" => "Website is currently under maintenance", "text" => "check back later"],
-					500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
+					500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"],
 					1337 => ["title" => "Account limit reached", "text" => "You can only create a maximum of two accounts"]
 				];
 			self::buildHeader();
