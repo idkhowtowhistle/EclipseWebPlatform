@@ -56,7 +56,7 @@ pageBuilder::buildHeader();
 		{
 			showModal(
 				"<i class=\"fab fa-git-alt text-danger\"></i> Git Pull", 
-				"<pre>"+data+"</pre>", 
+				"<pre class=\"mb-0\">"+data+"</pre>", 
 				[
 					{'class':'btn btn-outline-primary', 'isDismissButton':true, 'text':'Close'},
 					{'class':'btn btn-outline-success gitpull', 'text':'Run Again'}

@@ -4,12 +4,31 @@ users::requireLogin();
 
 $userId = $_GET["id"] ?? false;
 $userInfo = users::getUserInfoFromUid($userId);
-if (!$userInfo) pageBuilder::errorCode(404);
+if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404);
 
 $onlineInfo = users::getOnlineStatus($userInfo->id);
 $userGames = users::getGames($userInfo->id);
 
-if(users::getUserModeration($userId)) pageBuilder::errorCode(404);
+if(SESSION && SESSION["adminLevel"]) 
+{
+	$alts = [];
+	
+	function recurseAlts($ip)
+	{
+		global $alts;
+		$altLookup = db::run(
+			"SELECT users.username, userId, users.jointime, loginIp FROM sessions 
+			INNER JOIN users ON users.id = userId WHERE loginIp = :ip GROUP BY userId",
+			[":ip" => $ip]
+		);
+
+		while($alt = $altLookup->fetch(PDO::FETCH_OBJ)) 
+			$alts[] = ["username" => $alt->username, "userid" => $alt->userId, "created" => $alt->jointime, "ip" => $alt->loginIp];
+	}
+
+	recurseAlts($info->regip);
+}
+
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
@@ -123,7 +142,7 @@ pageBuilder::buildHeader();
          <div class="card">
             <div class="card-header">Games</div>
             <div class="card-body">
-               	<?php if ($query->rowCount()) { while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
+               	<?php while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
 				<div class="items mb-3">
                     <div class="item mt-0"><a class="btn btn-primary rounded-0 btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a></div>
 				</div>
@@ -148,7 +167,7 @@ pageBuilder::buildHeader();
 						</div>
 					</div>
 				</div>
-               <?php } } else { ?>
+               <?php } if ($userGames->rowCount()) { ?>
 				<p class="text-left py-1"><?= $userInfo->username ?> doesn't have any games.</p>
                <?php } ?>
             </div>
