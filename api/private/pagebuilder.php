@@ -418,7 +418,7 @@ class pageBuilder
 					});
 				}
 			</script>
-			<?php if(SESSION["adminLevel"] >= 2) { ?>
+			<?php if(SESSION && SESSION["adminLevel"] >= 2) { ?>
 			<script>
 				function gitpull()
 				{
