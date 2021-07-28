@@ -398,7 +398,7 @@ class games
 			(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND ping > 0) AS visitCount
 			FROM games INNER JOIN users ON users.id = ownerId WHERE games.id = :id",
 			[":id" => $gameId]
-		);
+		)->fetch(PDO::FETCH_OBJ);
 	}
 
 	static function getGameInfoFromTicket($tick)

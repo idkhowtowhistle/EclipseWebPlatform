@@ -6,7 +6,6 @@ $gameId = $_GET["id"] ?? false;
 $privateKey = $_GET["privateKey"] ?? false;
 $gameInfo = games::getGameInfoFromId($gameId, true);
 
-var_dump($gameInfo);
 if (!$gameInfo || $gameInfo->isDeleted) pageBuilder::errorCode(404);
 if ($gameInfo->isPrivate && $privateKey !== $gameInfo->privateKey) pageBuilder::errorCode(404);
 
