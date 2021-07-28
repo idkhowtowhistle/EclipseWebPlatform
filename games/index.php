@@ -31,7 +31,7 @@ $games = db::run(
 		</div>
 	</div>
 	<div id="games" class="col-lg-9 row mt-3">
-		<div class="w-100">
+		<div class="col-12 px-2">
 			<form class="mb-3 d-flex" method="post">
 				<input aria-controls="bannerTable" id="search" name="search" value="<?= $_POST['search'] ?? '' ?>" placeholder="Search for a game" class="form-control w-100" type="search">
 				<button type="submit" class="btn btn-secondary d-inline ml-2 px-4"><i class="fas fa-search"></i></button>
@@ -40,7 +40,7 @@ $games = db::run(
 		</div>
 		<?php if ($games->rowCount()) { ?>
 			<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
-				<div class="col-md-4 pb-3">
+				<div class="col-md-4 px-2 pb-3">
 					<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
 					</a>
 					<div class="card hover-shadow">
