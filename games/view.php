@@ -79,7 +79,7 @@
 			<?php } else { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
-			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
+			<p class="mb-0">First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
 			<!--p class="mb-0">With that out of the way, there's two ways to get your server actually running. If you want to know more about these, we have an <a href="#">info page</a> all about that.</p-->
 			<div class="row py-4">
 		        <div class="col-sm-3">
@@ -100,7 +100,7 @@
 							</div>             
 						</div>
 		                <div class="tab-pane fade active show " id="manual" role="tabpanel" aria-labelledby="manual-tab">
-		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
+		                	<p class="mb-0">Open studio and open your map. Once it's open, paste this into the command bar:</p>
 		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
 		                </div>
 		            </div>
