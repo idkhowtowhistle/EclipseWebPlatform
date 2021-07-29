@@ -457,7 +457,7 @@ class pageBuilder
 		</html>
 	<?php }
 
-		static function errorCode($code, $custom = [])
+		static function errorCode($code, $param = false)
 		{
 			$text =
 			[
@@ -467,7 +467,8 @@ class pageBuilder
 				500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
 			];
 
-			if(count($custom)) $text[200] = $custom;
+			if (is_array($param) && count($param)) $text[200] = $param;
+			else if (!empty($param) && $code == 500) $text[500]["text"] .= " <br> Error ID: <code>$param</code>";
 
 			http_response_code($code);
 			self::buildHeader();
