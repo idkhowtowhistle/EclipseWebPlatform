@@ -50,20 +50,20 @@
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
 			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
-			<!--p class="mb-0">With that out of the way, there's two ways to get your server actually running. If you want to know more about these, we have an <a href="#">info page</a> all about that.</p-->
+			<p class="mb-0">With that out of the way, there's two ways to get your server actually running. Each selection has some info.</p>
 			<div class="row py-4">
 		        <div class="col-sm-3">
 		            <div class="list-group" id="list-tab" role="tablist">
-		                <!--a class="list-group-item list-group-item-action active" id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a-->
+		                <a class="list-group-item list-group-item-action active" id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a>
 		                <a class="list-group-item list-group-item-action active" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
 		            </div>
 		        </div>
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	<p class="mb-0">Place your maps in the <code>content\maps\</code> folder of the client folder. For example, <code>Baseplate.rbxl</code> is located at <code>content\maps\Baseplate.rbxl</code></p>
+		                	<p class="mb-0">Place your maps in the client's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code></p>
 		                	<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="Baseplate.rbxl">
+								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
 									<button class="btn btn-outline-success" type="button">Start Server</button>
 								</div>
