@@ -1,30 +1,26 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
-pageBuilder::buildHeader();
-
 
 $serverName = isset($_POST['search']) ? "%" . $_POST['search'] . "%" : "%";
 $uid = SESSION["userId"];
 //games pagination yall!
 $page = $_GET["page"] ?? 1;
 
-$totalgames = db::run("SELECT COUNT(*) FROM games WHERE NOT isDeleted");
+$totalgames = db::run("SELECT COUNT(*) FROM games WHERE NOT isDeleted")->fetchColumn();
 
-$pages = ceil($totalgames->fetchColumn()/10);
+$pages = ceil($totalgames/10);
 $offset = ($page - 1)*10;
 
 $games = db::run(
 	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
 	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount
 	FROM games INNER JOIN users ON users.id = ownerId WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted 
-	ORDER BY playerCount DESC, serverPing DESC OFFSET :offset",
+	ORDER BY playerCount DESC, serverPing DESC LIMIT 10 OFFSET :offset",
 	[":serverName" => $serverName, ":uid" => $uid, ":offset" => $offset]
 );
 
-
-
-
+pageBuilder::buildHeader();
 ?>
 <div class="alert alert-primary" role="alert">Self hosting is NOT final. Read <a href="/games/help">here.</a></div>
 <?php if (SESSION["gameban"]) { ?>
