@@ -65,16 +65,16 @@
 		                	<p>Autopilot handles most of the initial studio stuff for you. All you need to do is type in a map that's in the map folder, and start the server.</p>
 		                	<p>Place your maps in <a href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:maps')">Mercury Studio's maps folder</a>. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code>.</p>
 		                	<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
+								<input type="text" class="filepath form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
 									<div class="btn-group">
-										<button type="button" class="btn btn-success" onclick="mercury_games.launch('mercury-player:1+launchmode:ide+script:<?=$hostScriptUrl?>')">Start Server</button>
+										<button type="button" class="btn btn-success" onclick="mercury_games.launch('mercury-player:1+launchmode:ide+script:<?=$hostScriptUrl?>' + $('.filepath').val())">Start Server</button>
 										<button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="sr-only">Toggle Dropdown</span>
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
 											<!--a class="dropdown-item" href="#">Start Server (No Graphics Rendering)</a-->
-											<a class="dropdown-item" href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:build+script:<?=$hostScriptUrl?>')">Start Server (No Studio Tools)</a>
+											<a class="dropdown-item" href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:build+script:<?=$hostScriptUrl?>&autopilot=' + $('.filepath').val())">Start Server (No Studio Tools)</a>
 										</div>
 									</div>
 								</div>
