@@ -23,20 +23,22 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-        <div class="align-middle">
-            <?= htmlspecialchars($threadInfo->postTitle) ?>
-        </div>
+            <p class="my-auto d-inline">
+                <?= htmlspecialchars($threadInfo->postTitle) ?>
+                <br>
+                <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
+            </p>
         <?php if (SESSION["adminLevel"] > 1) { ?>
-            <div class="float-right">
-                <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"-open":""?>"></i> <?=$threadInfo->locked?"Unl":"L"?>ock Post</button>
-                <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPostr" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"-open":""?>"></i> <?=$threadInfo->locked?"Unl":"L"?>ock Post</button>
+            <div class="d-inline float-right">
+                <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
+                <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
             </div>
             <script>
                 $('button[data-control="lockPost"]').on('click', this, function() {
                     var button = this;
-                    $(button).attr("disabled", "disabled").find("span").show();
+                    $(button).attr("disabled", "disabled");
                     $.post('/api/forum/lockPost', {
-                        "postId": "<?=$threadId?>",
+                        "postId": "<?= $threadId ?>",
                         "locked": $(this).attr("data-locked")
                     }, function(data) {
                         if (data.success) {
@@ -44,7 +46,7 @@ pageBuilder::buildHeader();
                         } else {
                             toastr["error"](data.message);
                         }
-                        $(button).removeAttr("disabled").find("span").hide();
+                        $(button).removeAttr("disabled");
                     });
                 });
             </script>
