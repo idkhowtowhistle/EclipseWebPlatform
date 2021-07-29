@@ -62,7 +62,7 @@
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	<p>Place your maps in the client's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code></p>
+		                	<p>Place your maps in <a href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:maps')">Mercury Studio's maps folder</a>. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code>.</p>
 		                	<div class="input-group mb-3">
 								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
