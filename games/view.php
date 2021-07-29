@@ -65,7 +65,7 @@
 		                	<div class="d-flex">
 								<input placeholder="C:\Users\Administrator\coolmap.rbxl" class=" filepathform-control w-100" type="text">
 								<button type="submit" class="btn btn-primary d-inline ml-2 px-4">Start Server</button>
-							</form>		                
+							</div>	                
 						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
