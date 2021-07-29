@@ -33,21 +33,13 @@ pageBuilder::buildHeader();
                             </a>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            <!--
+                            <a href="/admin/site-manage" class="text-reset text-decoration-none">
                                 <div class="card hover-shadow w-100">
                                     <div class="card-body text-center">
-                                        <h1 class="display-4 my-4"><i class="far fa-image"></i></h1>
-                                        <h3 class="font-weight-normal my-4">User Thumbnails</h3>
+                                        <h1 class="display-4 my-4"><i class="far fa-window-maximize"></i></h1>
+                                        <h3 class="font-weight-normal my-4">Site Management</h3>
                                     </div>
                                 </div>
-                                -->
-                            <div class="card hover-shadow w-100">
-                            <a href="/admin/site-manage" class="text-reset text-decoration-none">
-                                <div class="card-body text-center">
-                                    <h1 class="display-4 my-4"><i class="far fa-window-maximize"></i></h1>
-                                    <h3 class="font-weight-normal my-4">Site Management</h3>
-                                </div>
-                            </div>
                             </a>
                         </div>
                         <div class="col-lg-6 mt-2">
