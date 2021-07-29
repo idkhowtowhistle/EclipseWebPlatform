@@ -6,8 +6,8 @@ var mercury_games =
         $(".place-launcher-success").fadeIn(400);
         window.protocolCheck(
             joinscripturl,
-            function() { mercury_games.install(); },
-            function() { /* do nothing */ },
+            function() { console.log("uri doesnt exist"); mercury_games.install(); },
+            function() { console.log("uri exists"); },
             2500
         );  
     },
