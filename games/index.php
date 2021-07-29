@@ -7,7 +7,10 @@ $uid = SESSION["userId"];
 //games pagination yall!
 $page = $_GET["page"] ?? 1;
 
-$totalgames = db::run("SELECT COUNT(*) FROM games WHERE NOT isDeleted")->fetchColumn();
+$totalgames = db::run(
+	"SELECT COUNT(*) FROM games WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted",
+	[":uid" =< $uid]
+)->fetchColumn();
 
 $pages = ceil($totalgames/12);
 $offset = ($page - 1)*12;
