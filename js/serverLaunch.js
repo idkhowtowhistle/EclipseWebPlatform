@@ -4,7 +4,7 @@ var mercury_games =
     {
         $(".place-launcher").show();
         $(".place-launcher-success").fadeIn(400);
-        customProtocolCheck(
+        window.protocolCheck(
             joinscripturl,
             function() { mercury_games.install(); },
             function() { /* do nothing */ },
