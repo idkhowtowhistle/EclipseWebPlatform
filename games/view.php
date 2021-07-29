@@ -22,7 +22,7 @@
 	<div class="row">
 		<div class="col-sm-8">
 			<div class="card">
-				<div class="card-body"><?= $gameInfo->serverDesc ?></div>
+				<div class="card-body"><?= htmlspecialchars($gameInfo->serverDesc) ?></div>
 			</div>
 			<br>
 			<div class="card">
