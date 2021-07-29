@@ -50,7 +50,7 @@
 			<?php if (true) { //(SESSION["userName"] == "pizzaboxer") { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
-			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="/games/portforwarding">in-depth guide to port forwarding</a>.</p>
+			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="/games/portforwarding">guide to port forwarding</a>.</p>
 			<p class="mb-0">With that out of the way, you should get your server running. There's two ways to host - each panel tells you what exactly they do. We recommend using Autopilot.</p>
 			<div class="row py-4">
 		        <div class="col-sm-3">
