@@ -9,14 +9,14 @@ $page = $_GET["page"] ?? 1;
 
 $totalgames = db::run("SELECT COUNT(*) FROM games WHERE NOT isDeleted")->fetchColumn();
 
-$pages = ceil($totalgames/10);
-$offset = ($page - 1)*10;
+$pages = ceil($totalgames/12);
+$offset = ($page - 1)*12;
 
 $games = db::run(
 	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
 	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount
 	FROM games INNER JOIN users ON users.id = ownerId WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted 
-	ORDER BY playerCount DESC, serverPing DESC LIMIT 10 OFFSET $offset",
+	ORDER BY playerCount DESC, serverPing DESC LIMIT 12 OFFSET $offset",
 	[":serverName" => $serverName, ":uid" => $uid]
 );
 
@@ -83,9 +83,9 @@ pageBuilder::buildHeader();
 							<span class="sr-only">Previous</span>
 						</a>
 					</li>
-					<?php $paginator = 1; while($paginator <= $pages){ ?>
+					<?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
 					<li class="page-item<?=($paginator == $page)?' active':''?>"><a class="page-link" href="/games/?page=<?=$paginator?>"><?=$paginator?></a></li>
-					<?php $paginator++; } ?>
+					<?php } ?>
 					<li class="page-item<?=$page>=$pages?' disabled':''?>">
 						<a class="page-link" <?=$page<$pages?'href="/games?page='.($page+1).'"':''?> aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
