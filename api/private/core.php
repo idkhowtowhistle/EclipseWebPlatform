@@ -26,7 +26,7 @@ require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
 function handle_exception($exception)
 {
-	pageBuilder::errorCode(500);
+	pageBuilder::errorCode(500, $exception->GetMessage());
 }
 
 set_exception_handler("handle_exception");
