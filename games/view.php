@@ -47,7 +47,7 @@
 					</div>
 				</div>
 			</div>
-			<?php } if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
+			<?php if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
 			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="/games/portforwarding">guide to port forwarding</a>.</p>
