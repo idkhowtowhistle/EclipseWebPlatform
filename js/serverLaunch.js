@@ -2,12 +2,17 @@ var mercury_games =
 {
     launch: function (joinscripturl) 
     {
-        $(".place-launcher").show();
-        $(".place-launcher-success").fadeIn(400);
         window.protocolCheck(
             joinscripturl,
-            function() { console.log("uri doesnt exist"); mercury_games.install(); },
-            function() { console.log("uri exists"); },
+            function() 
+            { 
+                console.log("uri doesnt exist"); mercury_games.install(); 
+            },
+            function() 
+            { 
+                $(".place-launcher-success").fadeIn(500);
+                setTimeout(function() { $(".place-launcher-success").fadeOut(500); }, 5000);
+            },
             2500
         );  
     },
@@ -30,9 +35,8 @@ var mercury_games =
             } 
             else 
             {
-                $(".place-launcher").show();
                 $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> " + data.message);
-                $(".place-launcher-error").fadeIn(400);
+                $(".place-launcher-error").fadeIn(500);
             }
         })
     }
