@@ -16,7 +16,7 @@ if(!trim(htmlspecialchars($_POST["serverDesc"]))) api::respond(400, false, "You 
 if(!trim($_POST["serverPort"])|| !is_numeric($_POST["serverPort"])) api::respond(400, false, "You need to give a server port");
 if(strlen($_POST["serverName"]) > "256" || strlen($_POST["serverName"] < "3")) api::respond(400, false, "Server name must be between 3-256 characters");
 if(strlen($_POST["serverDesc"]) > "512" || strlen($_POST["serverDesc"] < "3")) api::respond(400, false, "Server description must be between 3-512 characters");
-if($_POST["sPort"] > 65535 || $_POST["sPort"] < 0){api::respond(400, false, "Your server port is invalid");}
+if($_POST["serverPort"] > 65535 || $_POST["serverPort"] < 0){api::respond(400, false, "Your server port is invalid");}
 if(!filter_var($_POST["serverIp"], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) api::respond(400, false, "Invalid IP address, must be IPV4");
 api::lastAction();
 
