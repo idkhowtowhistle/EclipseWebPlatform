@@ -24,8 +24,8 @@ pageBuilder::buildHeader();
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
         <div class="d-inline">
-            <?= htmlspecialchars($threadInfo->postTitle) ?><br>
-            <small>Posted by <?=$threadInfo->userName?></small>
+            <?= htmlspecialchars($threadInfo->postTitle) ?>
+            <small>Posted by <?=users::getUsernameFromUid($threadInfo->authorId)?></small>
         </div>
         <?php if (SESSION["adminLevel"] > 1) { ?>
             <div class="float-right">
