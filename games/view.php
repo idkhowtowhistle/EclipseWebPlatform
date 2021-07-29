@@ -52,20 +52,20 @@
 			<p>First things first, you'll need to port forward the port you selected for this server. If you don't know how to do that, see our <a href="#">in-depth guide to port forwarding</a>.</p>
 			<p>With that out of the way, there's two ways to get your server actually running.<br>Autopilot handles most of the stuff for you. All you need to do is paste the map location.<br>Manual will require you to open studio, select the map file and run the script yourself.</p>
 			<div class="row py-4">
-		        <div class="col-sm-4">
+		        <div class="col-sm-3">
 		            <div class="list-group" id="list-tab" role="tablist">
 		                <a class="list-group-item list-group-item-action active" id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a>
 		                <a class="list-group-item list-group-item-action" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
 		            </div>
 		        </div>
-		        <div class="col-sm-8">
+		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
 		                	autopilot test
 		                </div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
 		                	<p>Open studio and open your map. Once you've done that, paste this into the command bar:</p>
-		                	<code>loadfile('http://banland.xyz/game/gameserver.ashx?ticket=<?= $gameInfo->serverTicket ?>')()</code>
+		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
 		                </div>
 		            </div>
 		        </div>
