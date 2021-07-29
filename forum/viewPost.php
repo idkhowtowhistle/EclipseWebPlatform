@@ -29,6 +29,7 @@ pageBuilder::buildHeader();
         <?php if (SESSION["adminLevel"] > 1) { ?>
             <div class="float-right">
                 <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"-open":""?>"></i> <?=$threadInfo->locked?"Unl":"L"?>ock Post</button>
+                <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPostr" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"-open":""?>"></i> <?=$threadInfo->locked?"Unl":"L"?>ock Post</button>
             </div>
             <script>
                 $('button[data-control="lockPost"]').on('click', this, function() {
