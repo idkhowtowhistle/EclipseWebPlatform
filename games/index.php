@@ -11,8 +11,8 @@ $page = $_GET["page"] ?? 1;
 
 $totalgames = db::run("SELECT COUNT(*) FROM games WHERE NOT isDeleted");
 
-$pages = ceil($totalgames->fetchColumn()/15);
-$offset = ($page - 1)*15;
+$pages = ceil($totalgames->fetchColumn()/10);
+$offset = ($page - 1)*10;
 
 $games = db::run(
 	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
@@ -77,20 +77,21 @@ $games = db::run(
 				</div>
 			<?php } ?>
 		</div>
+		<?php if($pages > 1) { ?>
 		<div class="d-flex justify-content-center">
-			<nav aria-label="Page navigation example">
+			<nav aria-label="Games pagination">
 				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous">
+					<li class="page-item<?=$page<=1?' disabled':''?>">
+						<a class="page-link" <?=$page>1?'href="/games/?page='.($page-1).'"':''?> aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 							<span class="sr-only">Previous</span>
 						</a>
 					</li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Next">
+					<?php $paginator = 1; while($paginator <= $pages){ ?>
+					<li class="page-item<?=($paginator == $page)?' active':''?>"><a class="page-link" href="/games/?page=<?=$paginator?>"><?=$paginator?></a></li>
+					<?php $paginator++; } ?>
+					<li class="page-item<?=$page>=$pages?' disabled':''?>">
+						<a class="page-link" <?=$page<$pages?'href="/games?page='.($page+1).'"':''?> aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 							<span class="sr-only">Next</span>
 						</a>
@@ -98,6 +99,7 @@ $games = db::run(
 				</ul>
 			</nav>
 		</div>
+		<?php } ?>
 	</div>
 </div>
 <?php pageBuilder::buildFooter(); ?>
