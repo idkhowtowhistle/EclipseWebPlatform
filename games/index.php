@@ -9,7 +9,7 @@ $page = $_GET["page"] ?? 1;
 
 $totalgames = db::run(
 	"SELECT COUNT(*) FROM games WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted",
-	[":uid" => $uid]
+	[":serverName" => $serverName, ":uid" => $uid]
 )->fetchColumn();
 
 $pages = ceil($totalgames/12);
