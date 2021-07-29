@@ -3,6 +3,7 @@ require $_SERVER['DOCUMENT_ROOT']."/api/private/core.php";
 header("content-type: text/plain; charset=utf-8");
 
 $ticket = $_GET["ticket"] ?? false;
+$mapLocation = $_GET["autopilot"] ?? false;
 $gameInfo = games::getGameInfoFromTicket($ticket);
 
 if($gameInfo)
@@ -21,6 +22,9 @@ else
 	$baseUrl = "...";
 	$port = 53640;
 }
+
+if($mapLocation && substr($mapLocation, -5) != ".rbxl") $mapLocation = false;
+if($mapLocation != false) $mapLocation = "rbxasset://" . $mapLocation; 
 
 ob_start();
 ?>
@@ -207,6 +211,11 @@ if placeId~=nil and url~=nil then
 	
 	-- load the game
 	game:Load(url .. "/asset/?id=" .. placeId)
+end
+
+if <?=$mapLocation ? "true" : "false"?> then
+	-- load the game
+	game:Load("<?=$mapLocation?>")
 end
 
 -- Now start the connection
