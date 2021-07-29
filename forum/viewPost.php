@@ -23,11 +23,11 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-        <div class="d-inline">
+        <div class="align-middle">
             <?= htmlspecialchars($threadInfo->postTitle) ?>
         </div>
         <?php if (SESSION["adminLevel"] > 1) { ?>
-            <div class="d-inline float-right">
+            <div class="float-right">
                 <button type="button" data-locked="<?=$threadInfo->locked?"true":"false"?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?=$threadInfo->locked?"-open":""?>"></i> <?=$threadInfo->locked?"Unl":"L"?>ock Post</button>
             </div>
             <script>
