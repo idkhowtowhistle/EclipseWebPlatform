@@ -214,6 +214,9 @@ if placeId~=nil and url~=nil then
 end
 
 if <?=$mapLocation ? "true" : "false"?> then
+	-- yield so that file load happens in the heartbeat thread
+	wait()
+
 	-- load the game
 	game:Load("<?=$mapLocation?>")
 end
