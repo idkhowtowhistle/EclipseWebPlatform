@@ -24,7 +24,7 @@ $games = db::run(
 	<div class="col-lg-3 px-2 mt-3">
 		<div class="card">
 			<div class="card-body">
-				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?=SITE_CONFIG["site"]["name"]?> 2013." class="btn btn-block btn-success">Download Client</a>
+				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?= SITE_CONFIG["site"]["name"] ?> 2013." class="btn btn-block btn-success">Download Client</a>
 				<a href="/games/new" type="button" data-toggle="tooltip" data-placement="top" title="It's easy to get started!" class="btn btn-block btn-info">Host Server <span class="badge badge-pill badge-warning">alpha</span></a>
 				<small><a href="/help/hosting">Hosting help</a></small>
 			</div>
@@ -39,34 +39,53 @@ $games = db::run(
 					<a type="button" href="/games" class="btn btn-danger d-inline ml-2 px-4"><i class="fas fa-redo-alt"></i></a>
 				</form>
 			</div>
-		<?php if ($games->rowCount()) { ?>
-			<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
-				<div class="col-md-4 px-2 pb-3">
-					<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
-					</a>
-					<div class="card hover-shadow">
-						<a href="/games/view?id=<?=$game->id?>" class="text-reset text-decoration-none">
+			<?php if ($games->rowCount()) { ?>
+				<?php while ($game = $games->fetch(PDO::FETCH_OBJ)) { ?>
+					<div class="col-md-4 px-2 pb-3">
+						<a href="/games/view?id=<?= $game->id ?>" class="text-reset text-decoration-none">
 						</a>
-						<div class="card-body">
-							</span><a href="/games/view?id=<?=$game->id?><?=$game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : ""?>" class="text-reset text-decoration-none">
-								<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?=htmlspecialchars($game->serverName)?></h5>
-							</a></span>
-							<hr>
-							<span><small>By: <a href="/user?id=<?=$game->ownerId?>"><?=$game->username?></a></small></span>
-							<br>
-							<span><small>Status: <span class="badge badge-<?=$game->serverOnline?"success":"danger"?>"><?=$game->serverOnline?"Active":"Offline"?></span></small></span>
-							<br>
-							<span><small>Playing: <?=(int)$game->playerCount?>/<?=$game->serverSize?></small></span>
+						<div class="card hover-shadow">
+							<a href="/games/view?id=<?= $game->id ?>" class="text-reset text-decoration-none">
+							</a>
+							<div class="card-body">
+								</span><a href="/games/view?id=<?= $game->id ?><?= $game->ownerId === SESSION["userId"] && $game->isPrivate ? "&privateKey=$game->privateKey" : "" ?>" class="text-reset text-decoration-none">
+									<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($game->serverName) ?></h5>
+								</a></span>
+								<hr>
+								<span><small>By: <a href="/user?id=<?= $game->ownerId ?>"><?= $game->username ?></a></small></span>
+								<br>
+								<span><small>Status: <span class="badge badge-<?= $game->serverOnline ? "success" : "danger" ?>"><?= $game->serverOnline ? "Active" : "Offline" ?></span></small></span>
+								<br>
+								<span><small>Playing: <?= (int)$game->playerCount ?>/<?= $game->serverSize ?></small></span>
+							</div>
 						</div>
 					</div>
+				<?php } ?>
+			<?php } else { ?>
+				<div class="container text-center">
+					<p>Could not find any results <a class="btn btn-danger btn-sm" href="/games">Reset search</a></p>
 				</div>
 			<?php } ?>
-		<?php } else { ?>
-			<div class="container text-center">
-				<p>Could not find any results <a class="btn btn-danger btn-sm" href="/games">Reset search</a></p>
-			</div>
-		<?php } ?>
 		</div>
 	</div>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+					<span class="sr-only">Previous</span>
+				</a>
+			</li>
+			<li class="page-item"><a class="page-link" href="#">1</a></li>
+			<li class="page-item"><a class="page-link" href="#">2</a></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+					<span class="sr-only">Next</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
 </div>
 <?php pageBuilder::buildFooter(); ?>
