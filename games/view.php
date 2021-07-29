@@ -10,9 +10,10 @@
 	if ($gameInfo->isPrivate && $privateKey !== $gameInfo->privateKey) pageBuilder::errorCode(404);
 	
 	$players = games::getPlayersInServer($gameInfo->id);
+	$hostScriptUrl = "http://banland.xyz/Game/Gameserver.ashx?ticket=".$gameInfo->serverTicket;
 	
 	pageBuilder::buildHeader();
-	?>
+?>
 <div class="alert alert-danger" role="alert">Make sure you have read the <a href="/games/help">guide</a> before joining and hosting games.</div>
 <?php if (SESSION["gameban"]) { ?>
 <div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
@@ -61,17 +62,26 @@
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	<p class="mb-0">Place your maps in the client's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code></p>
+		                	<p>Place your maps in the client's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code></p>
 		                	<div class="input-group mb-3">
 								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
-									<button class="btn btn-outline-success" type="button">Start Server</button>
+									<div class="btn-group">
+										<button type="button" class="btn btn-success" onclick="mercury_games.launch('mercury-player:1+launchmode:ide+script:<?=$hostScriptUrl?>')">Start Server</button>
+										<button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="sr-only">Toggle Dropdown</span>
+										</button>
+										<div class="dropdown-menu dropdown-menu-right">
+											<!--a class="dropdown-item" href="#">Start Server (No Graphics Rendering)</a-->
+											<a class="dropdown-item" href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:build+script:<?=$hostScriptUrl?>')">Start Server (No Studio Tools)</a>
+										</div>
+									</div>
 								</div>
 							</div>             
 						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
-		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
+		                	<code>loadfile('<?=$hostScriptUrl?>')()</code>
 		                </div>
 		            </div>
 		        </div>
