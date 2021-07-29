@@ -49,8 +49,8 @@
 			<?php if (SESSION["userName"] == "pizzaboxer") { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
-			<p>First things first, you'll need to port forward the port you selected for this server. If you don't know how to do that, see our <a href="#">in-depth guide to port forwarding</a>.</p>
-			<p>With that out of the way, there's two ways to get your server actually running.<br>Autopilot handles most of the stuff for you. All you need to do is paste the map location.<br>Manual will require you to open studio, select the map file and run the script yourself.</p>
+			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
+			<p class="mb-0">With that out of the way, there's two ways to get your server actually running.<br>Autopilot handles most of the stuff for you.y<br>Manual requires you to open studio, select the map file and run the script yourself.</p>
 			<div class="row py-4">
 		        <div class="col-sm-3">
 		            <div class="list-group" id="list-tab" role="tablist">
@@ -61,10 +61,14 @@
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	autopilot test
-		                </div>
+		                	<p class="mb-0">All you'll need to do is </p>
+		                	<div class="d-flex">
+								<input placeholder="C:\Users\Administrator\coolmap.rbxl" class=" filepathform-control w-100" type="text">
+								<button type="submit" class="btn btn-primary d-inline ml-2 px-4">Start Server</button>
+							</form>		                
+						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
-		                	<p>Open studio and open your map. Once you've done that, paste this into the command bar:</p>
+		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
 		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
 		                </div>
 		            </div>
