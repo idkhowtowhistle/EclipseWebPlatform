@@ -25,8 +25,9 @@ pageBuilder::buildHeader();
     <div class="card-header rounded-0 text-white bg-secondary">
             <p class="d-inline">
                 <?= htmlspecialchars($threadInfo->postTitle) ?>
+                <br>
+                <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
             </p>
-            <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
         <?php if (SESSION["adminLevel"] > 1) { ?>
             <div class="float-right">
                 <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
@@ -35,7 +36,7 @@ pageBuilder::buildHeader();
             <script>
                 $('button[data-control="lockPost"]').on('click', this, function() {
                     var button = this;
-                    $(button).attr("disabled", "disabled").find("span").show();
+                    $(button).attr("disabled", "disabled");
                     $.post('/api/forum/lockPost', {
                         "postId": "<?= $threadId ?>",
                         "locked": $(this).attr("data-locked")
@@ -45,7 +46,7 @@ pageBuilder::buildHeader();
                         } else {
                             toastr["error"](data.message);
                         }
-                        $(button).removeAttr("disabled").find("span").hide();
+                        $(button).removeAttr("disabled");
                     });
                 });
             </script>
