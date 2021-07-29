@@ -51,7 +51,7 @@
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
 			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
-			<p class="mb-0">With that out of the way, there's two ways to get your server actually running. Each selection has some info.</p>
+			<p class="mb-0">With that out of the way, you should get your server running! There's two ways to host - each panel tells you what exactly they do. We recommend using Autopilot.</p>
 			<div class="row py-4">
 		        <div class="col-sm-3">
 		            <div class="list-group" id="list-tab" role="tablist">
@@ -62,6 +62,7 @@
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
+		                	<p>Autopilot handles most of the initial studio stuff for you. All you need to do is type in a map that's in the map folder, and start the server.</p>
 		                	<p>Place your maps in <a href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:maps')">Mercury Studio's maps folder</a>. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code>.</p>
 		                	<div class="input-group mb-3">
 								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
@@ -80,6 +81,7 @@
 							</div>             
 						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+		                	<p>Manual is the standard way of self hosting that you've probably seen before. We prefer using <a id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a> if you want a quicker and easier way of hosting.</p>
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
 		                	<code>loadfile('<?=$hostScriptUrl?>')()</code>
 		                </div>
