@@ -62,10 +62,12 @@
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
 		                	<p class="mb-0">All you'll need to do is </p>
-		                	<div class="d-flex">
-								<input placeholder="C:\Users\Administrator\coolmap.rbxl" class=" filepathform-control w-100" type="text">
-								<button type="submit" class="btn btn-primary d-inline ml-2 px-4">Start Server</button>
-							</div>	                
+		                	<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="C:\Users\Administrator\CoolMap.rbxl">
+								<div class="input-group-append">
+									<button class="btn btn-outline-success" type="button">Start Server</button>
+								</div>
+							</div>             
 						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
