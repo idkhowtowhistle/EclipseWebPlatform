@@ -47,7 +47,7 @@
 					</div>
 				</div>
 			</div>
-			<?php if (true) { //(SESSION["userName"] == "pizzaboxer") { ?>
+			<?php } if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
 			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="/games/portforwarding">guide to port forwarding</a>.</p>
@@ -84,36 +84,6 @@
 		                	<p>Manual is the standard way of self hosting that you've probably seen before. We prefer using Autopilot if you want a quicker and easier way of hosting.</p>
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
 		                	<code>loadfile('<?=$hostScriptUrl?>')()</code>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-			<?php } else if (SESSION["userId"] === $gameInfo->ownerId || SESSION["adminLevel"] > 2) { ?>
-			<hr>
-			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
-			<p class="mb-0">First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
-			<!--p class="mb-0">With that out of the way, there's two ways to get your server actually running. If you want to know more about these, we have an <a href="#">info page</a> all about that.</p-->
-			<div class="row py-4">
-		        <div class="col-sm-3">
-		            <div class="list-group mb-3" id="list-tab" role="tablist">
-		                <!--a class="list-group-item list-group-item-action active" id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a-->
-		                <a class="list-group-item list-group-item-action active" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
-		            </div>
-		        </div>
-		        <div class="col-sm-9">
-		            <div class="tab-content" id="nav-tabContent">
-		                <div class="tab-pane fade" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	<p class="mb-0">Place your maps in the <code>content\maps\</code> folder of the client folder. For example, <code>Baseplate.rbxl</code> is located at <code>content\maps\Baseplate.rbxl</code></p>
-		                	<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="Baseplate.rbxl">
-								<div class="input-group-append">
-									<button class="btn btn-outline-success" type="button">Start Server</button>
-								</div>
-							</div>             
-						</div>
-		                <div class="tab-pane fade active show " id="manual" role="tabpanel" aria-labelledby="manual-tab">
-		                	<p class="mb-0">Open studio and open your map. Once it's open, paste this into the command bar:</p>
-		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
 		                </div>
 		            </div>
 		        </div>
