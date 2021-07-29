@@ -68,13 +68,13 @@
 								<input type="text" class="filepath form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
 									<div class="btn-group">
-										<button type="button" class="btn btn-success" onclick="mercury_games.launch('mercury-player:1+launchmode:ide+script:<?=$hostScriptUrl?>&autopilot=' + encodeURI($('.filepath').val()))">Start Server</button>
+										<button type="button" class="btn btn-success" onclick="mercury_games.launch('mercury-player:1+launchmode:ide+script:<?=$hostScriptUrl?>&autopilot=' + encodeURI(encodeURI($('.filepath').val())))">Start Server</button>
 										<button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="sr-only">Toggle Dropdown</span>
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
 											<!--a class="dropdown-item" href="#">Start Server (No Graphics Rendering)</a-->
-											<a class="dropdown-item" href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:build+script:<?=$hostScriptUrl?>&autopilot=' + encodeURI($('.filepath').val()))">Start Server (No Studio Tools)</a>
+											<a class="dropdown-item" href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:build+script:<?=$hostScriptUrl?>&autopilot=' + encodeURI(encodeURI($('.filepath').val())))">Start Server (No Studio Tools)</a>
 										</div>
 									</div>
 								</div>
