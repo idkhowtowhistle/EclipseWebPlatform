@@ -55,12 +55,12 @@
 		        <div class="col-sm-3">
 		            <div class="list-group" id="list-tab" role="tablist">
 		                <a class="list-group-item list-group-item-action active" id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a>
-		                <a class="list-group-item list-group-item-action active" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
+		                <a class="list-group-item list-group-item-action" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
 		            </div>
 		        </div>
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
-		                <div class="tab-pane fade" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
+		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
 		                	<p class="mb-0">Place your maps in the client's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>maps/CoolMap.rbxl</code></p>
 		                	<div class="input-group mb-3">
 								<input type="text" class="form-control" placeholder="CoolMap.rbxl">
@@ -69,7 +69,7 @@
 								</div>
 							</div>             
 						</div>
-		                <div class="tab-pane fade active show " id="manual" role="tabpanel" aria-labelledby="manual-tab">
+		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
 		                	<code>loadfile('http://banland.xyz/Game/Gameserver.ashx?ticket=<?=$gameInfo->serverTicket?>')()</code>
 		                </div>
