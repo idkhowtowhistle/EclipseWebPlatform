@@ -23,7 +23,12 @@ else
 	$port = 53640;
 }
 
-if($mapLocation && substr($mapLocation, -5) != ".rbxl") $mapLocation = false;
+if($mapLocation)
+{
+	$mapLocation = base64_decode($mapLocation);
+	if(substr($mapLocation, -5) != ".rbxl") $mapLocation = false;
+}
+
 if($mapLocation != false) $mapLocation = "rbxasset://maps/" . $mapLocation; 
 
 ob_start();
