@@ -23,7 +23,7 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-            <p class="d-inline">
+            <p class="min-vh-100">
                 <?= htmlspecialchars($threadInfo->postTitle) ?>
                 <br>
                 <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
