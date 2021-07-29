@@ -50,7 +50,7 @@
 			<?php if (true) { //(SESSION["userName"] == "pizzaboxer") { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
-			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
+			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="/games/portforwarding">in-depth guide to port forwarding</a>.</p>
 			<p class="mb-0">With that out of the way, you should get your server running. There's two ways to host - each panel tells you what exactly they do. We recommend using Autopilot.</p>
 			<div class="row py-4">
 		        <div class="col-sm-3">
@@ -81,7 +81,7 @@
 							</div>             
 						</div>
 		                <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
-		                	<p>Manual is the standard way of self hosting that you've probably seen before. We prefer using <a id="autopilot-tab" data-toggle="tab" href="#autopilot" role="tab" aria-controls="autopilot" aria-selected="true">Autopilot</a> if you want a quicker and easier way of hosting.</p>
+		                	<p>Manual is the standard way of self hosting that you've probably seen before. We prefer using Autopilot if you want a quicker and easier way of hosting.</p>
 		                	<p class="mb-0">Open studio and open your map. Once you've done that, paste this into the command bar:</p>
 		                	<code>loadfile('<?=$hostScriptUrl?>')()</code>
 		                </div>
