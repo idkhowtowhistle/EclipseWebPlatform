@@ -76,7 +76,7 @@
 		            </div>
 		        </div>
 		    </div>
-			<?php } else  ?>
+			<?php } else { ?>
 			<hr>
 			<h4 class="font-weight-normal">Now it's time to start hosting!</h4>
 			<p>First things first, you'll need to port forward the port you selected for this server. If you're not sure how, see our <a href="#">in-depth guide to port forwarding</a>.</p>
