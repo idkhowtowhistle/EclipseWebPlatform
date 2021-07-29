@@ -1,7 +1,6 @@
 <?php 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
-pageBuilder::buildHeader();
 
 $newsInfo = news::getNewsInfo(1);
 //mkdown
@@ -10,6 +9,10 @@ $markdown->setMarkupEscaped(true);
 $markdown->setBreaksEnabled(true);
 $markdown->setSafeMode(true);
 $markdown->setUrlsLinked(true);
+
+if (SESSION["userName"] == "pizzaboxer") throw new Exception("lol");
+
+pageBuilder::buildHeader();
 ?>
 <style>
    .merc {

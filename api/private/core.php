@@ -1,11 +1,13 @@
 <?php
-
 if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && strpos($_SERVER["DOCUMENT_URI"], "/rbxclient/") === false) 
 {
 	header('HTTP/1.1 301 Moved Permanently');
     header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     exit;
 }
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') foreach($_POST as $key => $val){ $_POST[$key] = trim($val); }
+foreach($_GET as $key => $val){ $_GET[$key] = trim($val); }
 
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/config.php';
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/vendors/Parsedown.php'; 
@@ -19,10 +21,15 @@ catch(PDOException $e)
 {
 	die("Connection to ".SITE_CONFIG["site"]["name"]." terminated: Database connection to '".SITE_CONFIG["database"]["schema"]."' at ".SITE_CONFIG["database"]["host"]." failed: ".$e->getMessage());
 }
+
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') foreach($_POST as $key => $val){ $_POST[$key] = trim($val); }
-foreach($_GET as $key => $val){ $_GET[$key] = trim($val); }
+function handle_exception($exception)
+{
+	pageBuilder::errorCode(500);
+}
+
+set_exception_handler("handle_exception");
  
 // functions that arent strictly specifically for polygon and moreof to just 
 // extend basic php functionality like string manipulation or some small 
