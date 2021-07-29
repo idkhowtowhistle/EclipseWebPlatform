@@ -24,7 +24,7 @@ else
 }
 
 if($mapLocation && substr($mapLocation, -5) != ".rbxl") $mapLocation = false;
-if($mapLocation != false) $mapLocation = "rbxasset://" . $mapLocation; 
+if($mapLocation != false) $mapLocation = "rbxasset://maps/" . $mapLocation; 
 
 ob_start();
 ?>
