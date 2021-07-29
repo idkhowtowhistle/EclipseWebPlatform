@@ -26,7 +26,9 @@ require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
 function handle_exception($exception)
 {
-	pageBuilder::errorCode(500, $exception->GetMessage());
+	// TODO: create a database entry rather than just base64 encoding the error
+	$errorID = str_replace("=", "", base64_encode($exception->GetMessage()))
+	pageBuilder::errorCode(500, $errorID);
 }
 
 set_exception_handler("handle_exception");
