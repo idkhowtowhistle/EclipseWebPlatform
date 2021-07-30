@@ -31,7 +31,7 @@ function getError($field)
 	return '<div class="invalid-feedback d-block">'.$errors[$field].'</div>';
 }
 
-if($_SERVER['REQUEST_METHOD'] == "POST" && !$maxAccounts)
+if($_SERVER['REQUEST_METHOD'] == "POST")
 {
 	$username = $_POST['username'] ?? false;
 	$captcha = $_POST["g-recaptcha-response"] ?? false;
