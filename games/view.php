@@ -135,7 +135,7 @@
 			<?php if ($players->rowCount()) { ?>
 			<div class="row">
 				<div class="col-1 divider-right">
-					<p>Playing: <?=games::getPlayerCountInServer($gameInfo->id)?>/<?=$gameInfo->serverSize?></p>
+					<p>Playing: <?=$players->rowCount()?>/<?=$gameInfo->serverSize?></p>
 				</div>
 				<?php while ($player = $players->fetch(PDO::FETCH_OBJ)) { ?>
 				<div class="col-1">

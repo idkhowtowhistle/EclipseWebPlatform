@@ -17,7 +17,7 @@ $offset = ($page - 1)*12;
 
 $games = db::run(
 	"SELECT games.*, users.username, (serverPing+35 > UNIX_TIMESTAMP()) AS serverOnline,
-	(SELECT COUNT(*) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount
+	(SELECT COUNT(DISTINCT userId) FROM game_sessions WHERE serverId = games.id AND valid AND ping+35 > UNIX_TIMESTAMP()) AS playerCount
 	FROM games INNER JOIN users ON users.id = ownerId WHERE serverName LIKE :serverName AND (NOT isPrivate OR ownerId = :uid) AND NOT isDeleted 
 	ORDER BY playerCount DESC, serverPing DESC LIMIT 12 OFFSET $offset",
 	[":serverName" => $serverName, ":uid" => $uid]
