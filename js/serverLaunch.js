@@ -24,21 +24,22 @@ var mercury_games =
 
     join_server: function (serverId, privateLink) 
     {
-        $.post("/api/games/launchGame", {
-            "serverId": serverId,
-            "privateLink": privateLink
-        }, function (data) 
-        {
-            if (data.success) 
+        $.get(
+            "/rbxclient/game/placelauncher", 
+            {"request": "RequestGame","placeId": serverId, "privateLink": privateLink}, 
+            function(data) 
             {
-                mercury_games.launch("mercury-player:1+launchmode:play+joinscripturl:" + encodeURIComponent(data.joinscripturl) + "+gameinfo:1")
-            } 
-            else 
-            {
-                $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> " + data.message);
-                $(".place-launcher-error").fadeIn(500);
+                if (data.status == 2) 
+                {
+                    mercury_games.launch("mercury-player:1+launchmode:play+joinscripturl:" + encodeURIComponent(data.joinScriptUrl) + "+gameinfo:" + data.authenticationTicket)
+                } 
+                else 
+                {
+                    $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> " + data.message);
+                    $(".place-launcher-error").fadeIn(500);
+                }
             }
-        })
+        )
     }
 }
 
