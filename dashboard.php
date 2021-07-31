@@ -57,14 +57,16 @@ function testApp()
          <?php if(SESSION["adminLevel"] >= 2) { ?>
          <h3 class="font-weight-normal">App Debug</h3>
          <div class="card shadow-sm">
-            <div class="card-body" style="white-space: pre-line">
+            <div class="card-body">
                <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"] ?? "N/A"?></code></p>
                <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"] ?? "N/A"?></code></p>
-               <button class="btn btn-success" onclick="alert(1)">Launch Game Test</button>
+               <button class="btn btn-success" onclick="testApp()">Launch Game Test</button>
                <h5 class="text-uppercase text-muted mt-2">Debug Log</h5>
-               <pre class="debug-log">
-                  
-               </pre>
+               <div style="white-space: pre-line">
+                  <pre class="debug-log">
+                     
+                  </pre>
+               </div>
             </div>
          </div>
          <br>
