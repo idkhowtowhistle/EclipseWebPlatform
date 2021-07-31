@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   $userInfo = users::getUserInfoFromUserName($username);
 
   if(!$username || !$password) die("MissingRequiredField");
-  if(!$userInfo) die("InvalidUsername")
+  if(!$userInfo) die("InvalidUsername");
   if(!password_verify($password.SITE_CONFIG["site"]["pwsalt"], $userInfo->password)) die("InvalidPassword");
 
   session::create($userInfo->id);
