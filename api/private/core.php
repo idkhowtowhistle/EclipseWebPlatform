@@ -362,8 +362,8 @@ class forum
 		return db::run(
 		    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
 		    INNER JOIN users ON users.id = subforum_replies.authorId
-		    WHERE replyTo = :threadId ORDER BY datePosted ASC OFFSET :offset", 
-		    [":threadId" => $threadId, ":offset" => $offset]
+		    WHERE replyTo = :threadId ORDER BY datePosted ASC OFFSET $offset", 
+		    [":threadId" => $threadId]
 		);
 	}
 
