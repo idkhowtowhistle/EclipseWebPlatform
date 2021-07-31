@@ -17,7 +17,8 @@ $polygonUidMap =
 	97 => 26, // heree
 	90 => 91, // cole
 	91 => 95, // hitius
-	55 => 82 // carrot
+	55 => 82, // carrot
+	164 => 71 //chadwarden
 ];
 
 header("Pragma: no-cache");
