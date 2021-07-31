@@ -369,10 +369,12 @@ class forum
 
 	static function getTotalThreadReplies($threadId)
 	{
-		return db::run(
+		$query = db::run(
 			"SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :threadId AND NOT deleted",
 			[":threadId" => $threadId]
 		);
+
+		return (int)$query->fetchColum();
 	}
 
 	static function getReplyCount($subId)
