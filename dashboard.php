@@ -55,27 +55,6 @@ pageBuilder::buildHeader();
             log("Properties of window.external: " + JSON.stringify(window.external));
             log("Properties of ActiveX plugin object: " + JSON.stringify(document.getElementById('robloxactivexpluginobj')));
             log("Properties of NPAPI plugin object: " + JSON.stringify(document.getElementById('robloxnpapipluginobj')));
-
-            log("")
-            log("Trying window.external launch");
-            try
-            {
-               window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
-            }
-            catch (e) 
-            {
-               log("window.external launch failed");
-            }
-
-            log("Trying playFromUrl launch");
-            try
-            {
-               parent.playFromUrl("http://banland.xyz/Game/Visit.ashx");
-            }
-            catch (e)
-            {
-               log("playFromUrl launch failed");
-            }
          }
          </script>
          <h3 class="font-weight-normal">App Debug</h3>
