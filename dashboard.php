@@ -12,6 +12,25 @@ $markdown->setUrlsLinked(true);
 
 pageBuilder::buildHeader();
 ?>
+<script> 
+function log(msg)
+{
+   $(".debug-log").text($(".debug-log").text() + msg "\n");
+}
+
+function testApp()
+{
+   log("Trying window.external launch");
+   try
+   {
+      window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
+   }
+   catch (e) 
+   {
+      log("window.external launch failed");
+   }
+}
+</script>
 <style>
    .merc {
    font-family: "wf_SegoeUILight","wf_SegoeUI","Segoe UI Light","Segoe WP Light","Segoe UI","Segoe","Segoe WP","Tahoma","Verdana","Arial","sans-serif";
@@ -38,10 +57,14 @@ pageBuilder::buildHeader();
          <?php if(SESSION["adminLevel"] >= 2) { ?>
          <h3 class="font-weight-normal">App Debug</h3>
          <div class="card shadow-sm">
-            <div class="card-body">
+            <div class="card-body" style="white-space: pre-line">
                <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"] ?? "N/A"?></code></p>
                <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"] ?? "N/A"?></code></p>
                <button class="btn btn-success" onclick="alert(1)">Launch Game Test</button>
+               <h5 class="text-uppercase text-muted mt-2">Debug Log</h5>
+               <pre class="debug-log">
+                  
+               </pre>
             </div>
          </div>
          <br>

@@ -123,7 +123,7 @@ class api
 	static function lastAction()
 	{
 		global $pdo;
-		if(!SESSION || !SESSION["adminLevel"]){ return false; }
+		if(!SESSION || SESSION["adminLevel"] <= 1){ return false; }
 		$userid = SESSION["userId"];
 		$query = $pdo->prepare("SELECT lastaction FROM users WHERE id = :uid AND lastaction + 20 > UNIX_TIMESTAMP()");
 		$query->bindParam(":uid", $userid, PDO::PARAM_INT);
