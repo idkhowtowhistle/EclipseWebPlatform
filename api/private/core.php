@@ -1,5 +1,5 @@
 <?php
-if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && strpos($_SERVER["DOCUMENT_URI"], "/rbxclient/") === false) 
+if (false)//if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && strpos($_SERVER["DOCUMENT_URI"], "/rbxclient/") === false) 
 {
 	header('HTTP/1.1 301 Moved Permanently');
     header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
