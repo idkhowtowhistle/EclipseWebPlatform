@@ -357,12 +357,12 @@ class forum
 		)->fetch(PDO::FETCH_OBJ);
 	}
 
-	static function getThreadReplies($threadId, $offset) 
+	static function getThreadReplies($threadId) 
 	{
 		return db::run(
 		    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
 		    INNER JOIN users ON users.id = subforum_replies.authorId
-		    WHERE replyTo = :threadId ORDER BY datePosted ASC OFFSET $offset", 
+		    WHERE replyTo = :threadId ORDER BY datePosted ASC", 
 		    [":threadId" => $threadId]
 		);
 	}

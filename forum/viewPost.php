@@ -6,14 +6,7 @@ $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$page = $_GET["page"] ?? 1;
-
-$totalreplies = forum::getTotalThreadReplies($threadId);
-
-$pages = ceil($totalreplies / 10);
-$offset = ($page - 1) * 10;
-
-$replies = forum::getThreadReplies($threadId, $offset);
+$replies = forum::getThreadReplies($threadId);
 
 pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
@@ -97,32 +90,7 @@ pageBuilder::buildHeader();
         </div>
     </div>
 <?php } ?>
-<div class="row">
-    <div class="col-6">
-        <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
-            <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
-        <?php } ?>
-    </div>
-    <div class="col-6 mt-2">
-        <nav aria-label="Forum replies pagination">
-            <ul class="pagination">
-                <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                    <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
-                    <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?page=<?= $paginator ?>"><?= $paginator ?></a></li>
-                <?php } ?>
-                <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                    <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+    <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
+<?php } ?>
 <?php pageBuilder::buildFooter(); ?>
