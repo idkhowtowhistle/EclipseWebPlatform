@@ -45,9 +45,12 @@ pageBuilder::buildHeader();
     </tbody>
 </table>
 <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
-    <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+    <div class="d-inline">
+        <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+    </div>
 <?php } ?>
-<nav aria-label="Forum thread pagination">
+<div class="d-inline">
+    <nav aria-label="Forum thread pagination">
         <ul class="pagination justify-content-end">
             <li class="page-item">
                 <a class="page-link" href="#" aria-label="Previous">
@@ -64,4 +67,5 @@ pageBuilder::buildHeader();
             </li>
         </ul>
     </nav>
+</div>
 <?php pageBuilder::buildFooter(); ?>
