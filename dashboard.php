@@ -50,11 +50,28 @@ pageBuilder::buildHeader();
                $(".debug-log").text($(".debug-log").text() + msg + "\n");
          }
 
+         function objectToString(object)
+         {
+         	return JSON.stringify(object, function(key, val) { return (typeof val === 'function') ? '' + val : val; });
+         }
+
          function testApp()
          {
-            log("Properties of window.external: " + JSON.stringify(window.external));
-            log("Properties of ActiveX plugin object: " + JSON.stringify(document.getElementById('robloxactivexpluginobj')));
-            log("Properties of NPAPI plugin object: " + JSON.stringify(document.getElementById('robloxnpapipluginobj')));
+            log("Properties of window.external: " + objectToString(window.external));
+            log("Properties of ActiveX plugin object: " + objectToString(document.getElementById('robloxactivexpluginobj')));
+            log("Properties of NPAPI plugin object: " + objectToString(document.getElementById('robloxnpapipluginobj')));
+
+            log("")
+            log("Trying window.external launch");
+            try
+            {
+               window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
+            }
+            catch (e) 
+            {
+               log("window.external launch failed");
+            }
+
          }
          </script>
          <h3 class="font-weight-normal">App Debug</h3>
