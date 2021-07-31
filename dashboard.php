@@ -12,25 +12,6 @@ $markdown->setUrlsLinked(true);
 
 pageBuilder::buildHeader();
 ?>
-<script> 
-function log(msg)
-{
-   $(".debug-log").text($(".debug-log").text() + msg "\n");
-}
-
-function testApp()
-{
-   log("Trying window.external launch");
-   try
-   {
-      window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
-   }
-   catch (e) 
-   {
-      log("window.external launch failed");
-   }
-}
-</script>
 <style>
    .merc {
    font-family: "wf_SegoeUILight","wf_SegoeUI","Segoe UI Light","Segoe WP Light","Segoe UI","Segoe","Segoe WP","Tahoma","Verdana","Arial","sans-serif";
@@ -142,4 +123,23 @@ function testApp()
          </div>
    </div>
 </div>
+<script> 
+function log(msg)
+{
+   $(".debug-log").text($(".debug-log").text() + msg + "\n");
+}
+
+function testApp()
+{
+   log("Trying window.external launch");
+   try
+   {
+      window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
+   }
+   catch (e) 
+   {
+      log("window.external launch failed");
+   }
+}
+</script>
 <?php pageBuilder::buildFooter(); ?>
