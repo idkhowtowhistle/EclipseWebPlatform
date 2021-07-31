@@ -45,7 +45,7 @@ pageBuilder::buildHeader();
     </tbody>
 </table>
 <div class="row mb-1">
-    <div class="col-4">
+    <div class="col-6">
     <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
         <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
     <?php } ?>
