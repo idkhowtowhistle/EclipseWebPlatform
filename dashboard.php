@@ -36,6 +36,29 @@ pageBuilder::buildHeader();
       </div>
       <div class="col-sm-9">
          <?php if(SESSION["adminLevel"] >= 2) { ?>
+         <script> 
+         function log(msg)
+         {
+            var test = "a";
+            if($(".debug-log").text().length == 0)
+               $(".debug-log").text(msg + "\n");
+            else
+               $(".debug-log").text($(".debug-log").text() + msg + "\n");
+         }
+
+         function testApp()
+         {
+            log("Trying window.external launch");
+            try
+            {
+               window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
+            }
+            catch (e) 
+            {
+               log("window.external launch failed");
+            }
+         }
+         </script>
          <h3 class="font-weight-normal">App Debug</h3>
          <div class="card shadow-sm">
             <div class="card-body">
@@ -43,11 +66,7 @@ pageBuilder::buildHeader();
                <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"] ?? "N/A"?></code></p>
                <button class="btn btn-success" onclick="testApp()">Launch Game Test</button>
                <h5 class="text-uppercase text-muted mt-2">Debug Log</h5>
-               <div style="white-space: pre-line">
-                  <pre class="debug-log">
-                     
-                  </pre>
-               </div>
+               <pre class="debug-log"></pre>
             </div>
          </div>
          <br>
@@ -123,23 +142,4 @@ pageBuilder::buildHeader();
          </div>
    </div>
 </div>
-<script> 
-function log(msg)
-{
-   $(".debug-log").text($(".debug-log").text() + msg + "\n");
-}
-
-function testApp()
-{
-   log("Trying window.external launch");
-   try
-   {
-      window.external.StartGame("ticket", "http://banland.xyz/", "http://banland.xyz/Game/Visit.ashx");
-   }
-   catch (e) 
-   {
-      log("window.external launch failed");
-   }
-}
-</script>
 <?php pageBuilder::buildFooter(); ?>
