@@ -39,8 +39,8 @@ pageBuilder::buildHeader();
          <h3 class="font-weight-normal">App Debug</h3>
          <div class="card shadow-sm">
             <div class="card-body">
-               <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"]?></code></p>
-               <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"]?></code></p>
+               <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"] ?? "N/A"?></code></p>
+               <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"] ?? "N/A"?></code></p>
                <button class="btn btn-success" onclick="alert(1)">Launch Game Test</button>
             </div>
          </div>
