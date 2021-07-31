@@ -47,7 +47,7 @@ pageBuilder::buildHeader();
 <script>
     $(document).ready(function() {
         $('#forumThreads').DataTable({
-            "pagingType": "simple_numbers",
+            "pagingType": "numbers",
             "paging": true
         });
     });
