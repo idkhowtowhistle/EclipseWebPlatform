@@ -10,8 +10,6 @@ $markdown->setBreaksEnabled(true);
 $markdown->setSafeMode(true);
 $markdown->setUrlsLinked(true);
 
-if (SESSION["userName"] == "pizzaboxer") var_dump($_SERVER);
-
 pageBuilder::buildHeader();
 ?>
 <style>
@@ -37,6 +35,17 @@ pageBuilder::buildHeader();
          <h1 class="text-center merc"><?=SITE_CONFIG["site"]["name"]?></h1>
       </div>
       <div class="col-sm-9">
+         <?php if(SESSION["adminLevel"] >= 2) { ?>
+         <h3 class="font-weight-normal">App Debug</h3>
+         <div class="card shadow-sm">
+            <div class="card-body">
+               <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"]?></code></p>
+               <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"]?></code></p>
+               <button class="btn btn-success" onclick="alert(1)">Launch Game Test</button>
+            </div>
+         </div>
+         <br>
+         <?php } ?>
          <h3 class="font-weight-normal">Your Wall</h3>
          <div class="card shadow-sm">
             <div class="card-body">
