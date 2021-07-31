@@ -10,8 +10,8 @@ $page = $_GET["page"] ?? 1;
 
 $totalreplies = forum::getTotalThreadReplies($threadId);
 
-$pages = ceil($totalreplies / 12);
-$offset = ($page - 1) * 12;
+$pages = ceil($totalreplies / 10);
+$offset = ($page - 1) * 10;
 
 $replies = forum::getThreadReplies($threadId, $offset);
 
