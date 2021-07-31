@@ -11,9 +11,9 @@ $threads = forum::getSubForumThreads($subForumId);
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
-    <a href="/" class="breadcrumb-item">Mercury</a> 
+    <a href="/" class="breadcrumb-item">Mercury</a>
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
-    <span class="breadcrumb-item active"><?=$subForumInfo->subName?></span>
+    <span class="breadcrumb-item active"><?= $subForumInfo->subName ?></span>
 </nav>
 <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
@@ -29,22 +29,39 @@ pageBuilder::buildHeader();
     </thead>
     <tbody class="bg-white border rounded">
         <?php while ($thread = $threads->fetch(PDO::FETCH_OBJ)) { ?>
-        <tr>
-            <td class="table-4-col-7">
-                <p class="my-0"><?=$thread->locked?'<i class="fas fa-lock text-danger font-weight-bold"></i>':''?> <a href="/forum/viewPost?id=<?=$thread->id?>"><?=htmlspecialchars($thread->postTitle)?></a></p>
-            </td>
-            <td class="table-4-col-3"><?=forum::getReplyCount($thread->id)?></td>
-            <td>
-                <p class="my-0"><a href="/user?id=<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?=$thread->username?></a></p>
-            </td>
-            <td class="table-4-col-2 text-right">
-                <p class="my-0"><?= general::time_elapsed("@" . $thread->bumpIndex, false, true) ?></p>
-            </td>
-        </tr>
+            <tr>
+                <td class="table-4-col-7">
+                    <p class="my-0"><?= $thread->locked ? '<i class="fas fa-lock text-danger font-weight-bold"></i>' : '' ?> <a href="/forum/viewPost?id=<?= $thread->id ?>"><?= htmlspecialchars($thread->postTitle) ?></a></p>
+                </td>
+                <td class="table-4-col-3"><?= forum::getReplyCount($thread->id) ?></td>
+                <td>
+                    <p class="my-0"><a href="/user?id=<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $thread->username ?></a></p>
+                </td>
+                <td class="table-4-col-2 text-right">
+                    <p class="my-0"><?= general::time_elapsed("@" . $thread->bumpIndex, false, true) ?></p>
+                </td>
+            </tr>
         <?php } ?>
     </tbody>
 </table>
 <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+    <nav aria-label="Forum thread pagination">
+        <ul class="pagination justify-content-end">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 <?php } ?>
 <?php pageBuilder::buildFooter(); ?>
