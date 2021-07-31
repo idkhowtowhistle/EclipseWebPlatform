@@ -374,7 +374,7 @@ class forum
 			[":threadId" => $threadId]
 		);
 
-		return (int)$query->fetchColum();
+		return (int)$query->fetchColumn();
 	}
 
 	static function getReplyCount($subId)
