@@ -9,9 +9,9 @@ function respond($params)
 	die(json_encode($response));
 }
 
-$request = $_POST["request"] ?? false;
-$serverId = $_POST["placeId"] ?? false;
-$privateLink = $_POST["privateLink"] ?? false;
+$request = $_GET["request"] ?? false;
+$serverId = $_GET["placeId"] ?? false;
+$privateLink = $_GET["privateLink"] ?? false;
 $response = 
 [
 	"jobId" => null,
