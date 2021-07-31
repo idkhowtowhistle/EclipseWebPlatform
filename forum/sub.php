@@ -18,7 +18,7 @@ pageBuilder::buildHeader();
 <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
-<table class="table mb-4">
+<table class="table mb-4" id="forumThreads">
     <thead class="table-bordered bg-light">
         <tr>
             <th class="font-weight-normal py-2 col-7" scope="col">Post title</th>
@@ -44,30 +44,12 @@ pageBuilder::buildHeader();
         <?php } ?>
     </tbody>
 </table>
-<div class="row mb-1">
-    <div class="col-6">
-    <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
-        <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
-    <?php } ?>
-    </div>
-    <div class="col-6">
-    <nav aria-label="Forum thread pagination">
-        <ul class="pagination justify-content-end">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    </div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('#forumThreads').DataTable({
+            "pagingType": "simple_numbers",
+            "paging": true
+        });
+    });
+</script>
 <?php pageBuilder::buildFooter(); ?>
