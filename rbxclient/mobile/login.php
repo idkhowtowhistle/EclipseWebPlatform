@@ -14,13 +14,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   $userInfoResponse = 
   [
     "UserName" => $userInfo->username,
-    "RobuxBalance" => $userInfo->currrency,
+    "RobuxBalance" => $userInfo->currency,
     "TicketsBalance" => 0,
     "IsAnyBuildersClubMember" => false,
     "ThumbnailUrl" => "http://banland.xyz/thumbnails/avatar?id=".$userInfo->id."&x=250&y=250",
     "UserID" => $userInfo->id
   ];
-  die(json_encode(["Status" => "OK"]));
+
+  die(json_encode(["Status" => "OK", "UserInfo" => $userInfoResponse]));
 
   session::create($userInfo->id);
   if($userInfo->twofa)
