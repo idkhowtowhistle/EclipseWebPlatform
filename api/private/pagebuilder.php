@@ -36,7 +36,7 @@ class pageBuilder
 		"og:image" => "/favicon.ico",
 		"navbar" => true,
 		"coolBackground" => false,
-		"XD" => true,
+		"XD" => false,
 		"nobelium" => false
 	];
 
