@@ -367,6 +367,16 @@ class forum
 		);
 	}
 
+	static function getTotalThreadReplies($threadId)
+	{
+		$query = db::run(
+			"SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :threadId AND NOT deleted",
+			[":threadId" => $threadId]
+		);
+
+		return (int)$query->fetchColumn();
+	}
+
 	static function getReplyCount($subId)
 	{
 		$query = db::run(

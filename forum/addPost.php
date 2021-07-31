@@ -21,7 +21,7 @@ else
 $subForumInfo = forum::getSubForumInfo($subForumId);
 
 if (!$subForumInfo) pageBuilder::errorCode(404);
-if ($postInfo && !$postInfo->canReply && SESSION["adminLevel"] < 2 || SESSION["ssc"] || $postInfo->locked && SESSION["adminLevel"] < 2) pageBuilder::errorCode(404);
+if ($postInfo && !$postInfo->canReply && SESSION["adminLevel"] < 2 || SESSION["ssc"] || $postInfo && $postInfo->locked && SESSION["adminLevel"] < 2) pageBuilder::errorCode(404);
 if (!$postInfo && SESSION["adminLevel"] < 2 && !$subForumInfo->isPostingAllowed) pageBuilder::errorCode(404);
 
 $errors = ["subject" => false, "body" => false, "general" => false];
@@ -93,7 +93,7 @@ pageBuilder::buildHeader();
                     <input type="text" class="form-control<?= $errors["subject"] ? ' is-invalid' : '' ?>" id="subject" name="subject" placeholder="64 characters max" value="<?= htmlspecialchars($subject) ?>" required>
                     <div class="invalid-feedback"><?= $errors["subject"] ?></div>
                 <?php } else { ?>
-                    <p>Replying to: <?= $postInfo->postContents ?></p>
+                    <p>Replying to: <?= htmlspecialchars($postInfo->postContents) ?></p>
                 <?php } ?>
             </div>
             <div class="form-group">
