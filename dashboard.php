@@ -10,7 +10,7 @@ $markdown->setBreaksEnabled(true);
 $markdown->setSafeMode(true);
 $markdown->setUrlsLinked(true);
 
-if (SESSION["userName"] == "pizzaboxer") throw new Exception("lol");
+if (SESSION["userName"] == "pizzaboxer") var_dump($_SERVER);
 
 pageBuilder::buildHeader();
 ?>
