@@ -23,11 +23,11 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-            <p class="my-auto d-inline">
-                <?= htmlspecialchars($threadInfo->postTitle) ?>
-                <br>
-                <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
-            </p>
+        <p class="my-auto d-inline">
+            <?= htmlspecialchars($threadInfo->postTitle) ?>
+            <br>
+            <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
+        </p>
         <?php if (SESSION["adminLevel"] > 1) { ?>
             <div class="d-inline float-right">
                 <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
@@ -89,8 +89,31 @@ pageBuilder::buildHeader();
             </div>
         </div>
     </div>
-<?php }
-if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
-    <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
 <?php } ?>
+<div class="row">
+    <div class="col-6">
+        <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+            <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
+        <?php } ?>
+    </div>
+    <div class="col-6">
+        <nav aria-label="Forum thread pagination">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 <?php pageBuilder::buildFooter(); ?>

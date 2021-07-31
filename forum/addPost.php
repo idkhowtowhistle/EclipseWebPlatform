@@ -93,7 +93,7 @@ pageBuilder::buildHeader();
                     <input type="text" class="form-control<?= $errors["subject"] ? ' is-invalid' : '' ?>" id="subject" name="subject" placeholder="64 characters max" value="<?= htmlspecialchars($subject) ?>" required>
                     <div class="invalid-feedback"><?= $errors["subject"] ?></div>
                 <?php } else { ?>
-                    <p>Replying to: <?= $postInfo->postContents ?></p>
+                    <p>Replying to: <?= htmlspecialchars($postInfo->postContents) ?></p>
                 <?php } ?>
             </div>
             <div class="form-group">
