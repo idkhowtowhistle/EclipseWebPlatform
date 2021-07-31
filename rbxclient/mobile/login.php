@@ -7,9 +7,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   $password = $_POST['password'] ?? false;
   $userInfo = users::getUserInfoFromUserName($username);
 
-  if(!$username || !$password) die("MissingRequiredField");
-  if(!$userInfo) die("InvalidUsername");
-  if(!password_verify($password.SITE_CONFIG["site"]["pwsalt"], $userInfo->password)) die("InvalidPassword");
+  if(!$username || !$password) die(json_encode(["Status" => "MissingRequiredField"]));
+  if(!$userInfo) die(json_encode(["Status" => "InvalidUsername"]));
+  if(!password_verify($password.SITE_CONFIG["site"]["pwsalt"], $userInfo->password)) die(json_encode(["Status" => "InvalidPassword"]));
+  die(json_encode(["Status" => "OK"]));
 
   session::create($userInfo->id);
   if($userInfo->twofa)
