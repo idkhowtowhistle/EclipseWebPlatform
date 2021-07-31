@@ -22,7 +22,7 @@ $response =
 	"message" => null
 ];
 
-if ($request != "RequestGame") respond_custom(["error" => "Invalid request type"]);
+if ($request != "RequestGame") die(json_encode(["error" => "Invalid request type"]));
 if (!$serverId) respond(["status" => 11, "message" => "Cannot join game wihtout placeId."]);
 if (!SESSION) respond(["status" => 11, "message" => "Cannot join game with no authenticated user."]);
 
