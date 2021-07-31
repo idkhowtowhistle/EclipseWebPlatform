@@ -6,7 +6,14 @@ $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$replies = forum::getThreadReplies($threadId);
+$page = $_GET["page"] ?? 1;
+
+$totalreplies = forum::getTotalThreadReplies($threadId);
+
+$pages = ceil($totalreplies / 12);
+$offset = ($page - 1) * 12;
+
+$replies = forum::getThreadReplies($threadId, $offset);
 
 pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
@@ -97,19 +104,21 @@ pageBuilder::buildHeader();
         <?php } ?>
     </div>
     <div class="col-6 mt-2">
-        <nav aria-label="Forum thread pagination">
-            <ul class="pagination justify-content-end">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+        <nav aria-label="Forum replies pagination">
+            <ul class="pagination">
+                <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                    <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
+                    <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?page=<?= $paginator ?>"><?= $paginator ?></a></li>
+                <?php } ?>
+                <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                    <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
                     </a>
                 </li>
             </ul>

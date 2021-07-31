@@ -357,13 +357,21 @@ class forum
 		)->fetch(PDO::FETCH_OBJ);
 	}
 
-	static function getThreadReplies($threadId) 
+	static function getThreadReplies($threadId, $offset) 
 	{
 		return db::run(
 		    "SELECT subforum_replies.*, users.username, users.admin FROM subforum_replies
 		    INNER JOIN users ON users.id = subforum_replies.authorId
-		    WHERE replyTo = :threadId ORDER BY datePosted ASC", 
+		    WHERE replyTo = :threadId ORDER BY datePosted ASC OFFSET $offset", 
 		    [":threadId" => $threadId]
+		);
+	}
+
+	static function getTotalThreadReplies($threadId)
+	{
+		return db::run(
+			"SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :threadId AND NOT deleted",
+			[":threadId" => $threadId]
 		);
 	}
 
