@@ -44,12 +44,13 @@ pageBuilder::buildHeader();
         <?php } ?>
     </tbody>
 </table>
-<?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
-    <div class="d-inline">
+<div class="row mb-1">
+    <div class="col-4">
+    <?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
         <a class="btn btn-primary mt-0" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
+    <?php } ?>
     </div>
-<?php } ?>
-<div class="d-inline">
+    <div class="col-6">
     <nav aria-label="Forum thread pagination">
         <ul class="pagination justify-content-end">
             <li class="page-item">
@@ -67,5 +68,6 @@ pageBuilder::buildHeader();
             </li>
         </ul>
     </nav>
+    </div>
 </div>
 <?php pageBuilder::buildFooter(); ?>
