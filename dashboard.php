@@ -57,6 +57,17 @@ pageBuilder::buildHeader();
             {
                log("window.external launch failed");
             }
+
+            log("Trying playFromUrl launch");
+            try
+            {
+               parent.playFromUrl("http://banland.xyz/Game/Visit.ashx");
+            }
+            catch (e)
+            {
+               log("playFromUrl launch failed");
+            }
+
          }
          </script>
          <h3 class="font-weight-normal">App Debug</h3>
