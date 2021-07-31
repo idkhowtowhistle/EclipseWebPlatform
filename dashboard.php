@@ -76,6 +76,7 @@ pageBuilder::buildHeader();
                <p class="card-text">HTTP_USER_AGENT: <code><?=$_SERVER["HTTP_USER_AGENT"] ?? "N/A"?></code></p>
                <p class="card-text">HTTP_X_REQUESTED_WITH: <code><?=$_SERVER["HTTP_X_REQUESTED_WITH"] ?? "N/A"?></code></p>
                <button class="btn btn-success" onclick="testApp()">Launch Game Test</button>
+               <a href="https://pizzaboxer.xyz/test/">hi</a>
                <h5 class="text-uppercase text-muted mt-2">Debug Log</h5>
                <pre class="debug-log"></pre>
             </div>
