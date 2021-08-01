@@ -58,6 +58,9 @@ class pageBuilder
 	{
 		global $pdo;
 		$banners = $pdo->query("SELECT * FROM banners WHERE active ORDER BY id DESC");
+
+		if(strpos($_SERVER["HTTP_USER_AGENT"], "ROBLOX Android App") !== false)
+			self::$pageConfig["navbar"] = false;
 ?>
 <!DOCTYPE html>
 <html>
