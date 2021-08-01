@@ -1,7 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 header("content-type: application/json");
-var_dump(SESSION);
 if (!SESSION) die();
 
 $userInfoResponse = 
