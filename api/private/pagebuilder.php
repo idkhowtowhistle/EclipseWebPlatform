@@ -201,123 +201,121 @@ class pageBuilder
 		</style>
 	</head>
 	<body>
-		<div class="app" <?php if (SESSION) { echo "data-user-id='" . SESSION["userId"] . "'"; } ?>>
-			<?php if (self::$pageConfig["XD"]) { ?>
-			<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
-			<?php } else { ?>
-			<nav class="navbar navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> bg-<?=self::$pageConfig['nobelium']?"dark":"light"?>">
-			<?php } ?>
-				<div class="container">
-					<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
-					<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="navbar-collapse collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item">
-								<a class="nav-link" href="/">Home</a>
-							</li>
-							<?php if (SESSION) { ?>
-							<li class="nav-item">
-								<a class="nav-link" href="/games">Games</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/catalog">Catalog</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/browse">Users</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/forum">Forum</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
-								<div class="dropdown-menu" aria-labelledby="moreDropdown">
-									<a class="dropdown-item" href="/games/new">New Server</a><a class="dropdown-item" href="/status">Site Status</a>
-								</div>
-							</li>
+		<?php if (self::$pageConfig["XD"]) { ?>
+		<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
+		<?php } else { ?>
+		<nav class="navbar navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> bg-<?=self::$pageConfig['nobelium']?"dark":"light"?>">
+		<?php } ?>
+			<div class="container">
+				<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
+				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<?php if (SESSION) { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="/games">Games</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/catalog">Catalog</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/browse">Users</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/forum">Forum</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+							<div class="dropdown-menu" aria-labelledby="moreDropdown">
+								<a class="dropdown-item" href="/games/new">New Server</a><a class="dropdown-item" href="/status">Site Status</a>
+							</div>
+						</li>
+						<?php } ?>
+					</ul>
+					<ul class="navbar-nav me-auto">
+						<?php /* session */ if (!SESSION) { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="/login">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/register">Register</a>
+						</li>
+						<?php /* session */ } else { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="/messages"><i class="fas fa-envelope"></i>
+							<?php if (users::getUnreadMessages(SESSION["userId"])) { ?>
+								<span class="badge badge-danger"><?= users::getUnreadMessages(SESSION["userId"]) ?></span>
 							<?php } ?>
-						</ul>
-						<ul class="navbar-nav me-auto">
-							<?php /* session */ if (!SESSION) { ?>
-							<li class="nav-item">
-								<a class="nav-link" href="/login">Login</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/register">Register</a>
-							</li>
-							<?php /* session */ } else { ?>
-							<li class="nav-item">
-								<a class="nav-link" href="/messages"><i class="fas fa-envelope"></i>
-								<?php if (users::getUnreadMessages(SESSION["userId"])) { ?>
-									<span class="badge badge-danger"><?= users::getUnreadMessages(SESSION["userId"]) ?></span>
-								<?php } ?>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/economy" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Your next rock mine is in <br> <?= general::time_elapsed("@" . SESSION["nextStipend"], true, false) ?>"><i class="far fa-money-bill-alt"></i> <?= SESSION["currency"] ?></a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="gamertag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="far fa-user mr-1"></i> <?= SESSION["userName"] ?> </a>
-								<div class="dropdown-menu" aria-labelledby="gamertag">
-									<a href="/user?id=<?= SESSION['userId'] ?>" class="dropdown-item">Profile</a><a class="dropdown-item" href="/settings">Settings</a><a class="dropdown-item" href="/my/character">Character</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="/logout">Logout</a>
-								</div>
-							</li>
-							<?php /* session */ } ?>
-						</ul>
-					</div>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/economy" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Your next rock mine is in <br> <?= general::time_elapsed("@" . SESSION["nextStipend"], true, false) ?>"><i class="far fa-money-bill-alt"></i> <?= SESSION["currency"] ?></a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="gamertag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="far fa-user mr-1"></i> <?= SESSION["userName"] ?> </a>
+							<div class="dropdown-menu" aria-labelledby="gamertag">
+								<a href="/user?id=<?= SESSION['userId'] ?>" class="dropdown-item">Profile</a><a class="dropdown-item" href="/settings">Settings</a><a class="dropdown-item" href="/my/character">Character</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="/logout">Logout</a>
+							</div>
+						</li>
+						<?php /* session */ } ?>
+					</ul>
 				</div>
-			</nav>
-			<?php /* session */ if (SESSION) { ?>
-			<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
-			<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
-			<?php /* polygon nav */ } else { ?>
-			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> py-0">
-			<?php /* polygon nav */ } ?>
-				<div class="container">
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="secondaryNavbar">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item mr-1">
-								<a class="nav-link" href="/user?id=<?= SESSION['userId'] ?>">Profile</a>
-							</li>
-							<li class="nav-item mx-1">
-								<a class="nav-link" href="/my/character">Character</a>
-							</li>
-							<li class="nav-item mx-1">
-								<a class="nav-link" href="/friends">Friends</a>
-							</li>
-							<li class="nav-item mx-1">
-								<a class="nav-link" href="/create/new">Create</a>
-							</li>
-							<li class="nav-item mx-1">
-								<a class="nav-link" href="/invite">Invite</a>
-							</li>
-							<?php if (SESSION["adminLevel"] > 1 && SESSION["2fa"]) { ?>
-							<li class="nav-item mx-1">
-								<a class="nav-link" href="/admin/dashboard">Admin</a>
-							</li>
-							<?php } ?>
-						</ul>
-					</div>
-				</div>
-			</nav>
-			<noscript>
-				<div class="alert alert-skinny mb-0 text-center" role="alert" style="background-color: red">
-					<?= SITE_CONFIG["site"]["name"] ?> requires JavaScript to function properly.
-				</div>
-			</noscript>
-			<?php /* session */ } while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
-			<div class="alert alert-skinny mb-0 text-center <?= $row->textcolor ?>" role="alert" style="background-color: <?= $row->color ?>">
-				<?= $row->message ?>
 			</div>
-			<?php } ?>
+		</nav>
+		<?php /* session */ if (SESSION) { ?>
+		<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
+		<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
+		<?php /* polygon nav */ } else { ?>
+		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> py-0">
+		<?php /* polygon nav */ } ?>
+			<div class="container">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="secondaryNavbar">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item mr-1">
+							<a class="nav-link" href="/user?id=<?= SESSION['userId'] ?>">Profile</a>
+						</li>
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="/my/character">Character</a>
+						</li>
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="/friends">Friends</a>
+						</li>
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="/create/new">Create</a>
+						</li>
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="/invite">Invite</a>
+						</li>
+						<?php if (SESSION["adminLevel"] > 1 && SESSION["2fa"]) { ?>
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="/admin/dashboard">Admin</a>
+						</li>
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<noscript>
+			<div class="alert alert-skinny mb-0 text-center" role="alert" style="background-color: red">
+				<?= SITE_CONFIG["site"]["name"] ?> requires JavaScript to function properly.
+			</div>
+		</noscript>
+		<?php /* session */ } while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
+		<div class="alert alert-skinny mb-0 text-center <?= $row->textcolor ?>" role="alert" style="background-color: <?= $row->color ?>">
+			<?= $row->message ?>
 		</div>
-		<div class="app py-4 container">
+		<?php } ?>
+		<div class="app py-4 container"<?php if (SESSION) { echo " data-user-id='" . SESSION["userId"] . "'"; } ?>>
 		<?php } static function buildFooter() { ?>
 		</div>
 		<div class="footer">
