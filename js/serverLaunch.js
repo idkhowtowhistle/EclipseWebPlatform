@@ -35,16 +35,16 @@ var mercury_games =
                 {"request": "RequestGame","placeId": serverId, "privateLink": privateLink}, 
                 function(data) 
                 {
-                    if (data.status == 2) 
+                    /* if (data.status == 2) 
                     {
                         var ticket = data.joinScriptUrl.split("?ticket=")[1];
                         window.location = "/games/start?placeid=" + ticket;
                     } 
                     else 
-                    {
-                        $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> " + data.message);
+                    { */
+                        $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> " + data.joinScriptUrl.split("?ticket=")[1]);
                         $(".place-launcher-error").fadeIn(500);
-                    }
+                    // }
                 }
             )
 
