@@ -35,13 +35,13 @@ if (!strlen($serverId)) respond(["status" => 11, "message" => "Cannot join game 
 
 if ($isMobile)
 {
-	$ticketInfo = games::getClientInfo($serverId);
+	$ticketInfo = games::getClientInfo(base64_decode($serverId));
 	if($ticketInfo && $ticketInfo->valid)
 	{
 		$loggedIn = true;
-		$ticket = $serverId;
 		$userId = $ticketInfo->userId;
 		$serverId = $ticketInfo->serverId;
+		$ticket = $ticketInfo->ticket;
 	}
 }
 
