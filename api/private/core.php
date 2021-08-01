@@ -24,6 +24,11 @@ catch(PDOException $e)
 
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
+if(getIPAddress() == "76.190.219.176")
+{
+	pageBuilder::errorCode(200, ["title" => "Error", "text" => "Dumb nigga detected"]);
+}
+
 function handle_exception($exception)
 {
 	// TODO: create a database entry rather than just base64 encoding the error
