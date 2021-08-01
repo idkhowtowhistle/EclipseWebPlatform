@@ -26,7 +26,7 @@ var mercury_games =
     {
         if(window.navigator.userAgent.includes("ROBLOX Android App"))
         {
-            window.location = "/games/start?placeid=" + serverId;
+            window.location = "/games/start?placeid=" + serverId + "&accessCode=test";
             return;
         }
 
