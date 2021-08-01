@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+header("content-type: application/json");
 
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -24,3 +25,5 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   session::create($userInfo->id, false, true);
   die(json_encode(["Status" => "OK", "UserInfo" => $userInfoResponse]));
 }
+
+die(json_encode(["Status" => "MissingRequiredField"]));
