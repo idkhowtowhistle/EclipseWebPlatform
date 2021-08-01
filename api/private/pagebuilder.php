@@ -239,14 +239,14 @@ class pageBuilder
 							<?php } ?>
 						</ul>
 						<ul class="navbar-nav me-auto">
-							<?php if (!SESSION) { ?>
+							<?php /* session */ if (!SESSION) { ?>
 							<li class="nav-item">
 								<a class="nav-link" href="/login">Login</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="/register">Register</a>
 							</li>
-							<?php } else { ?>
+							<?php /* session */ } else { ?>
 							<li class="nav-item">
 								<a class="nav-link" href="/messages"><i class="fas fa-envelope"></i>
 								<?php if (users::getUnreadMessages(SESSION["userId"])) { ?>
@@ -265,17 +265,17 @@ class pageBuilder
 									<a class="dropdown-item" href="/logout">Logout</a>
 								</div>
 							</li>
-							<?php } ?>
+							<?php /* session */ } ?>
 						</ul>
 					</div>
 				</div>
 			</nav>
-			<?php if (SESSION) { ?>
-			<?php if (self::$pageConfig["XD"]) { ?>
+			<?php /* session */ if (SESSION) { ?>
+			<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
 			<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
-			<?php } else { ?>
+			<?php /* polygon nav */ } else { ?>
 			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> py-0">
-			<?php } ?>
+			<?php /* polygon nav */ } ?>
 				<div class="container">
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
@@ -311,7 +311,7 @@ class pageBuilder
 					<?= SITE_CONFIG["site"]["name"] ?> requires JavaScript to function properly.
 				</div>
 			</noscript>
-			<?php } while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
+			<?php /* session */ } while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
 			<div class="alert alert-skinny mb-0 text-center <?= $row->textcolor ?>" role="alert" style="background-color: <?= $row->color ?>">
 				<?= $row->message ?>
 			</div>
