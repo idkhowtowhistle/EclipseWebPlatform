@@ -6,7 +6,7 @@ if (isset($_GET["id"])) $userId = $_GET["id"];
 else if (SESSION) $userId = SESSION["userId"];
 else $userId = false;
 
-=$userInfo = users::getUserInfoFromUid($userId);
+$userInfo = users::getUserInfoFromUid($userId);
 if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404);
 
 $onlineInfo = users::getOnlineStatus($userInfo->id);
