@@ -22,31 +22,11 @@ $response =
 	"message" => null
 ];
 
-$loggedIn = SESSION != false;
-$userId = SESSION["userId"] ?? 0;
-$isAdmin = isset(SESSION["adminLevel"]) && SESSION["adminLevel"] >= 2;
-$ticket = generateUUID();
-
-// implement gross hack for android app launching
-$isMobile = !is_numeric($serverId);
-
 if ($request != "RequestGame") die(json_encode(["error" => "Invalid request type"]));
-if (!strlen($serverId)) respond(["status" => 11, "message" => "Cannot join game wihtout placeId."]);
+if (!$serverId) respond(["status" => 11, "message" => "Cannot join game wihtout placeId."]);
+if (!SESSION) respond(["status" => 11, "message" => "Cannot join game with no authenticated user."]);
 
-if ($isMobile)
-{
-	$ticketInfo = games::getClientInfo(base64_decode($serverId));
-	if($ticketInfo && $ticketInfo->valid)
-	{
-		$loggedIn = true;
-		$userId = $ticketInfo->userId;
-		$serverId = $ticketInfo->serverId;
-		$ticket = $ticketInfo->ticket;
-	}
-}
-
-if (!$loggedIn) respond(["status" => 11, "message" => "Cannot join game with no authenticated user."]);
-
+$userId = SESSION["userId"];
 $gameInfo = games::getGameInfoFromId($serverId);
 
 if (!$gameInfo) respond(["status" => 4, "message" => "Unknown Error"]);
@@ -60,6 +40,7 @@ if(SESSION["adminLevel"] < 2)
     	respond(["status" => 11, "message" => "You are not allowed to play this game."]);
 }
 
+$ticket = generateUUID();
 games::createClientSession($serverId, $userId, $ticket);
 $joinscripturl = "http://banland.xyz/Game/Join.ashx?ticket=$ticket";
 
