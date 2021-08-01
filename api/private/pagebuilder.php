@@ -201,11 +201,12 @@ class pageBuilder
 		</style>
 	</head>
 	<body>
-		<?php if (self::$pageConfig["XD"]) { ?>
+		<?php /* navbar */ if (self::$pageConfig["navbar"]) { ?>
+		<?php /* polygon navbar */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
-		<?php } else { ?>
+		<?php /* polygon navbar */ } else { ?>
 		<nav class="navbar navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> bg-<?=self::$pageConfig['nobelium']?"dark":"light"?>">
-		<?php } ?>
+		<?php /* polygon navbar */ } ?>
 			<div class="container">
 				<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -305,6 +306,7 @@ class pageBuilder
 				</div>
 			</div>
 		</nav>
+		<?php /* navbar */ } ?>
 		<noscript>
 			<div class="alert alert-skinny mb-0 text-center" role="alert" style="background-color: red">
 				<?= SITE_CONFIG["site"]["name"] ?> requires JavaScript to function properly.
@@ -317,16 +319,18 @@ class pageBuilder
 		<?php } ?>
 		<div class="app py-4 container"<?php if (SESSION) { echo " data-user-id='" . SESSION["userId"] . "'"; } ?>>
 		<?php } static function buildFooter() { ?>
+		<?= self::$additionalFooterStuff ?>
 		</div>
+		<?php /* footer */ if (self::$pageConfig["navbar"]) { ?>
 		<div class="footer">
 			<div class="container shadow-sm">
 				<p class="my-0"><b>Copyright &copy; <?= SITE_CONFIG["site"]["name"] ?> 2021</b>
 				<div class="d-flex align-items-center mt-1 mb-0">
 					<p class="my-0"><a href="/about">About</a> | <a href="/rules">Rules</a> | <a href="/tos">Terms Of Service</a> | <a href="/policy">Privacy Policy</a></p>
 				</div>
-				<?= self::$additionalFooterStuff ?>
 			</div>
 		</div>
+		<?php /* footer */ } ?>
 		<div class="global modal fade" id="primaryModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="primaryModal" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="modal-content">
