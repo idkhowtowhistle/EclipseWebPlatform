@@ -2,8 +2,11 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
 
-$userId = $_GET["id"] ?? false;
-$userInfo = users::getUserInfoFromUid($userId);
+if (isset($_GET["id"])) $userId = $_GET["id"];
+else if (SESSION) $userId = SESSION["userId"];
+else $userId = false;
+
+=$userInfo = users::getUserInfoFromUid($userId);
 if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404);
 
 $onlineInfo = users::getOnlineStatus($userInfo->id);
