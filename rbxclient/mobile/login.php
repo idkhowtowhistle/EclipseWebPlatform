@@ -21,17 +21,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     "UserID" => $userInfo->id
   ];
 
+  session::create($userInfo->id, false, true);
   die(json_encode(["Status" => "OK", "UserInfo" => $userInfoResponse]));
-
-  session::create($userInfo->id);
-  if($userInfo->twofa)
-	{
-    if($returnurl) die(header("Location: /auth/twofa?ReturnUrl=".$returnurl));
-    die(header("Location: /auth/twofa")); 
-	}
-	else
-	{
-    if($returnurl) die(header("Location: ".$returnurl));
-		die(header("Location: /")); 
-	}
 }
