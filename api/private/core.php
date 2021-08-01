@@ -809,9 +809,10 @@ class session //most of the session code here comes from my old roblonium code; 
 	}
 }
 
-if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['.ROBLOSECURITY']))
+if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['_ROBLOSECURITY']))
 {	
-	$session = session::get($_COOKIE['polygon_session'] ?? $_COOKIE['.ROBLOSECURITY']);
+	$cookie = $_COOKIE['polygon_session'] ?? $_COOKIE['_ROBLOSECURITY'];
+	$session = session::get($cookie);
 	if($session) 
 	{
 		$userInfo = users::getUserInfoFromUid($session->userId);
@@ -851,7 +852,7 @@ if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['.ROBLOSECURITY']))
 	}
 	else 
 	{
-		session::logout($_COOKIE['polygon_session']);
+		session::logout($cookie);
 		define('SESSION', false);
 	}
 }
