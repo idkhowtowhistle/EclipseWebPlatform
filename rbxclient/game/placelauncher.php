@@ -25,7 +25,7 @@ $response =
 if($serverId == 154) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
 {
 	$ticket = generateUUID();
-	games::createClientSession($serverId, 27, $ticket);
+	games::createClientSession($serverId, 114, $ticket);
 	$joinscripturl = "http://www.banland.xyz/game/join.ashx?ticket=$ticket";
 	respond([
 		"jobId" => "$serverId", 
