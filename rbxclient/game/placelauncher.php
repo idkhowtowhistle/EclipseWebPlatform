@@ -22,10 +22,10 @@ $response =
 	"message" => null
 ];
 
-if($serverId == 100) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
+if($serverId == 100 || $serverId == 156) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
 {
 	$ticket = generateUUID();
-	games::createClientSession(100, 27, $ticket);
+	games::createClientSession($serverId, 27, $ticket);
 	$joinscripturl = "http://www.banland.xyz/game/join.ashx?ticket=$ticket";
 	respond([
 		"jobId" => "$serverId", 
