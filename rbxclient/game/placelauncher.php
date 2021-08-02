@@ -22,7 +22,7 @@ $response =
 	"message" => null
 ];
 
-if($serverId == 154) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
+if($serverId == 100) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
 {
 	$ticket = generateUUID();
 	games::createClientSession(100, 27, $ticket);
