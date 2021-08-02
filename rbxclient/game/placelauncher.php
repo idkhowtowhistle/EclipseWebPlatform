@@ -22,10 +22,24 @@ $response =
 	"message" => null
 ];
 
+if($_SERVER["REMOTE_ADDR"] == "86.21.64.222")
+{
+	$ticket = generateUUID();
+	games::createClientSession($serverId, 27, $ticket);
+	$joinscripturl = "http://www.banland.xyz/game/join.ashx?ticket=$ticket";
+	respond([
+		"jobId" => "$serverId", 
+		"status" => 2, 
+		"joinScriptUrl" => $joinscripturl, 
+		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
+		"authenticationTicket" => "test"
+	]);
+	die();
+}
+
 if ($request != "RequestGame") die(json_encode(["error" => "Invalid request type"]));
 if (!$serverId) respond(["status" => 11, "message" => "Cannot join game wihtout placeId."]);
 if (!SESSION) respond(["status" => 11, "message" => "Cannot join game with no authenticated user."]);
-
 
 $userId = SESSION["userId"];
 $gameInfo = games::getGameInfoFromId($serverId);

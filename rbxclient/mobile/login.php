@@ -1,16 +1,45 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+header("content-type: application/json");
 
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
-  $username = $_POST['username'] ?? false;
+  $usernameAndOTP = $_POST['username'] ?? false;
   $password = $_POST['password'] ?? false;
-  $userInfo = users::getUserInfoFromUserName($username);
+  if(!$usernameAndOTP || !$password) die(json_encode(["Status" => "MissingRequiredField"]));
 
-  if(!$username || !$password) die(json_encode(["Status" => "MissingRequiredField"]));
-  if(!$userInfo) die(json_encode(["Status" => "InvalidUsername"]));
+  $username = explode("-", $usernameAndOTP)[0];
+  $code = explode("-", $usernameAndOTP)[1] ?? 0;
+
+  $userInfo = users::getUserInfoFromUserName($username);
+  if(!$userInfo) die(json_encode(["Status" => "MissingRequiredField"]));
   if(!password_verify($password.SITE_CONFIG["site"]["pwsalt"], $userInfo->password)) die(json_encode(["Status" => "InvalidPassword"]));
   
+  if($userInfo->twofa)
+  {
+    $gauth = twofa::initialize();
+    $recoveryCodes = json_decode($userInfo->twofaRecoveryCodes, true);
+
+    if (!$code) die(json_encode(["Status" => "MissingRequiredField"]));
+    else if (is_numeric($code) && !$gauth->checkCode($userInfo->twofaSecret, $code, 1)) 
+      die(json_encode(["Status" => "MissingRequiredField"]));
+    else if (!is_numeric($code) && (!isset($recoveryCodes[$code]) || !$recoveryCodes[$code]))
+      die(json_encode(["Status" => "MissingRequiredField"]));
+    else
+    {
+      //invalidate recovery code
+      if(!is_numeric($code))
+      {
+        $recoveryCodes[$code] = false;
+        $recoveryCodes = json_encode($recoveryCodes);
+        $query = $pdo->prepare("UPDATE users SET twofaRecoveryCodes = :recoveryCodes WHERE id = :uid");
+        $query->bindParam(":recoveryCodes", $recoveryCodes, PDO::PARAM_STR);
+        $query->bindParam(":uid", $uid, PDO::PARAM_INT);
+        $query->execute();
+      }
+    }
+  }
+
   $userInfoResponse = 
   [
     "UserName" => $userInfo->username,
@@ -21,17 +50,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     "UserID" => $userInfo->id
   ];
 
+  session::create($userInfo->id, false, true);
   die(json_encode(["Status" => "OK", "UserInfo" => $userInfoResponse]));
-
-  session::create($userInfo->id);
-  if($userInfo->twofa)
-	{
-    if($returnurl) die(header("Location: /auth/twofa?ReturnUrl=".$returnurl));
-    die(header("Location: /auth/twofa")); 
-	}
-	else
-	{
-    if($returnurl) die(header("Location: ".$returnurl));
-		die(header("Location: /")); 
-	}
 }
+
+die(json_encode(["Status" => "MissingRequiredField"]));

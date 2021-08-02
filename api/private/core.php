@@ -24,6 +24,11 @@ catch(PDOException $e)
 
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
+if(getIPAddress() == "76.190.219.176")
+{
+	pageBuilder::errorCode(200, ["title" => "Error", "text" => "Dumb nigga detected"]);
+}
+
 function handle_exception($exception)
 {
 	// TODO: create a database entry rather than just base64 encoding the error
@@ -106,9 +111,9 @@ class RBX
 
 	static function SignData($data, $assetID = false)
 	{
-		if($assetID) $data = "%{$assetID}%\n{$data}";
+		if($assetID) $data = "--rbxassetid%{$assetID}%\n{$data}";
 		else $data = "\n{$data}";
-		$signedScript = "%" . self::GetSignature($data) . "%{$data}"; 
+		$signedScript = "--rbxsig%" . self::GetSignature($data) . "%{$data}"; 
 		return $signedScript;
 	}
 }
@@ -721,7 +726,7 @@ class invite
 
 class session //most of the session code here comes from my old roblonium code; it works surprisingly well
 {
-	static function create($userId, $RBXAuthenticationNegotiation = false)
+	static function create($userId, $RBXAuthenticationNegotiation = false, $mobile = false)
 	{
 		global $pdo;
 
@@ -752,13 +757,19 @@ class session //most of the session code here comes from my old roblonium code; 
 			$params[":2fa"] = 1;
 		}
 
+		// TODO: remove this when 2fa through the mobile app is sorted out
+		if($mobile) $params[":2fa"] = 1;
+
 		db::run(
 			"INSERT INTO sessions (sessionKey, userId, userAgent, ip, created, lastonline, csrf, twofaVerified, expires) 
 			VALUES (:sesskey, :uid, :agent, :ip, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), :csrf, :2fa, :expires)",
 			$params
 		);
 
-		setcookie("polygon_session", $sessionkey, time()+(157700000*3), "/"); //expires in 5 years
+		if($mobile)
+			setcookie(".ROBLOSECURITY", $sessionkey, time()+(157700000*3), "/"); //expires in 5 years
+		else
+			setcookie("polygon_session", $sessionkey, time()+(157700000*3), "/"); //expires in 5 years
 	}
 
 	static function invalidate($sesskey)
@@ -766,11 +777,16 @@ class session //most of the session code here comes from my old roblonium code; 
 		return db::run("UPDATE sessions SET valid = 0 WHERE sessionKey = :sesskey", [":sesskey" => $sesskey])->rowCount();
 	}
 
-	static function logout($sesskey, $refresh = true)
+	static function logout($sesskey, $refresh = true, $mobile = false)
 	{
 		if($_SERVER["HTTP_USER_AGENT"] == "Roblox/WinInet") $refresh = false;
 		self::invalidate($sesskey);
-		setcookie("polygon_session", $sesskey, 1, "/");
+
+		if($mobile)
+			setcookie(".ROBLOSECURITY", $sesskey, 1, "/");
+		else
+			setcookie("polygon_session", $sesskey, 1, "/");
+
 		if($refresh) die(header("Refresh: 0"));
 	}
 
@@ -798,9 +814,10 @@ class session //most of the session code here comes from my old roblonium code; 
 	}
 }
 
-if(isset($_COOKIE['polygon_session']))
+if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['_ROBLOSECURITY']))
 {	
-	$session = session::get($_COOKIE['polygon_session']);
+	$cookie = $_COOKIE['polygon_session'] ?? $_COOKIE['_ROBLOSECURITY'];
+	$session = session::get($cookie);
 	if($session) 
 	{
 		$userInfo = users::getUserInfoFromUid($session->userId);
@@ -840,7 +857,7 @@ if(isset($_COOKIE['polygon_session']))
 	}
 	else 
 	{
-		session::logout($_COOKIE['polygon_session']);
+		session::logout($cookie);
 		define('SESSION', false);
 	}
 }

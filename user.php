@@ -2,7 +2,10 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
 
-$userId = $_GET["id"] ?? false;
+if (isset($_GET["id"])) $userId = $_GET["id"];
+else if (SESSION) $userId = SESSION["userId"];
+else $userId = false;
+
 $userInfo = users::getUserInfoFromUid($userId);
 if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404);
 
@@ -62,10 +65,10 @@ pageBuilder::buildHeader();
                   <a class="btn btn-outline-success mr-1 float-right py-1" role="button" href="/games/view?id=<?=$onlineInfo["serverid"]?>">Join Server</a>
                   <?php } ?>
                <?php } ?>
-               <?php if (SESSION["adminLevel"] >= 2 && $_GET["id"] !== SESSION["userId"] && $userInfo->admin < 2) { ?>
+               <?php if (SESSION["adminLevel"] >= 2 && $userInfo->id !== SESSION["userId"] && $userInfo->admin < 2) { ?>
                   <a class="btn btn-outline-danger float-right py-1" role="button" href="#"><i class="fas fa-gavel mr-1"></i>Moderate User</a>
                <?php } ?>
-               <?php if ($_GET["id"] !== SESSION["userId"]) { ?>
+               <?php if ($userInfo->id !== SESSION["userId"]) { ?>
                   <a class="btn btn-outline-success mr-1 float-right py-1 disabled" role="button" href="#"><i class="fas fa-users mr-1"></i>Add Friend</a>
                   <a class="btn btn-outline-primary mr-1 float-right py-1 <?= !$userInfo->messages || SESSION["ssc"] ? "disabled" : "" ?>" role="button" href="/messages/new?messageUser=<?= $userInfo->id ?>"><i class="fas fa-envelope mr-1"></i>Message</a>
                <?php } ?>

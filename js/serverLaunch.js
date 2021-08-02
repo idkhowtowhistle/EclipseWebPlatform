@@ -24,6 +24,12 @@ var mercury_games =
 
     join_server: function (serverId, privateLink) 
     {
+        if(window.navigator.userAgent.includes("ROBLOX Android App"))
+        {
+            window.location = "/games/start?placeid=" + serverId;
+            return;
+        }
+
         $.get(
             "/rbxclient/game/placelauncher", 
             {"request": "RequestGame","placeId": serverId, "privateLink": privateLink}, 

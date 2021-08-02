@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-
+if(SESSION) redirect("/");
 
 $errors = ["username" => false, "password" => false];
 $username = $password = false;

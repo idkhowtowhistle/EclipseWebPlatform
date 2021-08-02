@@ -5,6 +5,10 @@ ob_start();
 ?>
 -- Setup studio cmd bar & load core scripts
 
+<?php if($_SERVER["REMOTE_ADDR"] == "86.21.64.222") { ?>
+game:SetMessage("hi")
+<?php } ?>
+
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://www.roblox.com/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end)
 pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://www.roblox.com/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end)
 
