@@ -14,7 +14,7 @@ else $JoinMethod = "Ticket";
 if($JoinMethod == "Ticket")
 {
 	$gameInfo = games::getGameInfoFromId($clientInfo->serverId);
-	if($gameInfo->isPrivate && $privateKey != $gameInfo->privateKey) die();
+	// if($gameInfo->isPrivate && $privateKey != $gameInfo->privateKey) die();
 
 	$userInfo = users::getUserInfoFromUid($clientInfo->userId);
 }
