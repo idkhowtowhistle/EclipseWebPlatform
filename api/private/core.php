@@ -111,9 +111,9 @@ class RBX
 
 	static function SignData($data, $assetID = false)
 	{
-		if($assetID) $data = "%{$assetID}%\n{$data}";
+		if($assetID) $data = "--rbxassetid%{$assetID}%\n{$data}";
 		else $data = "\n{$data}";
-		$signedScript = "%" . self::GetSignature($data) . "%{$data}"; 
+		$signedScript = "--rbxsig%" . self::GetSignature($data) . "%{$data}"; 
 		return $signedScript;
 	}
 }
