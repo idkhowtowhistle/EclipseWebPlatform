@@ -36,8 +36,8 @@ class pageBuilder
 		"og:image" => "/favicon.ico",
 		"navbar" => true,
 		"coolBackground" => false,
-		"XD" => SESSION["theme"] == 1?true:false,
-		"nobelium" => SESSION["theme"] == 2?true:false
+		"XD" => SESSION["theme"] == 1,
+		"nobelium" => SESSION["theme"] == 2
 	];
 
 	public static string $additionalFooterStuff = "";
