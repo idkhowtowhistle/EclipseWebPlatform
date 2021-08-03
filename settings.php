@@ -103,9 +103,12 @@ pageBuilder::buildHeader();
                     <div class="col-lg">
                       <h4 class="font-weight-normal mb-3">Messages</h4>
                       <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="message" <?php if ($userInfo->messages) {
-                                                                                        echo "checked";
-                                                                                      } ?> value="true">
+                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages?"checked":""?> value="true">
+                        <label class="form-check-label" for="message">Allow messages</label>
+                      </div>
+                      <h4 class="font-weight-normal mb-3">Site Theme</h4>
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages?"checked":""?> value="true">
                         <label class="form-check-label" for="message">Allow messages</label>
                       </div>
                       <script>
