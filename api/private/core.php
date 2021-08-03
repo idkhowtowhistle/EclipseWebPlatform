@@ -835,7 +835,7 @@ if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['_ROBLOSECURITY']))
 				"messages" => $userInfo->messages,
 				"nextStipend" => $userInfo->nextStipend,
 				"gameban" => $userInfo->gameBan,
-				//"getHosting" => users::getHosting($userInfo->id),
+				"theme" => $userInfo->theme,
 				//"friendRequests" => friends::getFriendRequestCount($userInfo->id),
 				"sessionKey" => $session->sessionKey,
 				"csrfToken" => $session->csrf,

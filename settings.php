@@ -109,13 +109,11 @@ pageBuilder::buildHeader();
                       <br>
                       <h4 class="font-weight-normal mb-3">Site Theme</h4>
                       <div class="form-group">
-                        <label for="exampleFormControlSelect1">Example select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                        <label for="themeSelect">Choose a preferred site theme</label>
+                        <select class="form-control" id="themeSelect">
+                          <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
+                          <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
+                          <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
                         </select>
                       </div>
                       <script>
@@ -124,7 +122,8 @@ pageBuilder::buildHeader();
                           $(btn).attr("disabled", "disabled").find("span").show();
                           $.post('/api/account/updateBio', {
                             "bio": $("#biotext").val(),
-                            "message": $("#message").is(":checked")
+                            "message": $("#message").is(":checked"),
+                            "theme": $("#themeSelect").val()
                           }, function(data) {
                             if (data.success) {
                               toastr["success"](data.message);
