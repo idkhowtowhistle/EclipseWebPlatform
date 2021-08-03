@@ -51,4 +51,4 @@ $query->bindParam(":theme", $theme, PDO::PARAM_INT);
 $query->bindParam(":bio", $bio, PDO::PARAM_STR);
 $query->execute();
     
-api::respond(200, true, "Settings updated. $theme");
+api::respond(200, true, "Settings updated.");
