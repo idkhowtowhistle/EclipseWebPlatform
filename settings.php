@@ -97,22 +97,29 @@ pageBuilder::buildHeader();
                       <h4 class="font-weight-normal mb-3">Blurb</h4>
                       <form>
                         <textarea class="form-control" id="biotext" name="biotext" rows="6" cols="60"><?= $userInfo->blurb ?></textarea>
-                        <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateBio" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
+                        <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateAccount" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
                       </form>
                     </div>
                     <div class="col-lg">
                       <h4 class="font-weight-normal mb-3">Messages</h4>
                       <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages?"checked":""?> value="true">
+                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages ? "checked" : "" ?> value="true">
                         <label class="form-check-label" for="message">Allow messages</label>
                       </div>
+                      <br>
                       <h4 class="font-weight-normal mb-3">Site Theme</h4>
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages?"checked":""?> value="true">
-                        <label class="form-check-label" for="message">Allow messages</label>
+                      <div class="form-group">
+                        <label for="exampleFormControlSelect1">Example select</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
                       </div>
                       <script>
-                        $("[data-control='updateBio']").on("click", this, function() {
+                        $("[data-control='updateAccount']").on("click", this, function() {
                           var btn = this;
                           $(btn).attr("disabled", "disabled").find("span").show();
                           $.post('/api/account/updateBio', {
