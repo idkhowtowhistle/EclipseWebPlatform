@@ -24,9 +24,10 @@ var mercury_games =
 
     join_server: function (serverId, privateLink) 
     {
-        if(window.navigator.userAgent.includes("ROBLOX Android App"))
+        if(window.navigator.userAgent.includes("ROBLOX Android App") && serverId != 156)
         {
-            window.location = "/games/start?placeid=" + serverId;
+            $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> Games are not supported on mobile");
+            $(".place-launcher-error").fadeIn(500);
             return;
         }
 

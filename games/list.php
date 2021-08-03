@@ -1,5 +1,11 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+
+if(!SESSION)
+	pageBuilder::errorCode(200, ["title" => "No Guests Allowed", "text" => "sorry guests stink and smell and"]);
+
+die(redirect("/games/"));
+
 pageBuilder::buildHeader();
 ?>
 <div id="pluginObjDiv">
