@@ -119,6 +119,9 @@ pageBuilder::buildHeader();
                     <br>
                     <?= general::filterText($reply->replyContents, true, false) ?>
                 </div>
+                <div class="col-2">
+                    <button type="button" data-control="deletePost" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
+                </div>
             </div>
         </div>
     </div>
