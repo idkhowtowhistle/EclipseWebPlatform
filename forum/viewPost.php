@@ -115,9 +115,8 @@ pageBuilder::buildHeader();
     </div>
     <div class="col mt-2">
         <?php if ($pages > 1) { ?>
-            <div class="d-flex justify-content-center">
                 <nav aria-label="Forum replies pagination">
-                    <ul class="pagination">
+                    <ul class="pagination justify-content-end">
                         <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
                             <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost/?page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
@@ -135,7 +134,6 @@ pageBuilder::buildHeader();
                         </li>
                     </ul>
                 </nav>
-            </div>
         <?php } ?>
     </div>
 </div>
