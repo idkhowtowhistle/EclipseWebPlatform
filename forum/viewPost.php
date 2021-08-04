@@ -129,7 +129,7 @@ pageBuilder::buildHeader();
                                     var button = this;
                                     $(button).attr("disabled", "disabled");
                                     $.post('/api/forum/deleteThread', {
-                                        "postId": "<?= $reply->id ?>"
+                                        "postId": $(this).attr("data-reply-id")
                                     }, function(data) {
                                         if (data.success) {
                                             window.location.href = '/forum/viewPost?id=<?= $reply->replyTo ?>';
