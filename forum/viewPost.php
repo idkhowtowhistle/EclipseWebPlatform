@@ -6,7 +6,18 @@ $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$replies = forum::getThreadReplies($threadId);
+$page = $_GET['page'] ?? 1;
+
+$repliescount = $pdo->prepare("SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :id AND NOT deleted");
+$repliescount->bindParam(":id", $threadId, PDO::PARAM_INT);
+$repliescount->execute();
+
+$pages = ceil($repliescount->fetchColumn() / 10);
+$offset = ($page - 1) * 10;
+
+$replies = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :id AND NOT deleted ORDER BY id ASC LIMIT 10 OFFSET $offset");
+$replies->bindParam(":id", $threadId, PDO::PARAM_INT);
+$replies->execute();
 
 pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
@@ -76,14 +87,14 @@ pageBuilder::buildHeader();
     </div>
 </div>
 <br>
-<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) { ?>
+<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) { $replierInfo = users::getUserInfoFromUid($reply->authorId) ?>
     <div class="card rounded-0 shadow-sm">
         <div class="card-body">
             <div class="reply row">
                 <div class="col-2 divider-right">
-                    <a class="pl-1 <?= $reply->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $reply->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $reply->authorId ?>"><?= $reply->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $reply->username ?></a>
+                    <a class="pl-1 <?= $replierInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $replierInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $reply->authorId ?>"><?= $replierInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $replierInfo->username ?></a>
                     <br>
-                    <img src="/thumbnails/avatar?id=<?= $reply->authorId ?>&amp;x=100&amp;y=100" title="<?= $reply->username ?>" alt="<?= $reply->username ?>" class="img-fluid">
+                    <img src="/thumbnails/avatar?id=<?= $reply->authorId ?>&amp;x=100&amp;y=100" title="<?= $replierInfo->username ?>" alt="<?= $replierInfo->username ?>" class="img-fluid">
                     <br>
                     <span>Total Posts: <?= users::getUserForumPosts($reply->authorId) ?></span>
                 </div>
@@ -103,25 +114,29 @@ pageBuilder::buildHeader();
         <?php } ?>
     </div>
     <div class="col mt-2">
-        <nav>
-            <ul class="pagination justify-content-end mb-0">
-                <li class="page-item">
-                    <a class="page-link" aria-label="Previous">
-                        <span aria-hidden="true">«</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">»</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <?php if ($pages > 1) { ?>
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Forum replies pagination">
+                    <ul class="pagination">
+                        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                            <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost/?page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
+                            <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost/?page=<?= $paginator ?>"><?= $paginator ?></a></li>
+                        <?php } ?>
+                        <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                            <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost/?page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        <?php } ?>
     </div>
 </div>
 
