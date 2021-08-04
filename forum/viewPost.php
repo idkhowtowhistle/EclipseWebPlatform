@@ -169,7 +169,7 @@ pageBuilder::buildHeader();
             "postId": $(this).attr("data-reply-id")
         }, function(data) {
             if (data.success) {
-                window.location.href = '/forum/viewPost?id=<?= $reply->replyTo ?>';
+                window.location.href = '/forum/viewPost?id=<?= $threadId ?>';
             } else {
                 toastr["error"](data.message);
             }
