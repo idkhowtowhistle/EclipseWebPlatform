@@ -98,12 +98,12 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="row">
     <div class="container">
-        <div class="col-9">
+        <div class="col-6">
             <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
                 <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
             <?php } ?>
         </div>
-        <div class="col-3 mt-1">
+        <div class="col-6">
             <nav aria-label="Forum replies pagination">
                 <ul class="pagination">
                     <li class="page-item">
