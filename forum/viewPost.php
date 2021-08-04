@@ -23,34 +23,40 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-        <p class="my-auto d-inline">
-            <?= htmlspecialchars($threadInfo->postTitle) ?>
-            <br>
-            <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
-        </p>
-        <?php if (SESSION["adminLevel"] > 1) { ?>
-            <div class="d-inline float-right">
-                <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
-                <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
+        <div class="row">
+            <div class="col-6">
+                <p class="my-auto d-inline">
+                    <?= htmlspecialchars($threadInfo->postTitle) ?>
+                    <br>
+                    <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
+                </p>
             </div>
-            <script>
-                $('button[data-control="lockPost"]').on('click', this, function() {
-                    var button = this;
-                    $(button).attr("disabled", "disabled");
-                    $.post('/api/forum/lockPost', {
-                        "postId": "<?= $threadId ?>",
-                        "locked": $(this).attr("data-locked")
-                    }, function(data) {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            toastr["error"](data.message);
-                        }
-                        $(button).removeAttr("disabled");
-                    });
-                });
-            </script>
-        <?php } ?>
+            <div class="col-6">
+                <?php if (SESSION["adminLevel"] > 1) { ?>
+                    <div class="d-inline float-right">
+                        <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
+                        <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
+                    </div>
+                    <script>
+                        $('button[data-control="lockPost"]').on('click', this, function() {
+                            var button = this;
+                            $(button).attr("disabled", "disabled");
+                            $.post('/api/forum/lockPost', {
+                                "postId": "<?= $threadId ?>",
+                                "locked": $(this).attr("data-locked")
+                            }, function(data) {
+                                if (data.success) {
+                                    location.reload();
+                                } else {
+                                    toastr["error"](data.message);
+                                }
+                                $(button).removeAttr("disabled");
+                            });
+                        });
+                    </script>
+                <?php } ?>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <div class="reply row">
