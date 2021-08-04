@@ -102,7 +102,7 @@ pageBuilder::buildHeader();
             <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
         <?php } ?>
     </div>
-    <div class="col">
+    <div class="col mt-2">
         <nav>
             <ul class="pagination justify-content-end mb-0">
                 <li class="page-item disabled">
