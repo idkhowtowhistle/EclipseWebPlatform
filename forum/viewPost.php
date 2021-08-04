@@ -27,7 +27,7 @@ pageBuilder::buildHeader();
     <a href="/" class="breadcrumb-item">Mercury</a>
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $threadInfo->subForumId ?>" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a>
-    <span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span>
+    <span class="breadcrumb-item active"><?= general::filterText($threadInfo->postTitle, true, false) ?></span>
 </nav>
 <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
@@ -37,7 +37,7 @@ pageBuilder::buildHeader();
         <div class="row">
             <div class="col-6">
                 <p class="my-auto d-inline">
-                    <?= htmlspecialchars($threadInfo->postTitle) ?>
+                    <?= general::filterText($threadInfo->postTitle, true, false) ?>
                     <br>
                     <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
                 </p>
