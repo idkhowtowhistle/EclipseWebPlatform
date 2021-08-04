@@ -101,7 +101,9 @@ pageBuilder::buildHeader();
         <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
             <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
         <?php } ?>
-        <nav aria-label="Forum replies pagination">
+    </div>
+    <div class="col">
+    <nav aria-label="Forum replies pagination">
             <ul class="pagination">
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Previous">
