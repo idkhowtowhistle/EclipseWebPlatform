@@ -47,6 +47,7 @@ pageBuilder::buildHeader();
                     <div class="d-inline float-right">
                         <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
                         <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
+                        <button type="button" data-control="deleteThread" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete Thread</button>
                     </div>
                     <script>
                         $('button[data-control="lockPost"]').on('click', this, function() {
@@ -55,6 +56,21 @@ pageBuilder::buildHeader();
                             $.post('/api/forum/lockPost', {
                                 "postId": "<?= $threadId ?>",
                                 "locked": $(this).attr("data-locked")
+                            }, function(data) {
+                                if (data.success) {
+                                    location.reload();
+                                } else {
+                                    toastr["error"](data.message);
+                                }
+                                $(button).removeAttr("disabled");
+                            });
+                        });
+
+                        $('button[data-control="deleteThread"]').on('click', this, function() {
+                            var button = this;
+                            $(button).attr("disabled", "disabled");
+                            $.post('/api/forum/deleteThread', {
+                                "postId": "<?= $threadId ?>"
                             }, function(data) {
                                 if (data.success) {
                                     location.reload();
