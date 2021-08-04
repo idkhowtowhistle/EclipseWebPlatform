@@ -73,7 +73,7 @@ pageBuilder::buildHeader();
                                 "postId": "<?= $threadId ?>"
                             }, function(data) {
                                 if (data.success) {
-                                    window.location.href = '/forum/sub?id=<?= $threadInfo->subForumId ?>';
+                                    window.location.href = '/forum/sub?id=<?=$threadInfo->subForumId?>';
                                 } else {
                                     toastr["error"](data.message);
                                 }
@@ -95,14 +95,7 @@ pageBuilder::buildHeader();
                 <span>Total Posts: <?= users::getUserForumPosts($threadInfo->authorId) ?></span>
             </div>
             <div class="col-6">
-                <div class="row">
-                    <div class="col">
-                        <small class="text-muted">Posted on <?= date("n/j/Y", $threadInfo->datePosted) ?> at <?= date("h:i:sa", $threadInfo->datePosted) ?></small>
-                    </div>
-                    <div class="col justify-content-end">
-                        <button type="button" data-control="deletePost" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
-                    </div>
-                </div>
+                <small class="text-muted">Posted on <?= date("n/j/Y", $threadInfo->datePosted) ?> at <?= date("h:i:sa", $threadInfo->datePosted) ?></small> 
                 <br>
                 <?= general::filterText($threadInfo->postContents, true, false) ?>
             </div>
@@ -110,8 +103,7 @@ pageBuilder::buildHeader();
     </div>
 </div>
 <br>
-<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) {
-    $replierInfo = users::getUserInfoFromUid($reply->authorId) ?>
+<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) { $replierInfo = users::getUserInfoFromUid($reply->authorId) ?>
     <div class="card rounded-0 shadow-sm">
         <div class="card-body">
             <div class="reply row">
@@ -139,25 +131,25 @@ pageBuilder::buildHeader();
     </div>
     <div class="col mt-2">
         <?php if ($pages > 1) { ?>
-            <nav aria-label="Forum replies pagination">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                        <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?id=' . $threadId . '&page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
-                        <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?id=<?= $threadId ?>&page=<?= $paginator ?>"><?= $paginator ?></a></li>
-                    <?php } ?>
-                    <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                        <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?id=' . $threadId . '&page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+                <nav aria-label="Forum replies pagination">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                            <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?id='.$threadId.'&page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
+                            <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?id=<?=$threadId?>&page=<?= $paginator ?>"><?= $paginator ?></a></li>
+                        <?php } ?>
+                        <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                            <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?id='.$threadId.'&page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
         <?php } ?>
     </div>
 </div>
