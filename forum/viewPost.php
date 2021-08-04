@@ -118,16 +118,16 @@ pageBuilder::buildHeader();
                 <nav aria-label="Forum replies pagination">
                     <ul class="pagination justify-content-end">
                         <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                            <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost/?id='.$threadId.'&page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
+                            <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?id='.$threadId.'&page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
                         <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
-                            <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost/?id=<?=$threadId?>&page=<?= $paginator ?>"><?= $paginator ?></a></li>
+                            <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?id=<?=$threadId?>&page=<?= $paginator ?>"><?= $paginator ?></a></li>
                         <?php } ?>
                         <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                            <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost/?id='.$threadId.'&page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
+                            <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?id='.$threadId.'&page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
