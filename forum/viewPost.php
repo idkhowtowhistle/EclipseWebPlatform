@@ -138,7 +138,7 @@ pageBuilder::buildHeader();
         <?php } ?>
     </div>
     <div class="col mt-2">
-        <?php if ($pages > 1) { ?>
+        <?php if ($pages >= 2) { ?>
             <nav aria-label="Forum replies pagination">
                 <ul class="pagination justify-content-end">
                     <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
