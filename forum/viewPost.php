@@ -31,7 +31,7 @@ pageBuilder::buildHeader();
                     <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
                 </p>
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-2">
                 <?php if (SESSION["adminLevel"] > 1) { ?>
                     <div class="d-inline float-right">
                         <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
