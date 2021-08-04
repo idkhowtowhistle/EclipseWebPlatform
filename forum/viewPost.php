@@ -88,7 +88,7 @@ pageBuilder::buildHeader();
                     <span>Total Posts: <?= users::getUserForumPosts($reply->authorId) ?></span>
                 </div>
                 <div class="col-6">
-                    <small class="text-muted">Posted on <?= date("n/j/Y", $reply->datePosted) ?> at <?= date("h:i:sa", $reply->datePosted) ?> - Replying to <?= htmlspecialchars($threadInfo->postTitle) ?></small>
+                    <small class="text-muted">Posted on <?= date("n/j/Y", $reply->datePosted) ?> at <?= date("h:i:sa", $reply->datePosted) ?></small>
                     <br>
                     <?= general::filterText($reply->replyContents, true, false) ?>
                 </div>
@@ -96,7 +96,32 @@ pageBuilder::buildHeader();
         </div>
     </div>
 <?php } ?>
-<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
-    <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
-<?php } ?>
+<div class="row">
+    <div class="col-6">
+        <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+            <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
+        <?php } ?>
+    </div>
+    <div class="col-6">
+        <nav aria-label="Forum replies pagination">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 <?php pageBuilder::buildFooter(); ?>
