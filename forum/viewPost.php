@@ -165,7 +165,7 @@ pageBuilder::buildHeader();
     $('button[data-control="deletePost"]').on('click', this, function() {
         var button = this;
         $(button).attr("disabled", "disabled");
-        $.post('/api/forum/deleteThread', {
+        $.post('/api/forum/deletePost', {
             "postId": $(this).attr("data-reply-id")
         }, function(data) {
             if (data.success) {
