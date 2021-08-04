@@ -73,7 +73,7 @@ pageBuilder::buildHeader();
                                 "postId": "<?= $threadId ?>"
                             }, function(data) {
                                 if (data.success) {
-                                    location.reload();
+                                    window.location.href = '/forum/sub?id=<?=$threadInfo->subForumId?>';
                                 } else {
                                     toastr["error"](data.message);
                                 }
