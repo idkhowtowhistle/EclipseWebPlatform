@@ -12,7 +12,7 @@ api::lastAction();
 $userId = SESSION["userId"];
 $postId = $_POST["postId"];
 
-$postInfo = forum::getThreadInfo($postId);
+$postInfo = forum::getReplyInfo($postId);
 if(!$postInfo) api::respond(400, false, "This post doesn't exist");
 
 $query = $pdo->prepare("UPDATE subforum_replies SET deleted = 1 WHERE id = :id");
