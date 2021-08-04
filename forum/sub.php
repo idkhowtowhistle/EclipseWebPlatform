@@ -44,12 +44,4 @@ pageBuilder::buildHeader();
         <?php } ?>
     </tbody>
 </table>
-<script>
-    $(document).ready(function() {
-        $('#forumThreads').DataTable({
-            "pagingType": "numbers",
-            "paging": true
-        });
-    });
-</script>
 <?php pageBuilder::buildFooter(); ?>
