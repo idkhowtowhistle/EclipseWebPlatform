@@ -123,23 +123,7 @@ pageBuilder::buildHeader();
                 <?php if (SESSION["adminLevel"] > 1) { ?>
                     <div class="col">
                         <div class="d-flex justify-content-end">
-                            <button type="button" data-control="deletePost" data-reply-id="<?=$reply->id?>" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
-                            <script>
-                                $('button[data-control="deletePost"]').on('click', this, function() {
-                                    var button = this;
-                                    $(button).attr("disabled", "disabled");
-                                    $.post('/api/forum/deleteThread', {
-                                        "postId": $(this).attr("data-reply-id")
-                                    }, function(data) {
-                                        if (data.success) {
-                                            window.location.href = '/forum/viewPost?id=<?= $reply->replyTo ?>';
-                                        } else {
-                                            toastr["error"](data.message);
-                                        }
-                                        $(button).removeAttr("disabled");
-                                    });
-                                });
-                            </script>
+                            <button type="button" data-control="deletePost" data-reply-id="<?= $reply->id ?>" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
                         </div>
                     </div>
                 <?php } ?>
@@ -177,5 +161,20 @@ pageBuilder::buildHeader();
         <?php } ?>
     </div>
 </div>
-
+<script>
+    $('button[data-control="deletePost"]').on('click', this, function() {
+        var button = this;
+        $(button).attr("disabled", "disabled");
+        $.post('/api/forum/deleteThread', {
+            "postId": $(this).attr("data-reply-id")
+        }, function(data) {
+            if (data.success) {
+                window.location.href = '/forum/viewPost?id=<?= $reply->replyTo ?>';
+            } else {
+                toastr["error"](data.message);
+            }
+            $(button).removeAttr("disabled");
+        });
+    });
+</script>
 <?php pageBuilder::buildFooter(); ?>
