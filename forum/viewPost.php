@@ -105,17 +105,17 @@ pageBuilder::buildHeader();
     <div class="col mt-2">
         <nav>
             <ul class="pagination justify-content-end mb-0">
-                <li class="page-item disabled">
+                <li class="page-item">
                     <a class="page-link" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                <li class="page-item active"><a class="page-link">1</a></li>
-                <li class="page-item"><a class="page-link" href="/forum/showpost?PostID=259&amp;page=2">2</a></li>
-                <li class="page-item"><a class="page-link" href="/forum/showpost?PostID=259&amp;page=3">3</a></li>
+                <li class="page-item"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="/forum/showpost?PostID=259&amp;page=2" aria-label="Next">
+                    <a class="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">»</span>
                         <span class="sr-only">Previous</span>
                     </a>
