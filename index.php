@@ -9,7 +9,7 @@ pageBuilder::buildHeader();
    <div class="jumbotron">
       <div class="row">
          <div class="col-1" id="logo" style="display:none;">
-         <img height="64" width="64" src="/img/mercury.png">
+         <img height="64" width="64" src="/img/mercury.png?t=<?=time();?>">
          </div>
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
