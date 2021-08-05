@@ -50,7 +50,7 @@ pageBuilder::buildHeader();
 </div>
 <script>
    $(function() {
-    $("#logo").show(300);
+    $("#logo").show(500);
 });
 </script>
 <?php pageBuilder::buildFooter(); ?>
