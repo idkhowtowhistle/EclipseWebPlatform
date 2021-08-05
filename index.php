@@ -8,7 +8,7 @@ pageBuilder::buildHeader();
 <div class="container">
    <div class="jumbotron">
       <div class="row">
-         <div class="col">
+         <div class="col-1" id="logo" style="display:none;">
          <img height="64" width="64" src="/img/mercury.png">
          </div>
          <div class="col">
@@ -48,5 +48,9 @@ pageBuilder::buildHeader();
       </div>
    </div>
 </div>
-
+<script>
+   $(function() {
+    $("#logo").show(300);
+});
+</script>
 <?php pageBuilder::buildFooter(); ?>
