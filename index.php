@@ -8,7 +8,7 @@
 <div class="container">
    <div class="jumbotron">
       <h1 class="font-weight-normal">Welcome to <?=SITE_CONFIG["site"]["name"]?></h1>
-      <h5 class="font-weight-normal">Currently in W.I.P.</h5>
+      <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
    </div>
    <div class="row">
    <div class="col-sm-6">
