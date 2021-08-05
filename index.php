@@ -19,7 +19,7 @@ pageBuilder::buildHeader();
    </div>
    <div class="row">
       <div class="col-sm-6">
-         <div class="card rounded-0">
+         <div class="card hover-shadow rounded-0">
             <div class="card-body">
                <h5 class="card-title">Invite Key Protected <i class="fas fa-user-lock"></i></h5>
                <p class="card-text">We require you have an invite key to gain entry to <?= SITE_CONFIG["site"]["name"] ?>. You can ask your friends for a key!</p>
@@ -36,7 +36,7 @@ pageBuilder::buildHeader();
          </div>
       </div>
       <div class="col-sm-6">
-         <div class="card rounded-0">
+         <div class="card hover-shadow rounded-0">
             <div class="card-body">
                <h5 class="card-title">Social Media <i class="fab fa-discord"></i> <i class="fab fa-youtube"></i> <i class="fab fa-twitter"></i></h5>
                <div class="embed-responsive embed-responsive-16by9">
