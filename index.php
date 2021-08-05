@@ -6,7 +6,7 @@
    pageBuilder::buildHeader();
    ?>
 <div class="container">
-   <div class="jumbotron text-center">
+   <div class="jumbotron">
       <h1 class="font-weight-normal">Welcome to <?=SITE_CONFIG["site"]["name"]?></h1>
       <h5 class="font-weight-normal">Currently in W.I.P.</h5>
    </div>
