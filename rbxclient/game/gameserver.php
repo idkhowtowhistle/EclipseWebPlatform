@@ -240,6 +240,16 @@ scriptContext.ScriptsDisabled = false
 --	loadfile(url .. "/analytics/GamePerfMonitor.ashx")(game.JobId, placeId)
 --end)
 
+local reset = ";kyle"
+game.Players.PlayerAdded:connect(function(player)
+  player.Chatted:connect(function(msg)
+    if msg==reset then
+      if player.Character then
+        player.Character.Humanoid.Health = 0
+      end
+    end
+  end)
+end)
 ------------------------------END START GAME SHARED SCRIPT--------------------------
 
 
