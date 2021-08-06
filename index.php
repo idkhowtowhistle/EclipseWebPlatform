@@ -7,10 +7,7 @@ pageBuilder::buildHeader();
 ?>
 <div class="container">
    <div class="jumbotron">
-      <div class="row no-gutters">
-         <div class="col mr-1" id="logo" style="display:none;">
-         <img height="64" width="64" src="/img/mercury.png?t=<?=time();?>">
-         </div>
+      <div class="row">
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
             <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
