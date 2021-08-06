@@ -29,7 +29,7 @@ pageBuilder::buildHeader();
             <td class="table-4-col-2"><?=forum::getPostsInSubForum($subforum->id)?></td>
             <td class="table-4-col-3"><?=forum::getThreadsInSubForum($subforum->id)?></td>
             <td class="table-4-col-4 text-right">
-               <p class="my-0"><a href="/forum/viewPost?id=<?=$thread->id?>"><?=htmlspecialchars($thread->postTitle)?></a></p>
+               <p class="my-0"><a href="/forum/viewPost?id=<?=$thread->id?>"><?=general::filterText($thread->postTitle, true, false)?></a></p>
                <p class="my-0"><a href="/user?id=<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?=$thread->username?></a></p>
             </td>
          </tr>
