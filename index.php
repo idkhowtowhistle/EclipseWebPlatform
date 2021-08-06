@@ -43,6 +43,9 @@ pageBuilder::buildHeader();
                   <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/3PVleglv3lk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                </div>
                <small class="text-muted">8.5/10 (cred. <a href="https://www.youtube.com/channel/UCzw-myqzUucY0nJfLIAsCZA">pastq)<a></small>
+               <hr>
+               <small class="text-muted">Want to check out more content about Mercury?</small>
+               <a href="/gallery" type="button" class="btn btn-sm btn-success">Gallery</a>
             </div>
          </div>
       </div>
