@@ -82,9 +82,9 @@ class pageBuilder
 		<link rel="stylesheet" href="<?= $url . "?t=" . time(); ?>">
 		<?php } foreach (self::$JSdependencies as $url) { ?>
 		<script src="<?= $url ?>"></script>
+		<?php } ?>
 		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8692690750276881"
      crossorigin="anonymous"></script>
-		<?php } ?>
 		<style>
 		/* body
 		{ 
