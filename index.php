@@ -49,9 +49,4 @@ pageBuilder::buildHeader();
       </div>
    </div>
 </div>
-<script>
-   $(function() {
-      $("#logo").show(500);
-   });
-</script>
 <?php pageBuilder::buildFooter(); ?>
