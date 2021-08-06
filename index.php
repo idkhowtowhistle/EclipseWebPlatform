@@ -7,8 +7,8 @@ pageBuilder::buildHeader();
 ?>
 <div class="container">
    <div class="jumbotron">
-      <div class="row">
-         <div class="col-1" id="logo" style="display:none;">
+      <div class="row gx-2">
+         <div class="col" id="logo" style="display:none;">
          <img height="64" width="64" src="/img/mercury.png?t=<?=time();?>">
          </div>
          <div class="col">
