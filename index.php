@@ -45,6 +45,7 @@ pageBuilder::buildHeader();
                <small class="text-muted">8.5/10 (cred. <a href="https://www.youtube.com/channel/UCzw-myqzUucY0nJfLIAsCZA">pastq)<a></small>
                <hr>
                <small class="text-muted">Want to check out more content about Mercury?</small>
+               <br>
                <a href="/gallery" type="button" class="btn btn-sm btn-success">Gallery</a>
             </div>
          </div>
