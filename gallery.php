@@ -10,5 +10,44 @@ pageBuilder::buildHeader();
         </div>
     </div>
 </div>
-
+<h5 class="font-weight-normal">Youtube</h5>
+<div class="row">
+    <div class="col">
+        <div class="card hover-shadow">
+            <div class="card-body">
+                <iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube.com/embed/gzsQDePjhvU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <br>
+                <small class="text-muted">Official Mercury Trailer</small>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card hover-shadow">
+            <div class="card-body">
+                <iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube.com/embed/Fq7saMpo7Io" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <br>
+                <small class="text-muted">"Mercury : Old Roblox Revival !"</small>
+            </div>
+        </div>
+    </div>
+    <div class="w-100"><hr></div>
+    <div class="col">
+        <div class="card hover-shadow">
+            <div class="card-body">
+                <iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube.com/embed/eerIc7RawBs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <br>
+                <small class="text-muted">"Mercury review, +KJF and pizzaboxer play this!!!"</small>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card hover-shadow">
+            <div class="card-body">
+                <iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube-nocookie.com/embed/3PVleglv3lk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <br>
+                <small class="text-muted">"Mercury: A Revival Review"</small>
+            </div>
+        </div>
+    </div>
+</div>
 <?php pageBuilder::buildFooter(); ?>
