@@ -222,6 +222,9 @@ class pageBuilder
 						<li class="nav-item">
 							<a class="nav-link" href="/">Home</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/forum">Forum</a>
+						</li>
 						<?php if (SESSION) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href="/games">Games</a>
@@ -231,9 +234,6 @@ class pageBuilder
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/browse">Users</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/forum">Forum</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
