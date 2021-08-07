@@ -22,11 +22,6 @@ pageBuilder::buildHeader();
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
             <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
          </div>
-         <div class="col d-flex justify-content-end">
-            <button class="btn btn-outline-light rounded-0" data-control="nextBg" type="button">
-               <i id="right" class="fas fa-arrow-right"></i>
-            </button>
-         </div>
       </div>
    </div>
    <div class="row">
@@ -64,14 +59,4 @@ pageBuilder::buildHeader();
       </div>
    </div>
 </div>
-<script>
-         $("button[data-control$='nextBg']").on('click', function(){
-         if($("#bgJumbotron").css("background") === "url('/img/indexbg1.png') no-repeat center center")
-         {
-            $("#bgJumbotron").css("background") === "url('/img/indexbg2.png') no-repeat center center"
-         } else {
-            $("#bgJumbotron").css("background") === "url('/img/indexbg1.png') no-repeat center center"
-         }
-         });
-</script>
 <?php pageBuilder::buildFooter(); ?>
