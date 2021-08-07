@@ -66,6 +66,9 @@ pageBuilder::buildHeader();
    </div>
 </div>
 <script>
-
+         $("button[data-control$='nextBg']").on('click', function(){
+         $("#right").toggle(400);
+         $("#left").toggle(400); 
+         });
 </script>
 <?php pageBuilder::buildFooter(); ?>
