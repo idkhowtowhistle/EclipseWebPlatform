@@ -16,7 +16,7 @@ pageBuilder::buildHeader();
    }
 </style>
 <div class="container">
-   <div class="jumbotron">
+   <div class="jumbotron" id="#bgjumbotron">
       <div class="row">
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
@@ -59,4 +59,11 @@ pageBuilder::buildHeader();
       </div>
    </div>
 </div>
+<script>
+   $("#bgjumbotron").hover(function() {
+      $(this).css('background-image','url(/img/indexbg1.png)')
+   }, function() {
+      $(this).css('background-image','url(/img/indexbg2.png)')
+   })
+</script>
 <?php pageBuilder::buildFooter(); ?>
