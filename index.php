@@ -16,7 +16,7 @@ pageBuilder::buildHeader();
    }
 </style>
 <div class="container">
-   <div class="jumbotron">
+   <div class="jumbotron" id="bgJumbotron">
       <div class="row">
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
@@ -66,7 +66,12 @@ pageBuilder::buildHeader();
 </div>
 <script>
          $("button[data-control$='nextBg']").on('click', function(){
-         
+         if($("bgJumbotron").css("background") = "url('/img/indexbg1.png') no-repeat center center")
+         {
+            $("bgJumbotron").css("background") = "url('/img/indexbg2.png') no-repeat center center"
+         } else {
+            $("bgJumbotron").css("background") = "url('/img/indexbg1.png') no-repeat center center"
+         }
          });
 </script>
 <?php pageBuilder::buildFooter(); ?>
