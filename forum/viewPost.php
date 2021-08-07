@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-users::requireLogin();
 
 $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
@@ -29,7 +28,7 @@ pageBuilder::buildHeader();
     <a href="/forum/sub?id=<?= $threadInfo->subForumId ?>" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a>
     <span class="breadcrumb-item active"><?= general::filterText($threadInfo->postTitle, true, false) ?></span>
 </nav>
-<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+<?php if ((SESSION && $threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION && SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
@@ -43,7 +42,7 @@ pageBuilder::buildHeader();
                 </p>
             </div>
             <div class="col-6 mt-2">
-                <?php if (SESSION["adminLevel"] > 1) { ?>
+                <?php if (SESSION && SESSION["adminLevel"] > 1) { ?>
                     <div class="d-inline float-right">
                         <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
                         <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
@@ -120,7 +119,7 @@ pageBuilder::buildHeader();
                     <br>
                     <?= general::filterText($reply->replyContents, true, false) ?>
                 </div>
-                <?php if (SESSION["adminLevel"] > 1) { ?>
+                <?php if (SESSION && SESSION["adminLevel"] > 1) { ?>
                     <div class="col">
                         <div class="d-flex justify-content-end">
                             <button type="button" data-control="deletePost" data-reply-id="<?= $reply->id ?>" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
@@ -133,7 +132,7 @@ pageBuilder::buildHeader();
 <?php } ?>
 <div class="row">
     <div class="col">
-        <?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+        <?php if ((SESSION && $threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION && SESSION["adminLevel"] > 2) { ?>
             <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
         <?php } ?>
     </div>
