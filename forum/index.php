@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-users::requireLogin();
 
 $subforums = db::run("SELECT * FROM subforums ORDER BY subImportance DESC");
 
