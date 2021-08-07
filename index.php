@@ -22,8 +22,8 @@ pageBuilder::buildHeader();
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
             <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
          </div>
-         <div class="col col d-flex justify-content-end">
-            <button class="btn btn-outline-light" data-control="nextBg" style="border-radius: 25px;" type="button">
+         <div class="col d-flex justify-content-end">
+            <button class="btn btn-outline-light rounded-0" data-control="nextBg" type="button">
                <i id="right" class="fas fa-arrow-right"></i>
                <i id="left" class="fas fa-arrow-left" style="display: none;"></i>
             </button>
