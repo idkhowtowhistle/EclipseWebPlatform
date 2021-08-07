@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-users::requireLogin();
 
 $subForumId = $_GET["id"] ?? false;
 $subForumInfo = forum::getSubForumInfo($subForumId);
@@ -15,7 +14,7 @@ pageBuilder::buildHeader();
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <span class="breadcrumb-item active"><?= $subForumInfo->subName ?></span>
 </nav>
-<?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
+<?php if (SESSION && !SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION && SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
 <table class="table mb-4" id="forumThreads">
