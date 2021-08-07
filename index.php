@@ -7,7 +7,7 @@ pageBuilder::buildHeader();
 ?>
 <style>
    .jumbotron {
-      background: url("/img/indexbg1.png") no-repeat center center; 
+      background-image: url("/img/indexbg1.png") no-repeat center center; 
    }
 </style>
 <div class="container">
