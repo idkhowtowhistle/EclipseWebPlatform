@@ -16,11 +16,17 @@ pageBuilder::buildHeader();
    }
 </style>
 <div class="container">
-   <div class="jumbotron" id="bgjumbotron">
+   <div class="jumbotron">
       <div class="row">
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
             <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
+         </div>
+         <div class="col">
+            <button class="btn btn-outline-light" data-control="nextBg" style="border-radius: 25px;" type="button">
+               <i id="right" class="fas fa-arrow-right"></i>
+               <i id="left" class="fas fa-arrow-left" style="display: none;"></i>
+            </button>
          </div>
       </div>
    </div>
@@ -60,10 +66,6 @@ pageBuilder::buildHeader();
    </div>
 </div>
 <script>
-   $("#bgjumbotron").hover(function() {
-      $(this).css('background','url(/img/indexbg1.png) no-repeat center center')
-   }, function() {
-      $(this).css('background','url(/img/indexbg2.png) no-repeat center center')
-   })
+
 </script>
 <?php pageBuilder::buildFooter(); ?>
