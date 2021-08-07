@@ -23,7 +23,7 @@ pageBuilder::buildHeader();
             <h5 class="font-weight-normal">Attention Kryptonians, we're relocating to a new planet...</h5>
          </div>
          <div class="col">
-            <button class="btn btn-outline-light" data-control="nextBg" style="border-radius: 25px;" type="button">
+            <button class="btn btn-outline-light justify-content-end align-middle" data-control="nextBg" style="border-radius: 25px;" type="button">
                <i id="right" class="fas fa-arrow-right"></i>
                <i id="left" class="fas fa-arrow-left" style="display: none;"></i>
             </button>
