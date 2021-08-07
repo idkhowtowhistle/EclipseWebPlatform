@@ -12,6 +12,7 @@ pageBuilder::buildHeader();
       -moz-background-size: 100% 100%;
       -o-background-size: 100% 100%;
       background-size: 100% 100%;
+      color: white;
    }
 </style>
 <div class="container">
