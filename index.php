@@ -66,11 +66,11 @@ pageBuilder::buildHeader();
 </div>
 <script>
          $("button[data-control$='nextBg']").on('click', function(){
-         if($("bgJumbotron").css("background") = "url('/img/indexbg1.png') no-repeat center center")
+         if($("bgJumbotron").css("background") === "url('/img/indexbg1.png') no-repeat center center")
          {
-            $("bgJumbotron").css("background") = "url('/img/indexbg2.png') no-repeat center center"
+            $("bgJumbotron").css("background") === "url('/img/indexbg2.png') no-repeat center center"
          } else {
-            $("bgJumbotron").css("background") = "url('/img/indexbg1.png') no-repeat center center"
+            $("bgJumbotron").css("background") === "url('/img/indexbg1.png') no-repeat center center"
          }
          });
 </script>
