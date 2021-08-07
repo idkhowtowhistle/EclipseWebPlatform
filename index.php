@@ -5,6 +5,11 @@ if (SESSION) {
 }
 pageBuilder::buildHeader();
 ?>
+<style>
+   .container {
+      background: url("/img/indexbg1.png") no-repeat center center; 
+   }
+</style>
 <div class="container">
    <div class="jumbotron">
       <div class="row">
