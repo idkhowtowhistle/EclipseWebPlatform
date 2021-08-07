@@ -16,7 +16,7 @@ pageBuilder::buildHeader();
    }
 </style>
 <div class="container">
-   <div class="jumbotron" id="#bgjumbotron">
+   <div class="jumbotron" id="bgjumbotron">
       <div class="row">
          <div class="col">
             <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
