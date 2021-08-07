@@ -25,7 +25,6 @@ pageBuilder::buildHeader();
          <div class="col d-flex justify-content-end">
             <button class="btn btn-outline-light rounded-0" data-control="nextBg" type="button">
                <i id="right" class="fas fa-arrow-right"></i>
-               <i id="left" class="fas fa-arrow-left" style="display: none;"></i>
             </button>
          </div>
       </div>
@@ -67,8 +66,7 @@ pageBuilder::buildHeader();
 </div>
 <script>
          $("button[data-control$='nextBg']").on('click', function(){
-         $("#right").toggle(400);
-         $("#left").toggle(400); 
+         
          });
 </script>
 <?php pageBuilder::buildFooter(); ?>
