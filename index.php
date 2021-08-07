@@ -61,9 +61,9 @@ pageBuilder::buildHeader();
 </div>
 <script>
    $("#bgjumbotron").hover(function() {
-      $(this).css('background-image','url(/img/indexbg1.png)')
+      $(this).css('background','url(/img/indexbg1.png) no-repeat center center')
    }, function() {
-      $(this).css('background-image','url(/img/indexbg2.png)')
+      $(this).css('background','url(/img/indexbg2.png) no-repeat center center')
    })
 </script>
 <?php pageBuilder::buildFooter(); ?>
