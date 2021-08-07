@@ -6,7 +6,7 @@ if (SESSION) {
 pageBuilder::buildHeader();
 ?>
 <style>
-   .container {
+   .jumbotron {
       background: url("/img/indexbg1.png") no-repeat center center; 
    }
 </style>
