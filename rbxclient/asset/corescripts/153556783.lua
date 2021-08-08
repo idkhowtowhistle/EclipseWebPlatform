@@ -171,7 +171,6 @@ function movementOutsideDeadZone(movementVector)
 end
 
 function constructThumbstick(defaultThumbstickPos, updateFunction, stationaryThumbstick)
-	game:SetMessage("constructThumbstick")
 	local thumbstickFrame = Instance.new("Frame")
 	thumbstickFrame.Name = "ThumbstickFrame"
 	thumbstickFrame.Active = true
@@ -265,7 +264,6 @@ function constructThumbstick(defaultThumbstickPos, updateFunction, stationaryThu
 end
 
 function setupCharacterMovement( parentFrame )
-	game:SetMessage("setupCharacterMovement")
 	local lastMovementVector, lastMaxMovement = nil
 	local moveCharacterFunc = localPlayer.MoveCharacter
 	local moveCharacterFunction = function ( movementVector, maxMovement )
@@ -535,7 +533,6 @@ function setupCameraControl(parentFrame, refreshCharacterMoveFunc)
 end
 
 function setupTouchControls()
-	game:SetMessage("setupTouchControls")
 	local touchControlFrame = Instance.new("Frame")
 	touchControlFrame.Name = "TouchControlFrame"
 	touchControlFrame.Size = UDim2.new(1,0,1,0)
@@ -562,7 +559,6 @@ end
 -- Start of Script
 
 if true then --userInputService:IsLuaTouchControls() then
-	game:SetMessage("IsLuaTouchControls")
 	setupTouchControls()
 else
 	script:Destroy()
