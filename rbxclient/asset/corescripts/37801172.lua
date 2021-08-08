@@ -27,13 +27,11 @@ scriptContext:AddCoreScript(59002209, scriptContext, "CoreScripts/Sections")
 waitForChild(game:GetService("CoreGui"),"RobloxGui")
 local screenGui = game:GetService("CoreGui"):FindFirstChild("RobloxGui")
 
-if not touchEnabled then
+if true then
 	-- ToolTipper  (creates tool tips for gui)
 	scriptContext:AddCoreScript(36868950,screenGui,"CoreScripts/ToolTip")
 	-- SettingsScript 
 	scriptContext:AddCoreScript(46295863,screenGui,"CoreScripts/Settings")
-else
-	scriptContext:AddCoreScript(153556783,screenGui,"CoreScripts/Settings")
 end
 
 -- MainBotChatScript
@@ -98,9 +96,6 @@ game.Workspace.ChildAdded:connect(function(nchild)
 end)
 
 if touchEnabled then -- touch devices don't use same control frame
-	-- only used for touch device button generation
-	scriptContext:AddCoreScript(152908679,screenGui,"CoreScripts/ContextActionTouch")
-	
 	waitForChild(screenGui, 'ControlFrame')
 	waitForChild(screenGui.ControlFrame, 'BottomLeftControl')
 	screenGui.ControlFrame.BottomLeftControl.Visible = false
