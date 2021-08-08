@@ -13,7 +13,7 @@ $query->execute();
 <div class="app py-4 container">
 <h3 class="mb-4 font-weight-normal">Invite Keys</h3>
 <div class="row py-4">
-<div class="col-2">
+<div class="col">
    <div class="list-group" id="list-tab" role="tablist">
       <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="list" id="list-admin-list" class="list-group-item list-group-item-action active">Create Key</a>
       <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="list" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Invite Keys</a>
@@ -95,7 +95,7 @@ $query->execute();
       <?php if(SESSION["adminLevel"] >= 3) { ?>
       <div class="card">
          <div class="card-body">
-            <div class="row my-4">
+            <div class="row my-1">
                <div class="col-lg-2 pr-1">
                   <input type="number" min="1" max="<?=$totalBanners?>" placeholder="Key ID" class="form-control" name="keyId" id="keyId" value="">  
                </div>
