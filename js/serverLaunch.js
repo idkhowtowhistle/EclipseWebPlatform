@@ -26,8 +26,9 @@ var mercury_games =
     {
         if(window.navigator.userAgent.includes("ROBLOX Android App") && serverId != 156)
         {
-            $(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> Games are not supported on mobile");
-            $(".place-launcher-error").fadeIn(500);
+            //$(".place-launcher-error").html("<i class='fas fa-times-circle text-danger'></i> Games are not supported on mobile");
+            //$(".place-launcher-error").fadeIn(500);
+            window.location = "/games/start?placeid=156";
             return;
         }
 

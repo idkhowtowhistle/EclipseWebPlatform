@@ -24,7 +24,7 @@ $response =
 
 if($serverId == 156) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
 {
-	$ticket = generateUUID();
+	/*$ticket = generateUUID();
 	games::createClientSession($serverId, 27, $ticket);
 	$joinscripturl = "http://www.banland.xyz/game/join.ashx?ticket=$ticket";
 	respond([
@@ -34,7 +34,15 @@ if($serverId == 156) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER[
 		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
 		"authenticationTicket" => "test"
 	]);
-	die();
+	die();*/
+
+	respond([
+		"jobId" => "$serverId", 
+		"status" => 2, 
+		"joinScriptUrl" => "https://www.banland.xyz/Game/Visit.ashx?PlaceID=1818", 
+		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
+		"authenticationTicket" => "test"
+	]);
 }
 
 if ($request != "RequestGame") die(json_encode(["error" => "Invalid request type"]));

@@ -49,7 +49,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 		}
   }
 }
-  pageBuilder::buildHeader();
+
+pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
 <div class="row">

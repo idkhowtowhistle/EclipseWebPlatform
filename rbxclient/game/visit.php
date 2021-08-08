@@ -9,7 +9,7 @@ $UserName = SESSION ? SESSION["userName"] : "Guest ".rand(1, 9999);
 $UserID = SESSION ? SESSION["userId"] : 0;
 $CharappID = SESSION ? $UserID : 0;
 $IsWebsiteVisit = $PlaceID ? "true" : "false";
-$PlaceLoadUrl = $PlaceID ? "http://".$_SERVER['HTTP_HOST']."/Asset/?id=".$PlaceID : "";
+$PlaceLoadUrl = $PlaceID ? "http://".$_SERVER['HTTP_HOST']."/Asset/?id=".$PlaceID."&version=1&forcerblxasset" : "";
 $StatisticsUrl = $PlaceID ? "http://".$_SERVER['HTTP_HOST']."/Game/Statistics.ashx?UserID=$UserID&AssociatedCreatorID=1&AssociatedCreatorType=User&AssociatedPlaceID=$PlaceID" : "";
 
 ob_start();
