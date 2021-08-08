@@ -561,7 +561,9 @@ end
 -- Start of Script
 game:SetMessage("Start of Touch Script")
 if userInputService:IsLuaTouchControls() then
+	game:SetMessage("IsLuaTouchControls")
 	setupTouchControls()
 else
+	game:SetMessage("Destroy Script")
 	script:Destroy()
 end
