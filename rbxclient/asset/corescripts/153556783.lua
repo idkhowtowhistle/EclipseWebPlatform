@@ -1,35 +1,29 @@
 -- This is responsible for all touch controls we show (as of this writing, only on iOS)
 -- this includes character move thumbsticks, and buttons for jump, use of items, camera, etc.
 -- Written by Ben Tkacheff, Copyright Roblox 2013
-game:SetMessage("a")
+
 -- obligatory stuff to make sure we don't access nil data
 while not Game do
 	wait()
 end
-game:SetMessage("b")
 while not Game:FindFirstChild("Players") do
 	wait()
 end
-game:SetMessage("c")
 while not Game.Players.LocalPlayer do
 	wait()
 end
-game:SetMessage("d")
 while not Game:FindFirstChild("CoreGui") do
 	wait()
 end
-game:SetMessage("e")
 while not Game.CoreGui:FindFirstChild("RobloxGui") do
 	wait()
 end
-game:SetMessage("f")
 
 local userInputService = Game:GetService("UserInputService")
 local success = pcall(function() userInputService:IsLuaTouchControls() end)
 if not success then
 	script:Destroy()
 end
-game:SetMessage("g")
 
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
@@ -176,6 +170,7 @@ function movementOutsideDeadZone(movementVector)
 end
 
 function constructThumbstick(defaultThumbstickPos, updateFunction, stationaryThumbstick)
+	game:SetMessage("Hi Hello")
 	local thumbstickFrame = Instance.new("Frame")
 	thumbstickFrame.Name = "ThumbstickFrame"
 	thumbstickFrame.Active = true
