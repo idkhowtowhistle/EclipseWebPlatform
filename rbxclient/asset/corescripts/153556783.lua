@@ -1,7 +1,7 @@
 -- This is responsible for all touch controls we show (as of this writing, only on iOS)
 -- this includes character move thumbsticks, and buttons for jump, use of items, camera, etc.
 -- Written by Ben Tkacheff, Copyright Roblox 2013
-
+game:SetMessage("m")
 -- obligatory stuff to make sure we don't access nil data
 while not Game do
 	wait()
