@@ -1,12 +1,22 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-users::requireLogin();
 
 $threadId = $_GET["id"] ?? false;
 $threadInfo = forum::getThreadInfo($threadId);
 if (!$threadInfo) pageBuilder::errorCode(404);
 
-$replies = forum::getThreadReplies($threadId);
+$page = $_GET['page'] ?? 1;
+
+$repliescount = $pdo->prepare("SELECT COUNT(*) FROM subforum_replies WHERE replyTo = :id AND NOT deleted");
+$repliescount->bindParam(":id", $threadId, PDO::PARAM_INT);
+$repliescount->execute();
+
+$pages = ceil($repliescount->fetchColumn() / 10);
+$offset = ($page - 1) * 10;
+
+$replies = $pdo->prepare("SELECT * FROM subforum_replies WHERE replyTo = :id AND NOT deleted ORDER BY id ASC LIMIT 10 OFFSET $offset");
+$replies->bindParam(":id", $threadId, PDO::PARAM_INT);
+$replies->execute();
 
 pageBuilder::$pageConfig["og:description"] = general::filterText($threadInfo->postContents, true, false);
 pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, true, false);
@@ -16,41 +26,63 @@ pageBuilder::buildHeader();
     <a href="/" class="breadcrumb-item">Mercury</a>
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $threadInfo->subForumId ?>" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a>
-    <span class="breadcrumb-item active"><?= htmlspecialchars($threadInfo->postTitle) ?></span>
+    <span class="breadcrumb-item active"><?= general::filterText($threadInfo->postTitle, true, false) ?></span>
 </nav>
-<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
+<?php if ((SESSION && $threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION && SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
 <?php } ?>
 <div class="card rounded-0 shadow-sm">
     <div class="card-header rounded-0 text-white bg-secondary">
-        <p class="my-auto d-inline">
-            <?= htmlspecialchars($threadInfo->postTitle) ?>
-            <br>
-            <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
-        </p>
-        <?php if (SESSION["adminLevel"] > 1) { ?>
-            <div class="d-inline float-right">
-                <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
-                <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
+        <div class="row">
+            <div class="col-6">
+                <p class="my-auto d-inline">
+                    <?= general::filterText($threadInfo->postTitle, true, false) ?>
+                    <br>
+                    <small>Posted by <?= users::getUsernameFromUid($threadInfo->authorId) ?></small>
+                </p>
             </div>
-            <script>
-                $('button[data-control="lockPost"]').on('click', this, function() {
-                    var button = this;
-                    $(button).attr("disabled", "disabled");
-                    $.post('/api/forum/lockPost', {
-                        "postId": "<?= $threadId ?>",
-                        "locked": $(this).attr("data-locked")
-                    }, function(data) {
-                        if (data.success) {
-                            location.reload();
-                        } else {
-                            toastr["error"](data.message);
-                        }
-                        $(button).removeAttr("disabled");
-                    });
-                });
-            </script>
-        <?php } ?>
+            <div class="col-6 mt-2">
+                <?php if (SESSION && SESSION["adminLevel"] > 1) { ?>
+                    <div class="d-inline float-right">
+                        <button type="button" data-locked="<?= $threadInfo->locked ? "true" : "false" ?>" data-control="lockPost" class="btn btn-danger"><i class="fas fa-lock<?= $threadInfo->locked ? "-open" : "" ?>"></i> <?= $threadInfo->locked ? "Unl" : "L" ?>ock Post</button>
+                        <button type="button" data-pinned="<?= $threadInfo->pinned ? "true" : "false" ?>" data-control="pinPost" class="btn btn-success"><i class="fas fa-thumbtack"></i> <?= $threadInfo->pinned ? "Unp" : "P" ?>in Post</button>
+                        <button type="button" data-control="deleteThread" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete Thread</button>
+                    </div>
+                    <script>
+                        $('button[data-control="lockPost"]').on('click', this, function() {
+                            var button = this;
+                            $(button).attr("disabled", "disabled");
+                            $.post('/api/forum/lockPost', {
+                                "postId": "<?= $threadId ?>",
+                                "locked": $(this).attr("data-locked")
+                            }, function(data) {
+                                if (data.success) {
+                                    location.reload();
+                                } else {
+                                    toastr["error"](data.message);
+                                }
+                                $(button).removeAttr("disabled");
+                            });
+                        });
+
+                        $('button[data-control="deleteThread"]').on('click', this, function() {
+                            var button = this;
+                            $(button).attr("disabled", "disabled");
+                            $.post('/api/forum/deleteThread', {
+                                "postId": "<?= $threadId ?>"
+                            }, function(data) {
+                                if (data.success) {
+                                    window.location.href = '/forum/sub?id=<?= $threadInfo->subForumId ?>';
+                                } else {
+                                    toastr["error"](data.message);
+                                }
+                                $(button).removeAttr("disabled");
+                            });
+                        });
+                    </script>
+                <?php } ?>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <div class="reply row">
@@ -70,27 +102,78 @@ pageBuilder::buildHeader();
     </div>
 </div>
 <br>
-<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) { ?>
+<?php while ($reply = $replies->fetch(PDO::FETCH_OBJ)) {
+    $replierInfo = users::getUserInfoFromUid($reply->authorId) ?>
     <div class="card rounded-0 shadow-sm">
         <div class="card-body">
             <div class="reply row">
                 <div class="col-2 divider-right">
-                    <a class="pl-1 <?= $reply->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $reply->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $reply->authorId ?>"><?= $reply->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $reply->username ?></a>
+                    <a class="pl-1 <?= $replierInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $replierInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $reply->authorId ?>"><?= $replierInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $replierInfo->username ?></a>
                     <br>
-                    <img src="/thumbnails/avatar?id=<?= $reply->authorId ?>&amp;x=100&amp;y=100" title="<?= $reply->username ?>" alt="<?= $reply->username ?>" class="img-fluid">
+                    <img src="/thumbnails/avatar?id=<?= $reply->authorId ?>&amp;x=100&amp;y=100" title="<?= $replierInfo->username ?>" alt="<?= $replierInfo->username ?>" class="img-fluid">
                     <br>
                     <span>Total Posts: <?= users::getUserForumPosts($reply->authorId) ?></span>
                 </div>
                 <div class="col-6">
-                    <small class="text-muted">Posted on <?= date("n/j/Y", $reply->datePosted) ?> at <?= date("h:i:sa", $reply->datePosted) ?> - Replying to <?= htmlspecialchars($threadInfo->postTitle) ?></small>
+                    <small class="text-muted">Posted on <?= date("n/j/Y", $reply->datePosted) ?> at <?= date("h:i:sa", $reply->datePosted) ?></small>
                     <br>
                     <?= general::filterText($reply->replyContents, true, false) ?>
                 </div>
+                <?php if (SESSION && SESSION["adminLevel"] > 1) { ?>
+                    <div class="col">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" data-control="deletePost" data-reply-id="<?= $reply->id ?>" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Delete Post</button>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
 <?php } ?>
-<?php if (($threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION["adminLevel"] > 2) { ?>
-    <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
-<?php } ?>
+<div class="row">
+    <div class="col">
+        <?php if ((SESSION && $threadInfo->canReply && !SESSION["ssc"] && !$threadInfo->locked) || SESSION && SESSION["adminLevel"] > 2) { ?>
+            <a class="btn btn-primary mt-2" href="/forum/addPost?postId=<?= $threadId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Post</a>
+        <?php } ?>
+    </div>
+    <div class="col mt-2">
+        <?php if ($pages >= 2) { ?>
+            <nav aria-label="Forum replies pagination">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                        <a class="page-link" <?= $page > 1 ? 'href="/forum/viewPost?id=' . $threadId . '&page=' . ($page - 1) . '"' : '' ?> aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <?php for ($paginator = 1; $paginator < $pages; $paginator++) { ?>
+                        <li class="page-item<?= ($paginator == $page) ? ' active' : '' ?>"><a class="page-link" href="/forum/viewPost?id=<?= $threadId ?>&page=<?= $paginator ?>"><?= $paginator ?></a></li>
+                    <?php } ?>
+                    <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                        <a class="page-link" <?= $page < $pages ? 'href="/forum/viewPost?id=' . $threadId . '&page=' . ($page + 1) . '"' : '' ?> aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        <?php } ?>
+    </div>
+</div>
+<script>
+    $('button[data-control="deletePost"]').on('click', this, function() {
+        var button = this;
+        $(button).attr("disabled", "disabled");
+        $.post('/api/forum/deletePost', {
+            "postId": $(this).attr("data-reply-id")
+        }, function(data) {
+            if (data.success) {
+                window.location.href = '/forum/viewPost?id=<?= $threadId ?>';
+            } else {
+                toastr["error"](data.message);
+            }
+            $(button).removeAttr("disabled");
+        });
+    });
+</script>
 <?php pageBuilder::buildFooter(); ?>

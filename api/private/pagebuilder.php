@@ -36,8 +36,8 @@ class pageBuilder
 		"og:image" => "/favicon.ico",
 		"navbar" => true,
 		"coolBackground" => false,
-		"XD" => SESSION["theme"] == 1,
-		"nobelium" => SESSION["theme"] == 2
+		"XD" => SESSION ? SESSION["theme"] == 1 : false,
+		"nobelium" => SESSION ? SESSION["theme"] == 2 : false
 	];
 
 	public static string $additionalFooterStuff = "";
@@ -70,7 +70,7 @@ class pageBuilder
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="theme-color" content="#ED3C12">
 		<link rel="icon" type="image/png" href="https://banland.xyz/img/mercury.png" />
-		<title><?= self::$pageConfig["title"] ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
+		<title><?= self::$pageConfig["title"] ?? "Mercury" ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
 		<meta property="og:title" content="<?= self::$pageConfig["title"] ?>">
 		<meta property="og:site_name" content="<?= self::$pageConfig["og:site_name"] ?>">
 		<meta property="og:url" content="<?= self::$pageConfig["og:url"] ?>">
@@ -82,6 +82,8 @@ class pageBuilder
 		<?php } foreach (self::$JSdependencies as $url) { ?>
 		<script src="<?= $url ?>"></script>
 		<?php } ?>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8692690750276881"
+     crossorigin="anonymous"></script>
 		<style>
 		/* body
 		{ 
@@ -219,6 +221,9 @@ class pageBuilder
 						<li class="nav-item">
 							<a class="nav-link" href="/">Home</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/forum">Forum</a>
+						</li>
 						<?php if (SESSION) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href="/games">Games</a>
@@ -228,9 +233,6 @@ class pageBuilder
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/browse">Users</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/forum">Forum</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>

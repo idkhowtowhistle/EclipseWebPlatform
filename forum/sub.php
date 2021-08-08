@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
-users::requireLogin();
 
 $subForumId = $_GET["id"] ?? false;
 $subForumInfo = forum::getSubForumInfo($subForumId);
@@ -15,7 +14,7 @@ pageBuilder::buildHeader();
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <span class="breadcrumb-item active"><?= $subForumInfo->subName ?></span>
 </nav>
-<?php if (!SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION["adminLevel"] > 2) { ?>
+<?php if (SESSION && !SESSION["ssc"] && $subForumInfo->isPostingAllowed || SESSION && SESSION["adminLevel"] > 2) { ?>
     <a class="btn btn-primary mb-2" href="/forum/addPost?subforumId=<?= $subForumId ?>" role="button"><i class="fab fa-telegram-plane"></i> Add Thread</a>
 <?php } ?>
 <table class="table mb-4" id="forumThreads">
@@ -31,7 +30,7 @@ pageBuilder::buildHeader();
         <?php while ($thread = $threads->fetch(PDO::FETCH_OBJ)) { ?>
             <tr>
                 <td class="table-4-col-7">
-                    <p class="my-0"><?= $thread->locked ? '<i class="fas fa-lock text-danger font-weight-bold"></i>' : '' ?> <a href="/forum/viewPost?id=<?= $thread->id ?>"><?= htmlspecialchars($thread->postTitle) ?></a></p>
+                    <p class="my-0"><?= $thread->locked ? '<i class="fas fa-lock text-danger font-weight-bold"></i>' : '' ?> <a href="/forum/viewPost?id=<?= $thread->id ?>"><?= general::filterText($thread->postTitle, true, false) ?></a></p>
                 </td>
                 <td class="table-4-col-3"><?= forum::getReplyCount($thread->id) ?></td>
                 <td>
@@ -44,12 +43,4 @@ pageBuilder::buildHeader();
         <?php } ?>
     </tbody>
 </table>
-<script>
-    $(document).ready(function() {
-        $('#forumThreads').DataTable({
-            "pagingType": "numbers",
-            "paging": true
-        });
-    });
-</script>
 <?php pageBuilder::buildFooter(); ?>

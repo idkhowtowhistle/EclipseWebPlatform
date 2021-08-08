@@ -407,6 +407,11 @@ class forum
 	{
       return db::run("SELECT COUNT(*) FROM subforum_threads WHERE subForumId = :id", [":id" => $subId])->fetchColumn();
 	}
+	
+	static function getReplyInfo($replyId)
+	{
+		return db::run("SELECT * FROM subforum_replies WHERE id = :id", [":id" => $replyId])->fetch(PDO::FETCH_OBJ);
+	}
 
 	static function getPostsInSubForum($subId)
 	{
