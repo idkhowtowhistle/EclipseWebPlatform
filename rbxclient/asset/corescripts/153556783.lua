@@ -559,6 +559,7 @@ end
 -- Start of Script
 
 if true then --userInputService:IsLuaTouchControls() then
+	game:SetMessage("IsLuaTouchControls")
 	setupTouchControls()
 else
 	script:Destroy()
