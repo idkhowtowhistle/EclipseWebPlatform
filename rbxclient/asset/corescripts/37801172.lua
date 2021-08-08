@@ -27,11 +27,13 @@ scriptContext:AddCoreScript(59002209, scriptContext, "CoreScripts/Sections")
 waitForChild(game:GetService("CoreGui"),"RobloxGui")
 local screenGui = game:GetService("CoreGui"):FindFirstChild("RobloxGui")
 
-if true then
+if not touchEnabled then
 	-- ToolTipper  (creates tool tips for gui)
 	scriptContext:AddCoreScript(36868950,screenGui,"CoreScripts/ToolTip")
 	-- SettingsScript 
 	scriptContext:AddCoreScript(46295863,screenGui,"CoreScripts/Settings")
+else
+	game:SetMessage("ay")
 end
 
 -- MainBotChatScript
