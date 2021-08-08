@@ -102,7 +102,7 @@ $query->execute();
                      <div class="card-body">
                         <div class="row my-1">
                            <div class="col-lg-2 pr-1">
-                              <input type="number" min="1" max="<?= $totalBanners ?>" placeholder="Key ID" class="form-control" name="keyId" id="keyId" value="">
+                              <input type="number" min="1" placeholder="Key ID" class="form-control" name="keyId" id="keyId" value="">
                            </div>
                            <div class="col-lg-2">
                               <button type="submit" id="update" name="update" data-control="updateKey" class="btn btn-danger btn-block"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Delete</button>
