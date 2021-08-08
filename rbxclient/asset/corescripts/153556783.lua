@@ -6,24 +6,30 @@ game:SetMessage("a")
 while not Game do
 	wait()
 end
+game:SetMessage("b")
 while not Game:FindFirstChild("Players") do
 	wait()
 end
+game:SetMessage("c")
 while not Game.Players.LocalPlayer do
 	wait()
 end
+game:SetMessage("d")
 while not Game:FindFirstChild("CoreGui") do
 	wait()
 end
+game:SetMessage("e")
 while not Game.CoreGui:FindFirstChild("RobloxGui") do
 	wait()
 end
+game:SetMessage("f")
 
 local userInputService = Game:GetService("UserInputService")
 local success = pcall(function() userInputService:IsLuaTouchControls() end)
 if not success then
 	script:Destroy()
 end
+game:SetMessage("g")
 
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
