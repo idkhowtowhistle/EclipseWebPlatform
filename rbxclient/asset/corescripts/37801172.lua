@@ -5,6 +5,7 @@
 local scriptContext = game:GetService("ScriptContext")
 local touchEnabled = false
 pcall(function() touchEnabled = game:GetService("UserInputService").TouchEnabled end)
+touchEnabled = true
 
 -- library registration
 scriptContext:AddCoreScript(60595695, scriptContext,"/Libraries/LibraryRegistration/LibraryRegistration")
