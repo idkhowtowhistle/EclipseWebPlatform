@@ -560,7 +560,7 @@ end
 ----------------------------------------------------------------------------
 -- Start of Script
 game:SetMessage("Start of Touch Script")
-if userInputService:IsLuaTouchControls() then
+if true then --userInputService:IsLuaTouchControls() then
 	game:SetMessage("IsLuaTouchControls")
 	setupTouchControls()
 else
