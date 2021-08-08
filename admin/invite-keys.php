@@ -19,7 +19,7 @@ $query->execute();
             <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="list" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Invite Keys</a>
          </div>
       </div>
-      <div class="col-10">
+      <div class="col-lg-10">
          <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade active show" id="list-admin" role="tabpanel" aria-labelledby="list-admin-list">
                <div class="row pb-4">
