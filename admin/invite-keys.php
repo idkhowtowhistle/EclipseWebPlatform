@@ -101,7 +101,7 @@ $query->execute();
                   <div class="card">
                      <div class="card-body">
                         <div class="row my-1">
-                           <div class="col-lg-2 pr-1">
+                           <div class="col-lg-2">
                               <input type="number" min="1" placeholder="Key ID" class="form-control" name="keyId" id="keyId" value="">
                            </div>
                            <div class="col-lg-2">
