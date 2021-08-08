@@ -33,7 +33,7 @@ if not touchEnabled then
 	-- SettingsScript 
 	scriptContext:AddCoreScript(46295863,screenGui,"CoreScripts/Settings")
 else
-	scriptContext:AddCoreScript(153556783,screenGui,"CoreScripts/TouchControls")
+	scriptContext:AddCoreScript(153556783,screenGui,"CoreScripts/Settings")
 end
 
 -- MainBotChatScript
