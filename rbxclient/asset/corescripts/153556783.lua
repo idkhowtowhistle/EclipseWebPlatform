@@ -543,14 +543,14 @@ function setupTouchControls()
 	setupJumpButton(touchControlFrame)
 	setupCameraControl(touchControlFrame, refreshCharacterMoveFunc)
 
-	userInputService.ProcessedEvent:connect(function(inputObject, processed)
+	pcall(function() userInputService.ProcessedEvent:connect(function(inputObject, processed)
 		if not processed then return end
 
 		-- kill camera pan if the touch is used by some user controls
 		if inputObject == cameraTouch and inputObject.UserInputState == Enum.UserInputState.Begin then
 			cameraTouch = nil
 		end
-	end)
+	end) end)
 end
 
 
