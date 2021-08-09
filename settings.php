@@ -173,41 +173,43 @@ pageBuilder::buildHeader();
           </script>
         </div>
         <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-            <?php if ($twofa) { ?>
-              <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
-              <p>If you disable 2FA your old recovery codes will be invalidated, so just be mindful of that.</p>
-            <?php } else { ?>
-              <div class="row">
-                <div class="col-md-6">
-                  <h4 class="font-weight-normal">2FA Setup</h4>
-                  <p class="mb-2">Open up your 2FA app and scan the QR code below:</p>
-                  <img src="<?= $gauth->getURL(SESSION["userName"], "Mercury", $twofaSecret) ?>">
-                  <br>
-                  <p class="mb-4 mt-2 mb-md-0">If your 2FA app does not support QR codes, enter in the following authentication code: <code><?= $twofaSecret ?></code></p>
-                </div>
-                <div class="col-md-6">
-                  <h4 class="font-weight-normal">Verification</h4>
-                  <p>Your 2FA app will prompt you with a 6 digit code (or longer depending on what you used) - To finish the setup, enter your code below and click Enable, your account should have 2FA enabled now.</p>
-                <?php } ?>
-                <form method="post">
-                  <div class="form-group row">
-                    <label for="code" class="col-md-3 col-form-label">2FA token</label>
-                    <div class="col-md-9">
-                      <input type="number" name="code" id="code" value="" required="required" autofocus="autofocus" class="form-control">
-                    </div>
-                    <label for="password" class="col-md-3 mt-2 col-form-label">Password</label>
-                    <div class="col-md-9 mt-2">
-                      <input type="password" name="password" id="password" class="form-control">
-                    </div>
+          <?php if ($twofa) { ?>
+          <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
+          <p>If you disable 2FA your old recovery codes will be invalidated, so just be mindful of that.</p>
+          <?php } else { ?>
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="font-weight-normal">2FA Setup</h4>
+              <p class="mb-2">Open up your 2FA app and scan the QR code below:</p>
+              <img src="<?= $gauth->getURL(SESSION["userName"], "Mercury", $twofaSecret) ?>">
+              <br>
+              <p class="mb-4 mt-2 mb-md-0">If your 2FA app does not support QR codes, enter in the following authentication code: <code><?= $twofaSecret ?></code></p>
+            </div>
+            <div class="col-md-6">
+              <h4 class="font-weight-normal">Verification</h4>
+              <p>Your 2FA app will prompt you with a 6 digit code (or longer depending on what you used) - To finish the setup, enter your code below and click Enable, your account should have 2FA enabled now.</p>
+          <?php } ?>
+              <form method="post">
+                <div class="form-group row">
+                  <label for="code" class="col-md-3 col-form-label">2FA token</label>
+                  <div class="col-md-9">
+                    <input type="number" name="code" id="code" value="" required="required" autofocus="autofocus" class="form-control">
                   </div>
-                  <div class="form-group">
-                    <input type="hidden" name="polygon_csrf" value="<?= SESSION["csrfToken"] ?>">
-                    <input type="hidden" name="twofa_state" value="<?= $twofa ?>">
-                    <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
+                  <label for="password" class="col-md-3 mt-2 col-form-label">Password</label>
+                  <div class="col-md-9 mt-2">
+                    <input type="password" name="password" id="password" class="form-control">
                   </div>
-                </form>
                 </div>
-              </div>
+                <div class="form-group">
+                  <input type="hidden" name="polygon_csrf" value="<?= SESSION["csrfToken"] ?>">
+                  <input type="hidden" name="twofa_state" value="<?= $twofa ?>">
+                  <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
+                </div>
+              </form>
+          <?php if ($twoFa) { ?>
+            </div>
+          </div>
+          <?php } ?>
         </div>
         <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
           <div class="col-sm-6">
