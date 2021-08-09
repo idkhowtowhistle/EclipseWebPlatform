@@ -235,6 +235,7 @@ pageBuilder::buildHeader();
             <div class="col-sm-6">
               <h4 class="font-weight-normal">Mercury Discord Verification</h4>
               <?php if ($discordInfo->verified) { ?>
+              <p>Loading user info...</p>
               <?php } else { ?>
               <p>Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
               <p>The Mercury bot should DM you asking for your code, which is this: </p>
