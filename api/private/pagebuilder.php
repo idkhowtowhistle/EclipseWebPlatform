@@ -37,7 +37,8 @@ class pageBuilder
 		"navbar" => true,
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
-		"nobelium" => SESSION ? SESSION["theme"] == 2 : false
+		"nobelium" => SESSION ? SESSION["theme"] == 2 : false,
+		"krypton" => SESSION ? SESSION["theme"] == 3 : false
 	];
 
 	public static string $additionalFooterStuff = "";
@@ -108,6 +109,7 @@ class pageBuilder
 			background-color: #eb4034 !important;
 		}
 
+
 		/* change the brand and text color */
 		.navbar-orange .navbar-brand,
 		.navbar-orange .navbar-text,
@@ -152,6 +154,40 @@ class pageBuilder
 		.navbar-secondary .nav-link {
 			color: white !important;
 		}
+
+		<?php } ?>
+
+		<?php if(self::$pageConfig["krypton"]) {?>
+			.navbar.navbar-expand-lg.navbar-light.bg-light{
+    			background-color:#599159!important;
+    			border-bottom: transparent!important;
+			}
+			.nav-secondary{
+    			background-color: #64a963!important
+			}
+			.nav-link,
+			.navbar-brand{
+    			color:#fff!important;
+			}
+			.alert-primary{
+    			border: solid 1px;
+    			border-radius: 5px;
+    			color: #004085;
+    			background-color: #cce5ff;
+    			border-color: #b8daff;
+    			padding-top: 3px!important;
+    			padding-bottom: 3px!important;
+    			padding-left: 4px!important;
+    			padding-right: 4px!important;
+			}
+			.btn-success{
+    			background-color:#088765!important;
+    			border-color:#088765!important;
+			}
+			.btn-info{
+    			background-color: #dc3545!important;
+    			border-color: #dc3545!important;
+			}
 
 		<?php } ?>
 		.navbar-orange-secondary .nav-item {
