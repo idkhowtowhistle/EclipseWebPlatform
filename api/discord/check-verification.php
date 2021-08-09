@@ -7,13 +7,22 @@ if($_SERVER['REQUEST_METHOD'] != 'GET') api::respond(405, false, "Method Not All
 
 if (isset($_GET["Token"]) && isset($_GET["DiscordID"]))
 {
+	$userInfo = db::run("SELECT * FROM users WHERE discordKey = :key", [":key" => $_GET["Token"]]);
+	if (!$userInfo->rowCount()) api::respond(200, false, "InvalidKey"); // check if verification key is valid
+	if ($userInfo->discordId != NULL) api::respond(200, false, "AlreadyVerified"); // check if mercury account is already verified
 
+	db::run(
+		"UPDATE users SET discordId = :id WHERE discordKey = :key", 
+		[":id" => $_GET["DiscordID"], ":key" => $_GET["Token"]]
+	);
+
+	api::respond(200, true, $userInfo->username);
 }
 else if (isset($_GET["DiscordID"]))
 {
-	$info = db::run("SELECT username FROM users WHERE discordId = :id", [":id" => $_GET["DiscordID"]]);
-	if (!$info->rowCount()) api::respond(200, false, "Not Verified");
-	api::respond(200, true, $info->fetchColumn());
+	$username = db::run("SELECT username FROM users WHERE discordId = :id", [":id" => $_GET["DiscordID"]]);
+	if (!$username->rowCount()) api::respond(200, false, "NotVerified"); // check if discord account is already verified
+	api::respond(200, true, $username->fetchColumn());
 }
 
 api::respond(200, false, "Bad Request");
