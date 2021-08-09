@@ -5,7 +5,7 @@ general::checkApiKey("DiscordBot");
 header("content-type: application/json");
 if($_SERVER['REQUEST_METHOD'] != 'GET') api::respond(405, false, "Method Not Allowed");
 
-if (isset($_GET["Token"]))
+if (isset($_GET["Token"]) && isset($_GET["DiscordID"]))
 {
 
 }

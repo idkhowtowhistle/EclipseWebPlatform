@@ -83,6 +83,7 @@ pageBuilder::buildHeader();
         <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="list" id="list-admin-list" class="list-group-item list-group-item-action active">Profile</a>
         <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="list" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Account</a>
         <a aria-selected="false" aria-controls="audits" role="tab" href="#list-audits" data-toggle="list" id="list-audits-list" class="list-group-item list-group-item-action">Security</a>
+        <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Manual</a>
       </div>
     </div>
     <div class="col-10">
@@ -218,6 +219,14 @@ pageBuilder::buildHeader();
                 </form>
                 </div>
               </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
+          <div class="col-sm-6">
+            <h4 class="font-weight-normal">Verify your account on Discord</h4>
+          </div>
+          <div class="col-sm-6">
+            <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
       </div>
