@@ -130,6 +130,7 @@ pageBuilder::buildHeader();
                   <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
                   <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
                   <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
+                  <option value="3" <?=$userInfo->theme == 3?"selected":""?>>Krypton</option>
                 </select>
               </div>
             </div>
