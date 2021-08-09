@@ -38,7 +38,7 @@ class pageBuilder
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
 		"nobelium" => SESSION ? SESSION["theme"] == 2 : false,
-		"krypton" => SESSION ? SESSION["theme"] == 2 : false
+		"krypton" => SESSION ? SESSION["theme"] == 3 : false
 	];
 
 	public static string $additionalFooterStuff = "";
