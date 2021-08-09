@@ -7,9 +7,8 @@ $gauth = twofa::initialize();
 $userinfo = (object)SESSION["userInfo"];
 $discordInfo = (object)
 [
-  "verified" => $userinfo->discordId != NULL,
+  "info" => NULL,
   "key" => $userinfo->discordKey,
-  "id" => $userinfo->discordId
 ];
 
 if ($discordInfo->key == NULL)
@@ -22,7 +21,8 @@ if ($discordInfo->key == NULL)
 }
 else if ($userInfo->discordId != NULL)
 {
-  $discordInfo->verified = true;
+  $discordInfo->info = getDiscordInfo($userInfo->discordId);
+  var_dump($discordInfo->info);
 }
 
 $twofa = SESSION["2fa"];
