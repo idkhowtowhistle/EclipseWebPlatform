@@ -5,8 +5,25 @@ $userInfo = users::getUserInfoFromUid(SESSION["userId"]);
 $gauth = twofa::initialize();
 
 $userinfo = (object)SESSION["userInfo"];
+$discordInfo = (object)
+[
+  "verified" => $userinfo->discordId != NULL,
+  "key" => $userinfo->discordKey,
+  "id" => $userinfo->discordId
+];
 
-var_dump($userInfo->discordKey);
+if ($discordInfo->key == NULL)
+{
+  $discordInfo->key = generateUUID();
+  db::run(
+    "UPDATE users SET discordKey = :key WHERE id = :id", 
+    [":key" => $discordInfo->key, ":id" => SESSION["userId"]]
+  );
+}
+else if ($userInfo->discordId != NULL)
+{
+  $discordInfo->verified = true;
+}
 
 $twofa = SESSION["2fa"];
 $twofaSecret = $userinfo->twofaSecret;
@@ -217,10 +234,13 @@ pageBuilder::buildHeader();
           <div class="row">
             <div class="col-sm-6">
               <h4 class="font-weight-normal">Mercury Discord Verification</h4>
-              <p>Looks like you're not yet verified! If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
-              <p>When you join, the Mercury bot should DM you. All you have to do is send the bot this key: </p>
-              <code>MercuryVerify:{UUID}</code>
-              <p>And you should be good to go!</p>
+              <?php if ($discordInfo->verified) { ?>
+              <?php } else { ?>
+              <p>Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
+              <p>The Mercury bot should DM you asking for your code, which is this: </p>
+              <code>MercuryVerify:<?=$discordInfo->key?></code>
+              <p>Just send this to the bot, and you'll be verified!</p>
+              <?php } ?>
             </div>
             <div class="col-sm-6">
               <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
