@@ -241,12 +241,12 @@ pageBuilder::buildHeader();
               <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
               <p class="mb-1">If the bot hasn't DMed you, it may be down. When it comes back online, just send a DM to the bot with your key.</p> 
               <?php } else { ?>
+              <h4 class="font-weight-normal">Your Discord Account</h4>
               <div class="card bg-light mb-3">
-                <h4 class="font-weight-normal">Your Discord Account</h4>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-3">
-                      <img class="img-fluid rounded-circle" src="https://cdn.discordapp.com/avatars/584433356272304198/8e290abe823690b32f834d3b877c0d45.png">
+                      <img class="img-fluid rounded-circle" src="<?=$discordInfo->info->avatar?>">
                     </div>
                     <div class="col-sm-9">
                       <h4 class="font-weight-normal"><?=$discordInfo->info->username?><span class="text-muted">#<?=$discordInfo->info->tag?></span></h4>
