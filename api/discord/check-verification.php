@@ -7,9 +7,8 @@ if($_SERVER['REQUEST_METHOD'] != 'GET') api::respond(405, false, "Method Not All
 
 if (isset($_GET["Token"]) && isset($_GET["DiscordID"]))
 {
-	$userInfo = db::run("SELECT * FROM users WHERE discordKey = :key", [":key" => $_GET["Token"]]);
+	$userInfo = db::run("SELECT * FROM users WHERE discordKey = :key", [":key" => $_GET["Token"]])->fetch(PDO::FETCH_OBJ);
 	if (!$userInfo->rowCount()) api::respond(200, false, "InvalidKey"); // check if verification key is valid
-	var_dump($userInfo);
 	if ($userInfo->discordId != NULL) api::respond(200, false, "AlreadyVerified"); // check if mercury account is already verified
 
 	/* db::run(
