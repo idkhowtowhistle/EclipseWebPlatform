@@ -225,7 +225,7 @@ pageBuilder::buildHeader();
                   <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
                 </div>
               </form>
-          <?php if ($twofa) { ?>
+          <?php if (!$twofa) { ?>
             </div>
           </div>
           <?php } ?>
@@ -250,7 +250,7 @@ pageBuilder::buildHeader();
                     </div>
                     <div class="col-sm-9">
                       <h4 class="font-weight-normal"><?=$discordInfo->info->username?><span class="text-muted">#<?=$discordInfo->info->tag?></span></h4>
-                      <h5 class="font-weight-normal">Verified <?=general::time_elapsed("@".$discordInfo->info->timeVerified)?></h5>
+                      <h5 class="font-weight-normal">Verified <?=general::time_elapsed("@".$discordInfo->timeVerified)?></h5>
                     </div>
                   </div>
                 </div>
