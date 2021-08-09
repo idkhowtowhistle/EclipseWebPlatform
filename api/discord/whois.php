@@ -20,4 +20,4 @@ else
 	api::respond(200, false, "Bad Request");
 }
 
-api::respond(200, true, json_encode($userInfo));
+api::respond(200, true, $userInfo);
