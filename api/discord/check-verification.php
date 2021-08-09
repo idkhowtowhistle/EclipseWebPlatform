@@ -11,10 +11,10 @@ if (isset($_GET["Token"]) && isset($_GET["DiscordID"]))
 	if (!$userInfo) api::respond(200, false, "InvalidKey"); // check if verification key is valid
 	if ($userInfo->discordId != NULL) api::respond(200, false, "AlreadyVerified"); // check if mercury account is already verified
 
-	/* db::run(
+	db::run(
 		"UPDATE users SET discordId = :id WHERE discordKey = :key", 
 		[":id" => $_GET["DiscordID"], ":key" => $_GET["Token"]]
-	); */
+	); 
 
 	api::respond(200, true, $userInfo->username);
 }
