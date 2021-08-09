@@ -198,6 +198,12 @@ class general
 		return str_ireplace(["fuck", "shit", "bitch", "nigger", "nigger", "faggot", "nigga", "nibba", "nibber", "dick", "cock", "penis", "sex", "cum", "nya"], $filtertext, $text);
 	}
 
+	static function checkApiKey($api)
+	{
+		$key = $_GET["ApiKey"] ?? false;
+		if (!isset(SITE_CONFIG["keys"][$api])) pageBuilder::errorCode(404);
+		if ($key != SITE_CONFIG["keys"][$api]) pageBuilder::errorCode(404);
+	}
 }
 
 class upload 
