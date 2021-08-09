@@ -80,15 +80,15 @@ pageBuilder::buildHeader();
   <div class="row py-4">
     <div class="col-2">
       <div class="list-group" id="list-tab" role="tablist">
-        <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="tab" id="list-admin-list" class="list-group-item list-group-item-action active">Profile</a>
-        <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="tab" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Account</a>
-        <a aria-selected="false" aria-controls="audits" role="tab" href="#list-audits" data-toggle="tab" id="list-audits-list" class="list-group-item list-group-item-action">Security</a>
+        <a class="list-group-item list-group-item-action active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+        <a class="list-group-item list-group-item-action" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
+        <a class="list-group-item list-group-item-action" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
         <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Discord</a>
       </div>
     </div>
     <div class="col-10">
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade active show" id="list-admin" role="tabpanel" aria-labelledby="list-admin-list">
+        <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <div class="container">
             <div class="d-flex align-items-start">
               <div class="tab-content" id="v-pills-tabContent">
@@ -142,7 +142,7 @@ pageBuilder::buildHeader();
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="list-mod" role="tabpanel" aria-labelledby="list-mod-list">
+        <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
           <div class="container">
             <div class="form-group mb-3 col-lg-8">
               <h4 class="font-weight-normal">Change your password</h4>
@@ -182,7 +182,7 @@ pageBuilder::buildHeader();
             })
           </script>
         </div>
-        <div class="tab-pane fade" id="list-audits" role="tabpanel" aria-labelledby="list-audits-list">
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
           <div class="container">
             <?php if ($twofa) { ?>
               <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
