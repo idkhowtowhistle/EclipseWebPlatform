@@ -5,6 +5,25 @@ $userInfo = users::getUserInfoFromUid(SESSION["userId"]);
 $gauth = twofa::initialize();
 
 $userinfo = (object)SESSION["userInfo"];
+$discordInfo = (object)
+[
+  "info" => NULL,
+  "key" => $userinfo->discordKey,
+  "timeVerified" => $userInfo->discordVerifyTime
+];
+
+if ($discordInfo->key == NULL)
+{
+  $discordInfo->key = generateUUID();
+  db::run(
+    "UPDATE users SET discordKey = :key WHERE id = :id", 
+    [":key" => $discordInfo->key, ":id" => SESSION["userId"]]
+  );
+}
+else if ($userInfo->discordId != NULL)
+{
+  $discordInfo->info = getDiscordInfo($userInfo->discordId);
+}
 
 $twofa = SESSION["2fa"];
 $twofaSecret = $userinfo->twofaSecret;
@@ -78,71 +97,63 @@ pageBuilder::buildHeader();
   <?php } ?>
   <h3 class="my-4 font-weight-normal">Settings</h3>
   <div class="row py-4">
-    <div class="col-2">
+    <div class="col-sm-4 col-md-3 col-lg-2">
       <div class="list-group" id="list-tab" role="tablist">
-        <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="list" id="list-admin-list" class="list-group-item list-group-item-action active">Profile</a>
-        <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="list" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Account</a>
-        <a aria-selected="false" aria-controls="audits" role="tab" href="#list-audits" data-toggle="list" id="list-audits-list" class="list-group-item list-group-item-action">Security</a>
+        <a class="list-group-item list-group-item-action active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+        <a class="list-group-item list-group-item-action" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
+        <a class="list-group-item list-group-item-action" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">Security</a>
+        <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Discord</a>
       </div>
     </div>
-    <div class="col-10">
+    <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade active show" id="list-admin" role="tabpanel" aria-labelledby="list-admin-list">
-          <div class="container">
-            <div class="d-flex align-items-start">
-              <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab">
-                  <div class="row">
-                    <div class="col-lg">
-                      <h4 class="font-weight-normal mb-3">Blurb</h4>
-                      <form>
-                        <textarea class="form-control" id="biotext" name="biotext" rows="6" cols="60"><?= $userInfo->blurb ?></textarea>
-                        <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateAccount" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
-                      </form>
-                    </div>
-                    <div class="col-lg">
-                      <h4 class="font-weight-normal mb-3">Messages</h4>
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages ? "checked" : "" ?> value="true">
-                        <label class="form-check-label" for="message">Allow messages</label>
-                      </div>
-                      <br>
-                      <h4 class="font-weight-normal mb-3">Site Theme</h4>
-                      <div class="form-group">
-                        <label for="themeSelect">Choose a preferred site theme</label>
-                        <select class="form-control" id="themeSelect">
-                          <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
-                          <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
-                          <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
-                        </select>
-                      </div>
-                      <script>
-                        $("[data-control='updateAccount']").on("click", this, function() {
-                          var btn = this;
-                          $(btn).attr("disabled", "disabled").find("span").show();
-                          $.post('/api/account/updateBio', {
-                            "bio": $("#biotext").val(),
-                            "message": $("#message").is(":checked"),
-                            "theme": $("#themeSelect").val()
-                          }, function(data) {
-                            if (data.success) {
-                              toastr["success"](data.message);
-                            } else {
-                              toastr["error"](data.message);
-                            }
-                            $(btn).removeAttr("disabled").find("span").hide();
-                          })
-                        })
-                      </script>
-                    </div>
-                  </div>
-                </div>
+        <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="row">
+            <div class="col-lg">
+              <h4 class="font-weight-normal mb-3">Blurb</h4>
+              <form>
+                <textarea class="form-control" id="biotext" name="biotext" rows="6" cols="60"><?= $userInfo->blurb ?></textarea>
+                <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateAccount" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
+              </form>
+            </div>
+            <div class="col-lg">
+              <h4 class="font-weight-normal mb-3">Messages</h4>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages ? "checked" : "" ?> value="true">
+                <label class="form-check-label" for="message">Allow messages</label>
+              </div>
+              <br>
+              <h4 class="font-weight-normal mb-3">Site Theme</h4>
+              <div class="form-group">
+                <label for="themeSelect">Choose a preferred site theme</label>
+                <select class="form-control" id="themeSelect">
+                  <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
+                  <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
+                  <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
+                </select>
               </div>
             </div>
+            <script>
+              $("[data-control='updateAccount']").on("click", this, function() {
+                var btn = this;
+                $(btn).attr("disabled", "disabled").find("span").show();
+                $.post('/api/account/updateBio', {
+                  "bio": $("#biotext").val(),
+                  "message": $("#message").is(":checked"),
+                  "theme": $("#themeSelect").val()
+                }, function(data) {
+                  if (data.success) {
+                    toastr["success"](data.message);
+                  } else {
+                    toastr["error"](data.message);
+                  }
+                  $(btn).removeAttr("disabled").find("span").hide();
+                })
+              })
+            </script>
           </div>
         </div>
-        <div class="tab-pane fade" id="list-mod" role="tabpanel" aria-labelledby="list-mod-list">
-          <div class="container">
+        <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
             <div class="form-group mb-3 col-lg-8">
               <h4 class="font-weight-normal">Change your password</h4>
             </div>
@@ -161,7 +172,6 @@ pageBuilder::buildHeader();
             <div class="form-group col-lg-8">
               <button class="btn btn-success btn-block" id="changePass" name="changePass" data-control="changePass" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Change</button>
             </div>
-          </div>
           <script>
             $("[data-control='changePass']").on("click", this, function() {
               var btn = this;
@@ -181,43 +191,77 @@ pageBuilder::buildHeader();
             })
           </script>
         </div>
-        <div class="tab-pane fade" id="list-audits" role="tabpanel" aria-labelledby="list-audits-list">
-          <div class="container">
-            <?php if ($twofa) { ?>
-              <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
-              <p>If you disable 2FA your old recovery codes will be invalidated, so just be mindful of that.</p>
-            <?php } else { ?>
-              <div class="row">
-                <div class="col-md-6">
-                  <h4 class="font-weight-normal">2FA Setup</h4>
-                  <p class="mb-2">Open up your 2FA app and scan the QR code below:</p>
-                  <img src="<?= $gauth->getURL(SESSION["userName"], "Mercury", $twofaSecret) ?>">
-                  <br>
-                  <p class="mb-4 mt-2 mb-md-0">If your 2FA app does not support QR codes, enter in the following authentication code: <code><?= $twofaSecret ?></code></p>
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+          <?php if ($twofa) { ?>
+          <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
+          <p>If you disable 2FA your old recovery codes will be invalidated, so just be mindful of that.</p>
+          <?php } else { ?>
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="font-weight-normal">2FA Setup</h4>
+              <p class="mb-2">Open up your 2FA app and scan the QR code below:</p>
+              <img src="<?= $gauth->getURL(SESSION["userName"], "Mercury", $twofaSecret) ?>">
+              <br>
+              <p class="mb-4 mt-2 mb-md-0">If your 2FA app does not support QR codes, enter in the following authentication code: <code><?= $twofaSecret ?></code></p>
+            </div>
+            <div class="col-md-6">
+              <h4 class="font-weight-normal">Verification</h4>
+              <p>Your 2FA app will prompt you with a 6 digit code (or longer depending on what you used) - To finish the setup, enter your code below and click Enable, your account should have 2FA enabled now.</p>
+          <?php } ?>
+              <form method="post">
+                <div class="form-group row">
+                  <label for="code" class="col-md-3 col-form-label">2FA token</label>
+                  <div class="col-md-9">
+                    <input type="number" name="code" id="code" value="" required="required" autofocus="autofocus" class="form-control">
+                  </div>
+                  <label for="password" class="col-md-3 mt-2 col-form-label">Password</label>
+                  <div class="col-md-9 mt-2">
+                    <input type="password" name="password" id="password" class="form-control">
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <h4 class="font-weight-normal">Verification</h4>
-                  <p>Your 2FA app will prompt you with a 6 digit code (or longer depending on what you used) - To finish the setup, enter your code below and click Enable, your account should have 2FA enabled now.</p>
-                <?php } ?>
-                <form method="post">
-                  <div class="form-group row">
-                    <label for="code" class="col-md-3 col-form-label">2FA token</label>
-                    <div class="col-md-9">
-                      <input type="number" name="code" id="code" value="" required="required" autofocus="autofocus" class="form-control">
+                <div class="form-group">
+                  <input type="hidden" name="polygon_csrf" value="<?= SESSION["csrfToken"] ?>">
+                  <input type="hidden" name="twofa_state" value="<?= $twofa ?>">
+                  <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
+                </div>
+              </form>
+          <?php if (!$twofa) { ?>
+            </div>
+          </div>
+          <?php } ?>
+        </div>
+        <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
+          <div class="row">
+            <div class="col-sm-6">
+              <?php if ($discordInfo->info == NULL) { ?>
+              <h4 class="font-weight-normal">Mercury Discord Verification</h4>
+              <p class="mb-1">Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
+              <p class="mb-1">Once you join, the Mercury bot should DM you asking for your verification key, which is here:</p>
+              <code class="mb-1">MercuryVerify:<?=$discordInfo->key?></code>
+              <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
+              <p class="mb-1">If the bot hasn't DMed you, it may be down. When it comes back online, just send a DM to the bot with your key.</p> 
+              <?php } else { ?>
+              <h4 class="font-weight-normal">Your Discord Account</h4>
+              <div class="card bg-light mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <img class="img-fluid rounded-circle" src="<?=$discordInfo->info->avatar?>">
                     </div>
-                    <label for="password" class="col-md-3 mt-2 col-form-label">Password</label>
-                    <div class="col-md-9 mt-2">
-                      <input type="password" name="password" id="password" class="form-control">
+                    <div class="col-sm-9">
+                      <h4 class="font-weight-normal"><?=$discordInfo->info->username?><span class="text-muted">#<?=$discordInfo->info->tag?></span></h4>
+                      <h5 class="font-weight-normal">Verified <?=general::time_elapsed("@".$discordInfo->timeVerified)?></h5>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <input type="hidden" name="polygon_csrf" value="<?= SESSION["csrfToken"] ?>">
-                    <input type="hidden" name="twofa_state" value="<?= $twofa ?>">
-                    <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
-                  </div>
-                </form>
                 </div>
               </div>
+              <p class="mb-1">If you wish to have your Discord account unverified so you can use another account, message an admin.</p> 
+              <?php } ?>
+            </div>
+            <div class="col-sm-6">
+              <h4 class="font-weight-normal">Join the Discord Server!</h4>
+              <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
           </div>
         </div>
       </div>

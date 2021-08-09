@@ -87,6 +87,35 @@ function getIPAddress()
 	 return $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
 }
 
+function getDiscordInfo($discordId)
+{
+	$ch = curl_init();
+	curl_setopt_array($ch, 
+	[
+		CURLOPT_URL => "https://discord.com/api/v8/users/$discordId", 
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_HTTPHEADER => ["Authorization: Bot ODc0MDM4NjIwMjE3MDQwOTY4.YRBJ5Q.mzatxGmJR-9qJXqVEF3mSKdYgbU"]
+	]);
+
+	$response = curl_exec($ch);
+	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	if ($httpcode != 200) return false;
+
+	$response = json_decode($response);
+	if ($response == NULL) return false;
+
+	return (object)
+	[
+		"username" => $response->username,
+		"tag" => $response->discriminator,
+		"id" => $response->id,
+		"avatar" => "https://cdn.discordapp.com/avatars/" .  $response->id . "/" . $response->avatar . ".png",
+		"color" => $response->accent_color,
+		"banner" => $response->banner,
+		"banner_color" => $response->banner_color
+	];
+}
+
 class db
 {
 	static function run($sql, $params = false)
@@ -198,6 +227,12 @@ class general
 		return str_ireplace(["fuck", "shit", "bitch", "nigger", "nigger", "faggot", "nigga", "nibba", "nibber", "dick", "cock", "penis", "sex", "cum", "nya"], $filtertext, $text);
 	}
 
+	static function checkApiKey($api)
+	{
+		$key = $_GET["ApiKey"] ?? false;
+		if (!isset(SITE_CONFIG["keys"][$api])) pageBuilder::errorCode(404);
+		if ($key != SITE_CONFIG["keys"][$api]) pageBuilder::errorCode(404);
+	}
 }
 
 class upload 
