@@ -33,7 +33,7 @@ $text = [
     "footer" =>
     [
         1 => "<a href='rules'>Rules</a> and <a href='tos'>Terms Of Services</a>",
-        2 => "Your ban end". ($moderationInfo->timeEnds > time() ? "s":"ed"). "at " .date('j/n/Y g:i:s A \G\M\T', $moderationInfo->timeEnds).($moderationInfo->timeEnds > time() ? ", or in ".general::time_elapsed("@".($moderationInfo->timeEnds+1), true, false)." <br><br> Circumventing your ban on an alternate account while it is active may cause your ban time to be extended" : ""),
+        2 => "Your ban end". ($moderationInfo->timeEnds > time() ? "s":"ed").  " at " .date('j/n/Y g:i:s A \G\M\T', $moderationInfo->timeEnds).($moderationInfo->timeEnds > time() ? ", or in ".general::time_elapsed("@".($moderationInfo->timeEnds+1), true, false)." <br><br> Circumventing your ban on an alternate account while it is active may cause your ban time to be extended" : ""),
         3 => "We do not take appeals."
     ]
 ];
