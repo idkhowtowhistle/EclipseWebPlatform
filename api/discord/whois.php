@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] != 'GET') api::respond(405, false, "Method Not All
 if (isset($_GET["UserName"]))
 {
 	$userInfo = db::run(
-		"SELECT id, username, blurb, admin, lastonline, discordId FROM users WHERE username = :name", 
+		"SELECT id, username, blurb, admin, joined, lastonline, discordId FROM users WHERE username = :name", 
 		[":name" => $_GET["UserName"]]
 	)->fetch(PDO::FETCH_OBJ);
 	if (!$userInfo) api::respond(200, false, "DoesntExist");
@@ -16,7 +16,7 @@ if (isset($_GET["UserName"]))
 else if (isset($_GET["DiscordID"]))
 {
 	$userInfo = db::run(
-		"SELECT id, username, blurb, admin, lastonline, discordId FROM users WHERE discordId = :id", 
+		"SELECT id, username, blurb, admin, joined, lastonline, discordId FROM users WHERE discordId = :id", 
 		[":id" => $_GET["DiscordID"]]
 	)->fetch(PDO::FETCH_OBJ);
 	if (!$userInfo) api::respond(200, false, "NotVerified");
