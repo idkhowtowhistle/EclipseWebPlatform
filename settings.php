@@ -89,61 +89,52 @@ pageBuilder::buildHeader();
     <div class="col-10">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <div class="container">
-            <div class="d-flex align-items-start">
-              <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab">
-                  <div class="row">
-                    <div class="col-lg">
-                      <h4 class="font-weight-normal mb-3">Blurb</h4>
-                      <form>
-                        <textarea class="form-control" id="biotext" name="biotext" rows="6" cols="60"><?= $userInfo->blurb ?></textarea>
-                        <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateAccount" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
-                      </form>
-                    </div>
-                    <div class="col-lg">
-                      <h4 class="font-weight-normal mb-3">Messages</h4>
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages ? "checked" : "" ?> value="true">
-                        <label class="form-check-label" for="message">Allow messages</label>
-                      </div>
-                      <br>
-                      <h4 class="font-weight-normal mb-3">Site Theme</h4>
-                      <div class="form-group">
-                        <label for="themeSelect">Choose a preferred site theme</label>
-                        <select class="form-control" id="themeSelect">
-                          <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
-                          <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
-                          <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
-                        </select>
-                      </div>
-                      <script>
-                        $("[data-control='updateAccount']").on("click", this, function() {
-                          var btn = this;
-                          $(btn).attr("disabled", "disabled").find("span").show();
-                          $.post('/api/account/updateBio', {
-                            "bio": $("#biotext").val(),
-                            "message": $("#message").is(":checked"),
-                            "theme": $("#themeSelect").val()
-                          }, function(data) {
-                            if (data.success) {
-                              toastr["success"](data.message);
-                            } else {
-                              toastr["error"](data.message);
-                            }
-                            $(btn).removeAttr("disabled").find("span").hide();
-                          })
-                        })
-                      </script>
-                    </div>
-                  </div>
-                </div>
+          <div class="row">
+            <div class="col-lg">
+              <h4 class="font-weight-normal mb-3">Blurb</h4>
+              <form>
+                <textarea class="form-control" id="biotext" name="biotext" rows="6" cols="60"><?= $userInfo->blurb ?></textarea>
+                <button class="btn btn-success mt-3 btn-block" id="edit-btn" name="editbio-btn" data-control="updateAccount" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Save Changes</button>
+              </form>
+            </div>
+            <div class="col-lg">
+              <h4 class="font-weight-normal mb-3">Messages</h4>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="message" <?= $userInfo->messages ? "checked" : "" ?> value="true">
+                <label class="form-check-label" for="message">Allow messages</label>
+              </div>
+              <br>
+              <h4 class="font-weight-normal mb-3">Site Theme</h4>
+              <div class="form-group">
+                <label for="themeSelect">Choose a preferred site theme</label>
+                <select class="form-control" id="themeSelect">
+                  <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
+                  <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
+                  <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
+                </select>
               </div>
             </div>
+            <script>
+              $("[data-control='updateAccount']").on("click", this, function() {
+                var btn = this;
+                $(btn).attr("disabled", "disabled").find("span").show();
+                $.post('/api/account/updateBio', {
+                  "bio": $("#biotext").val(),
+                  "message": $("#message").is(":checked"),
+                  "theme": $("#themeSelect").val()
+                }, function(data) {
+                  if (data.success) {
+                    toastr["success"](data.message);
+                  } else {
+                    toastr["error"](data.message);
+                  }
+                  $(btn).removeAttr("disabled").find("span").hide();
+                })
+              })
+            </script>
           </div>
         </div>
         <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
-          <div class="container">
             <div class="form-group mb-3 col-lg-8">
               <h4 class="font-weight-normal">Change your password</h4>
             </div>
@@ -162,7 +153,6 @@ pageBuilder::buildHeader();
             <div class="form-group col-lg-8">
               <button class="btn btn-success btn-block" id="changePass" name="changePass" data-control="changePass" type="button"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Change</button>
             </div>
-          </div>
           <script>
             $("[data-control='changePass']").on("click", this, function() {
               var btn = this;
@@ -183,7 +173,6 @@ pageBuilder::buildHeader();
           </script>
         </div>
         <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-          <div class="container">
             <?php if ($twofa) { ?>
               <p>Two-Factor Authentication is currently active. If you wish to disable it, just fill in the fields below.</p>
               <p>If you disable 2FA your old recovery codes will be invalidated, so just be mindful of that.</p>
@@ -219,7 +208,6 @@ pageBuilder::buildHeader();
                 </form>
                 </div>
               </div>
-          </div>
         </div>
         <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
           <div class="col-sm-6">
