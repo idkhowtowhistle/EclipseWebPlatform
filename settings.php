@@ -80,10 +80,10 @@ pageBuilder::buildHeader();
   <div class="row py-4">
     <div class="col-2">
       <div class="list-group" id="list-tab" role="tablist">
-        <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="list" id="list-admin-list" class="list-group-item list-group-item-action active">Profile</a>
-        <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="list" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Account</a>
-        <a aria-selected="false" aria-controls="audits" role="tab" href="#list-audits" data-toggle="list" id="list-audits-list" class="list-group-item list-group-item-action">Security</a>
-        <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Manual</a>
+        <a aria-selected="true" aria-controls="admin" role="tab" href="#list-admin" data-toggle="tab" id="list-admin-list" class="list-group-item list-group-item-action active">Profile</a>
+        <a class="list-group-item list-group-item-action" id="list-mod-list" data-toggle="tab" href="#list-mod" role="tab" aria-controls="mod" aria-selected="false">Account</a>
+        <a aria-selected="false" aria-controls="audits" role="tab" href="#list-audits" data-toggle="tab" id="list-audits-list" class="list-group-item list-group-item-action">Security</a>
+        <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Discord</a>
       </div>
     </div>
     <div class="col-10">
