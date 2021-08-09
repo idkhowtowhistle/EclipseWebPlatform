@@ -234,13 +234,13 @@ pageBuilder::buildHeader();
           <div class="row">
             <div class="col-sm-6">
               <h4 class="font-weight-normal">Mercury Discord Verification</h4>
-              <?php if ($discordInfo->verified) { ?>
-              <p>Loading user info...</p>
+              <?php if ($discordInfo->info == NULL) { ?>
+              <p class="mb-1">Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
+              <p class="mb-1">Once you join, the Mercury bot should DM you asking for your code, which is this: </p>
+              <code class="mb-1">MercuryVerify:<?=$discordInfo->key?></code>
+              <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
               <?php } else { ?>
-              <p>Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
-              <p>The Mercury bot should DM you asking for your code, which is this: </p>
-              <code>MercuryVerify:<?=$discordInfo->key?></code>
-              <p>Just send this to the bot, and you'll be verified!</p>
+              <p class="mb-1">You are currently verified on the Mercury Discord server as</p>
               <?php } ?>
             </div>
             <div class="col-sm-6">
