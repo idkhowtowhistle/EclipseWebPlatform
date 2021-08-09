@@ -11,10 +11,9 @@ if (isset($_GET["Token"]) && isset($_GET["DiscordID"]))
 }
 else if (isset($_GET["DiscordID"]))
 {
-	$info = db::run("SELECT userId FROM users WHERE discordId = :id", [":id" => $_GET["DiscordID"]]);
+	$info = db::run("SELECT username FROM users WHERE discordId = :id", [":id" => $_GET["DiscordID"]]);
 	if (!$info->rowCount()) api::respond(200, false, "Not Verified");
-	$username = users::getUserNameFromUid($info->fetchColumn());
-	api::respond(200, true, $username);
+	api::respond(200, true, $info->fetchColumn());
 }
 
 api::respond(200, false, "Bad Request");

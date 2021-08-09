@@ -6,6 +6,8 @@ $gauth = twofa::initialize();
 
 $userinfo = (object)SESSION["userInfo"];
 
+var_dump($userInfo->discordKey);
+
 $twofa = SESSION["2fa"];
 $twofaSecret = $userinfo->twofaSecret;
 
@@ -212,11 +214,17 @@ pageBuilder::buildHeader();
           <?php } ?>
         </div>
         <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
-          <div class="col-md-6">
-            <h4 class="font-weight-normal">Verify your account on Discord</h4>
-          </div>
-          <div class="col-md-6">
-            <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+          <div class="row">
+            <div class="col-sm-6">
+              <h4 class="font-weight-normal">Mercury Discord Verification</h4>
+              <p>Looks like you're not yet verified! If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
+              <p>When you join, the Mercury bot should DM you. All you have to do is send the bot this key: </p>
+              <code>MercuryVerify:{UUID}</code>
+              <p>And you should be good to go!</p>
+            </div>
+            <div class="col-sm-6">
+              <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
           </div>
         </div>
       </div>
