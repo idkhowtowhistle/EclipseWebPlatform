@@ -9,6 +9,7 @@ $discordInfo = (object)
 [
   "info" => NULL,
   "key" => $userinfo->discordKey,
+  "timeVerified" => $userInfo->discordVerifyTime
 ];
 
 if ($discordInfo->key == NULL)
@@ -22,7 +23,6 @@ if ($discordInfo->key == NULL)
 else if ($userInfo->discordId != NULL)
 {
   $discordInfo->info = getDiscordInfo($userInfo->discordId);
-  var_dump($discordInfo->info);
 }
 
 $twofa = SESSION["2fa"];
@@ -225,7 +225,7 @@ pageBuilder::buildHeader();
                   <button type="submit" name="2fa" class="btn btn-<?= $twofa ? 'danger' : 'primary' ?> btn-block"><?= $twofa ? 'Dis' : 'En' ?>able</button>
                 </div>
               </form>
-          <?php if ($twoFa) { ?>
+          <?php if ($twofa) { ?>
             </div>
           </div>
           <?php } ?>
@@ -236,11 +236,25 @@ pageBuilder::buildHeader();
               <h4 class="font-weight-normal">Mercury Discord Verification</h4>
               <?php if ($discordInfo->info == NULL) { ?>
               <p class="mb-1">Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
-              <p class="mb-1">Once you join, the Mercury bot should DM you asking for your code, which is this: </p>
+              <p class="mb-1">Once you join, the Mercury bot should DM you asking for your verification key, which is here:</p>
               <code class="mb-1">MercuryVerify:<?=$discordInfo->key?></code>
               <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
+              <p class="mb-1">If the bot hasn't DMed you, it may be down. When it comes back online, just send a DM to the bot with your key.</p> 
               <?php } else { ?>
-              <p class="mb-1">You are currently verified on the Mercury Discord server as</p>
+              <p class="mb-1">You are currently verified in the Mercury Discord</p>
+              <div class="card bg-light mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <img class="img-fluid rounded-circle" src="https://cdn.discordapp.com/avatars/584433356272304198/8e290abe823690b32f834d3b877c0d45.png">
+                    </div>
+                    <div class="col-sm-9">
+                      <h4 class="font-weight-normal"><?=$discordInfo->info->username?><span class="text-muted">#<?=$discordInfo->info->tag?></span></h4>
+                      <h5 class="font-weight-normal">Verified <?=general::time_elapsed("@".$discordInfo->info->timeVerified)?></h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <?php } ?>
             </div>
             <div class="col-sm-6">

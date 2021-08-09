@@ -106,7 +106,8 @@ function getDiscordInfo($discordId)
 
 	return (object)
 	[
-		"username" => $response->username . "#" . $response->discriminator,
+		"username" => $response->username,
+		"tag" => $response->discriminator,
 		"id" => $response->id,
 		"avatar" => "https://cdn.discordapp.com/avatars/" .  $response->id . "/" . $response->avatar . ".png",
 		"color" => $response->accent_color,
