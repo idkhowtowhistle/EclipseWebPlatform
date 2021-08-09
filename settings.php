@@ -233,16 +233,16 @@ pageBuilder::buildHeader();
         <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
           <div class="row">
             <div class="col-sm-6">
-              <h4 class="font-weight-normal">Mercury Discord Verification</h4>
               <?php if ($discordInfo->info == NULL) { ?>
+              <h4 class="font-weight-normal">Mercury Discord Verification</h4>
               <p class="mb-1">Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
               <p class="mb-1">Once you join, the Mercury bot should DM you asking for your verification key, which is here:</p>
               <code class="mb-1">MercuryVerify:<?=$discordInfo->key?></code>
               <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
               <p class="mb-1">If the bot hasn't DMed you, it may be down. When it comes back online, just send a DM to the bot with your key.</p> 
               <?php } else { ?>
-              <p class="mb-1">You are currently verified in the Mercury Discord</p>
               <div class="card bg-light mb-3">
+                <h4 class="font-weight-normal">Your Discord Account</h4>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-3">
@@ -255,9 +255,11 @@ pageBuilder::buildHeader();
                   </div>
                 </div>
               </div>
+              <p class="mb-1">If you wish to have your Discord account unverified so you can use another account, message an admin.</p> 
               <?php } ?>
             </div>
             <div class="col-sm-6">
+              <h4 class="font-weight-normal">Join the Discord Server!</h4>
               <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
             </div>
           </div>
