@@ -78,7 +78,7 @@ pageBuilder::buildHeader();
   <?php } ?>
   <h3 class="my-4 font-weight-normal">Settings</h3>
   <div class="row py-4">
-    <div class="col-2">
+    <div class="col-sm-4 col-md-3 col-lg-2">
       <div class="list-group" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
         <a class="list-group-item list-group-item-action" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="false">Account</a>
@@ -86,7 +86,7 @@ pageBuilder::buildHeader();
         <a class="list-group-item list-group-item-action" id="discord-tab" data-toggle="tab" href="#discord" role="tab" aria-controls="discord" aria-selected="false">Discord</a>
       </div>
     </div>
-    <div class="col-10">
+    <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <div class="row">
@@ -212,10 +212,10 @@ pageBuilder::buildHeader();
           <?php } ?>
         </div>
         <div class="tab-pane fade" id="discord" role="tabpanel" aria-labelledby="discord-tab">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <h4 class="font-weight-normal">Verify your account on Discord</h4>
           </div>
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <iframe src="https://discord.com/widget?id=846501584703062066&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
