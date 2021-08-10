@@ -147,7 +147,70 @@ pageBuilder::buildHeader();
             </div>
          </div>
          <div class="tab-pane fade" id="v-pills-kb" role="tabpanel" aria-labelledby="v-pills-kb-tab">
-            <p>hi</p>
+         <div class="row">
+               <div class="col">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="form-group mb-3">
+                           <label for="username-kb">Username</label>
+                           <input type="text" class="form-control" id="username-kb" placeholder="Username">
+                        </div>
+                        <div class="form-group mb-3">
+                           <label for="option-kb">Option</label>
+                           <select class="form-control" id="option-kb">
+                              <option value="1">Key Ban</option>
+                              <option value="0">Unban</option>
+                           </select>
+                        </div>
+                        <div class="form-group mb-3">
+                           <label for="reason-kb">Reason</label>
+                           <textarea class="form-control" id="reason-gb" rows="3"></textarea>
+                        </div>
+                        <button type="button" data-control="keyBan" class="btn btn-lg btn-block btn-success"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Manage Key Ban</button>
+                     </div>
+                  </div>
+                  <script>
+                     $('button[data-control="keyBan"]').on('click', this, function() {
+                        var button = this;
+                        $(button).attr("disabled", "disabled").find("span").show();
+                        $.post('/api/admin/keyBan', {
+                           "username": $("#username-kb").val(),
+                           "option": $("#option-kb").val(),
+                           "reason": $("#reason-kb").val()
+                        }, function(data) {
+                           if (data.success) {
+                              toastr["success"](data.message);
+                           } else {
+                              toastr["error"](data.message);
+                           }
+                           $(button).removeAttr("disabled").find("span").hide();
+                        });
+                     });
+                  </script>
+               </div>
+               <div class="col-5">
+                  <div class="card border-info">
+                     <div class="card-header">
+                        Key Ban
+                     </div>
+                     <div class="card-body">
+                        Key bans are used to prohibit users from creating invite keys.<br>
+                        Some rules to follow while using key bans:
+                        <ul>
+                           <li>
+                              Ask an administrator before giving a user a key ban
+                           </li>
+                           <li>
+                              There must be sufficient grounds for giving a user a key ban, using the reason box.
+                           </li>
+                           <li>
+                              Abusing this system will get you banned.
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
