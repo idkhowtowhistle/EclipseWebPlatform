@@ -86,7 +86,7 @@ function showAlert(text, type)
         {
             showAlert(response.message, response.success ? "success" : "danger");
         },
-        error: function()
+        error: function(response)
         {
             showAlert(response.message, "danger");
         }
