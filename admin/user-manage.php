@@ -158,8 +158,8 @@ pageBuilder::buildHeader();
                         <div class="form-group mb-3">
                            <label for="option-kb">Option</label>
                            <select class="form-control" id="option-kb">
-                              <option value="1">Key Ban</option>
-                              <option value="0">Unban</option>
+                              <option value="0">Key Ban</option>
+                              <option value="1">Unban</option>
                            </select>
                         </div>
                         <div class="form-group mb-3">

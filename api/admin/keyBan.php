@@ -37,8 +37,8 @@ $query->execute();
 
 $text = 
 [ 
-	1 => "keybanned", 
-	0 => "unbanned"
+	0 => "keybanned", 
+	1 => "unbanned"
 ];
 
 admin::updateAuditLogs($userId, 2, "Moderate", $username." has been ".$text[$option]. " for " . $reason);
