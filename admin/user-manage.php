@@ -164,7 +164,7 @@ pageBuilder::buildHeader();
                         </div>
                         <div class="form-group mb-3">
                            <label for="reason-kb">Reason</label>
-                           <textarea class="form-control" id="reason-gb" rows="3"></textarea>
+                           <textarea class="form-control" id="reason-kb" rows="3"></textarea>
                         </div>
                         <button type="button" data-control="keyBan" class="btn btn-lg btn-block btn-success"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display:none"></span> Manage Key Ban</button>
                      </div>
