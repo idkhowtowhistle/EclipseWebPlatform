@@ -27,7 +27,7 @@ $query = db::run("SELECT createdOn FROM assets WHERE creatorId = :uid ORDER BY i
 $lastCreation = $query->fetchColumn();
 if($lastCreation+30 > time()) api::respond(400, false, "Please wait ".(30-(time()-$lastCreation))." seconds before creating a new asset");
 
-$asset = new Upload($file);
+$asset = new \Verot\Upload\Upload($file);
 if(!$asset->uploaded) api::respond(400, false, "Something went wrong: Failed to process image");
 $asset->allowed = ['image/png', 'image/jpg', 'image/jpeg'];
 $asset->image_convert = "png";
