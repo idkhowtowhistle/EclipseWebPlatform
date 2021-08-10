@@ -39,7 +39,7 @@ if($serverId == 156) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER[
 	respond([
 		"jobId" => "$serverId", 
 		"status" => 2, 
-		"joinScriptUrl" => "https://www.banland.xyz/Game/Visit.ashx?PlaceID=1818", 
+		"joinScriptUrl" => "https://www.banland.xyz/Game/Visit.ashx?PlaceID=50791", 
 		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
 		"authenticationTicket" => "test"
 	]);
