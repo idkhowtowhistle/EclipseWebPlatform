@@ -9,6 +9,7 @@ pageBuilder::buildHeader();
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
          <a class="nav-link active" id="v-pills-ssc-tab" data-toggle="pill" href="#v-pills-ssc" role="tab" aria-controls="v-pills-home" aria-selected="true">Super Safe Chat</a>
          <a class="nav-link" id="v-pills-gb-tab" data-toggle="pill" href="#v-pills-gb" role="tab" aria-controls="v-pills-gb">Game Ban</a>
+         <a class="nav-link" id="v-pills-kb-tab" data-toggle="pill" href="#v-pills-kb" role="tab" aria-controls="v-pills-kb">Keygen Ban</a>
       </div>
    </div>
    <div class="col-lg-10">
@@ -134,7 +135,7 @@ pageBuilder::buildHeader();
                               Ask an administrator before giving a user a game ban
                            </li>
                            <li>
-                              There must be sufficient grounds for giving a user a game  ban, using the reason box.
+                              There must be sufficient grounds for giving a user a game ban, using the reason box.
                            </li>
                            <li>
                               Abusing this system will get you banned.
@@ -144,6 +145,9 @@ pageBuilder::buildHeader();
                   </div>
                </div>
             </div>
+         </div>
+         <div class="tab-pane fade" id="v-pills-kb" role="tabpanel" aria-labelledby="v-pills-kb-tab">
+            <p>hi</p>
          </div>
       </div>
    </div>
