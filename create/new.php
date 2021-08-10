@@ -44,7 +44,9 @@ pageBuilder::buildHeader();
                             <small class="text-muted">This template also works with pants (left leg, right leg)</small>
                         </div>
                 </div>
-                <a href="#" style="display: grid; place-items: center;">> Looking to upload special assets? Click here. <</a>
+                <?php if(SESSION["adminLevel"] > 2) { ?>
+                <a href="#" style="display: grid; place-items: center;">Looking to upload special assets? Click here.</a>
+                <?php } ?>
             </div>
         </div>
     </div>
