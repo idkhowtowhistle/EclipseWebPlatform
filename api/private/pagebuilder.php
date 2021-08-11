@@ -161,7 +161,7 @@ class pageBuilder
 			.card {
     			background-color: transparent!important;
     			color: #d4dae0!important;
-    			border-color: #ffffff;
+    			border: 0px!important
 			}
             .footer>.container {
 				background-color: #303030!important;
