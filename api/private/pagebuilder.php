@@ -139,6 +139,16 @@ class pageBuilder
 			border-top-right-radius: 0px;
 		}
 
+		<?php if (self::$pageConfig["dark"]) { ?>
+			.btn-success {
+    			background-color: #347d39;
+    			border-color: #2b9148;
+			}
+			.btn:hover {
+    			background-color: #46954a;
+    			border-color: #549c59;
+			}
+		<?php } ?>
 		<?php if (self::$pageConfig["nobelium"]) { ?>
 		.navbar.navbar-expand-lg.navbar-dark.bg-dark {
 			background: linear-gradient(90deg, #265a7f, #545489) !important;
