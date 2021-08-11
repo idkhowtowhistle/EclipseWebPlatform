@@ -159,6 +159,16 @@ class pageBuilder
     			background-color: #0c121a!important;
     			color: #d4dae0!important;
 			}
+			.table > .bg-white {
+    			background-color: #080b0f!important;
+    			color: #d4dae0!important;
+    			border: 0px!important;
+			}
+			.table-bordered {
+    			background-color: #0c121a!important;
+    			color: #d4dae0!important;
+    			border: 0px solid!important;
+			}
 		<?php } ?>
 		
 		body {
