@@ -153,7 +153,7 @@ class pageBuilder
 				border-color: #ffffff;
 			}
             .footer>.container {
-				background-color: #171717!important;
+				background-color: #303030!important;
 			}
 		<?php } ?>
 		
