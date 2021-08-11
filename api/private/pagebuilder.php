@@ -158,9 +158,10 @@ class pageBuilder
     			border-color: rgba(148, 149, 70, .4)!important;
     			color: #c0c46b!important;
 			}
-			.card-body {
-				background-color: #22272e!important;
-				border-color: #ffffff;
+			.card {
+    			background-color: transparent!important;
+    			color: #d4dae0!important;
+    			border-color: #ffffff;
 			}
             .footer>.container {
 				background-color: #303030!important;
