@@ -151,8 +151,12 @@ class pageBuilder
 		<?php } ?>
 		
 		body {
-			background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
-			-webkit-background-size: cover!important;
+			<?php if(!self::$pageConfig["dark"]) { ?>
+				background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
+			<?php } else { ?>
+				background-color: #0a0c10;
+			<?php } ?>
+			
 		}
 
 		<?php if (self::$pageConfig["nobelium"]) { ?>
