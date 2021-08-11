@@ -154,7 +154,7 @@ class pageBuilder
 			<?php if(!self::$pageConfig["dark"]) { ?>
 				background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
 			<?php } else { ?>
-				background-color: #0a0c10;
+				background-color: #22272e;
 			<?php } ?>
 			
 		}
