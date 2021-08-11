@@ -148,6 +148,10 @@ class pageBuilder
     			background-color: #46954a;
     			border-color: #549c59;
 			}
+			.card-body {
+				background-color: #22272e!important;
+				border-color: #ffffff;
+			}
 		<?php } ?>
 		
 		body {
