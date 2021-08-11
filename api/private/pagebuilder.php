@@ -152,6 +152,10 @@ class pageBuilder
 				background-color: #22272e!important;
 				border-color: #ffffff;
 			}
+			.table > .bg-white {
+				color: #c8c9cb!important;
+				border-color: #ffffff;
+			}
 		<?php } ?>
 		
 		body {
