@@ -185,6 +185,9 @@ class pageBuilder
     			color: #d4dae0!important;
     			border: 0px!important;
 			}
+			hr {
+				color: #ffffff!important;
+			}
 		<?php } ?>
 		
 		body {
