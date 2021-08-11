@@ -169,7 +169,6 @@ class pageBuilder
     			color: #d4dae0!important;
     			border: 0px solid!important;
 			}
-			.card-body,
 			.breadcrumb,
 			.table {
     			background-color: #080b0f!important;
