@@ -187,6 +187,7 @@ class pageBuilder
 			}
 			hr {
 				color: #ffffff!important;
+				border: 1!important;
 			}
 		<?php } ?>
 		
