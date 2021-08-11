@@ -141,12 +141,22 @@ class pageBuilder
 
 		<?php if (self::$pageConfig["dark"]) { ?>
 			.btn-success {
-    			background-color: #347d39;
-    			border-color: #2b9148;
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(70, 149, 74, 0.1), rgba(70, 149, 74, 0.1))!important;
+    			border-color: rgba(70, 149, 74, 0.4)!important;
+    			color: #6bc46d!important;
 			}
-			.btn-success:hover {
-    			background-color: #46954a;
-    			border-color: #549c59;
+			.btn-info {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(70, 146, 149, 0.1), rgba(70, 146, 149, 0.1))!important;
+    			border-color: rgba(70, 146, 149, 0.4)!important;
+    			color: #6bc4be!important;
+			}
+			.btn-info > .badge.badge-pill.badge-warning {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
+    			border-color: rgba(148, 149, 70, .4)!important;
+    			color: #c0c46b!important;
 			}
 			.card-body {
 				background-color: #22272e!important;
