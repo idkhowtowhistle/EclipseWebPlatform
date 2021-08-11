@@ -165,6 +165,10 @@ class pageBuilder
             .footer>.container {
 				background-color: #303030!important;
 			}
+			.form-control {
+    			background-color: #0d1117!important;
+    			border-color: #1f2b3e!important
+			}
 			.table-hover tbody tr:hover {
     			background-color: #0c121a!important;
     			color: #d4dae0!important;
