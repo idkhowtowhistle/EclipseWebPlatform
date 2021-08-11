@@ -155,6 +155,9 @@ class pageBuilder
             .footer>.container {
 				background-color: #303030!important;
 			}
+			.table {
+				color: #adb5bd!important;
+			}
 		<?php } ?>
 		
 		body {
