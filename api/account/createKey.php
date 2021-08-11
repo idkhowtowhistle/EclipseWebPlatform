@@ -13,7 +13,7 @@ if(!$terms) api::respond(200, false, "You need to tick the checkbox to create a 
 
 $lastInvite = db::run("SELECT createdInv FROM users WHERE id = :uid", [":uid" => SESSION["userId"]])->fetchColumn();
 
-if(SESSION["ssc"]) 
+if(SESSION["ssc"] || !SESSION["keys"]) 
 {
 	api::respond(200, false, "You cannot create an invite key.");
 }
