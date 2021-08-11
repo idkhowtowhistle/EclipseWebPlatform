@@ -149,6 +149,12 @@ class pageBuilder
     			border-color: #549c59;
 			}
 		<?php } ?>
+		
+		body {
+			background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
+			-webkit-background-size: cover!important;
+		}
+
 		<?php if (self::$pageConfig["nobelium"]) { ?>
 		.navbar.navbar-expand-lg.navbar-dark.bg-dark {
 			background: linear-gradient(90deg, #265a7f, #545489) !important;
