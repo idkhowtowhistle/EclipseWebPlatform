@@ -316,9 +316,11 @@ class pageBuilder
 		<?php /* session */ if (SESSION) { ?>
 		<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
-		<?php /* polygon nav */ } else { ?>
-		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> py-0">
-		<?php /* polygon nav */ } ?>
+		<?php /* dark/nobe nav */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
+		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-dark py-0">
+		<?php /* light nav */ } else { ?>
+			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-light py-0">
+			<?php } ?>
 			<div class="container">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
