@@ -38,7 +38,8 @@ class pageBuilder
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
 		"nobelium" => SESSION ? SESSION["theme"] == 2 : false,
-		"krypton" => SESSION ? SESSION["theme"] == 3 : false
+		"krypton" => SESSION ? SESSION["theme"] == 3 : false,
+		"dark" => SESSION ? SESSION["theme"] == 4 : false
 	];
 
 	public static string $additionalFooterStuff = "";
@@ -244,9 +245,11 @@ class pageBuilder
 		<?php /* navbar */ if (self::$pageConfig["navbar"]) { ?>
 		<?php /* polygon navbar */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
-		<?php /* polygon navbar */ } else { ?>
-		<nav class="navbar navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> bg-<?=self::$pageConfig['nobelium']?"dark":"light"?>">
-		<?php /* polygon navbar */ } ?>
+		<?php /* dark/nobe navbar */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<?php /* light navbar */ } else { ?>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<?php } ?>
 			<div class="container">
 				<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

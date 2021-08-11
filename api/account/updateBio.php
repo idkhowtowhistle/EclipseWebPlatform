@@ -27,7 +27,7 @@ $bio = htmlspecialchars(trim($_POST["bio"]));
 $message = $_POST["message"] == "false" ? false : true;
 $theme = $_POST["theme"];
 
-if($theme < 0 || $theme > 3 || !is_numeric($theme)) api::respond(400, false, "Invalid Request");
+if($theme < 0 || $theme > 4 || !is_numeric($theme)) api::respond(400, false, "Invalid Request");
 
 api::lastAction();
 
