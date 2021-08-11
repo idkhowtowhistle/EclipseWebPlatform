@@ -152,7 +152,7 @@ class pageBuilder
 				background-color: #22272e!important;
 				border-color: #ffffff;
 			}
-            .footer {
+            .footer>.container {
 				background-color: #171717!important;
 			}
 		<?php } ?>
