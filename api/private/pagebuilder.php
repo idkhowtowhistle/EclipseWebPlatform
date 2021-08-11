@@ -144,7 +144,7 @@ class pageBuilder
     			background-color: #347d39;
     			border-color: #2b9148;
 			}
-			.btn:hover {
+			.btn-success:hover {
     			background-color: #46954a;
     			border-color: #549c59;
 			}
