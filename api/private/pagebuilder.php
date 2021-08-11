@@ -170,7 +170,7 @@ class pageBuilder
     			color: #d4dae0!important;
 			}
 			.table > .bg-white {
-    			background-color: #080b0f!important;
+    			background-color: #303030!important;
     			color: #d4dae0!important;
     			border: 0px!important;
 			}
@@ -181,7 +181,7 @@ class pageBuilder
 			}
 			.breadcrumb,
 			.table {
-    			background-color: #080b0f!important;
+    			background-color: #303030!important;
     			color: #d4dae0!important;
     			border: 0px!important;
 			}
