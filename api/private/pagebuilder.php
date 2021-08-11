@@ -166,7 +166,7 @@ class pageBuilder
 				background-color: #303030!important;
 			}
 			.table-hover tbody tr:hover {
-    			background-color: #0c121a!important;
+    			background-color: #303030!important;
     			color: #d4dae0!important;
 			}
 			.table > .bg-white {
