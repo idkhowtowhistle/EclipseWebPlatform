@@ -317,7 +317,7 @@ class pageBuilder
 		<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
 		<?php /* dark/nobe nav */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
-		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-dark py-0">
+		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-dark bg-secondary py-0">
 		<?php /* light nav */ } else { ?>
 			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-light py-0">
 			<?php } ?>
