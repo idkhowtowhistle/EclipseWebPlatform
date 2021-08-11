@@ -155,6 +155,7 @@ class pageBuilder
 				background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
 			<?php } else { ?>
 				background-color: #22272e;
+				color: #c8c9cb!important;
 			<?php } ?>
 			
 		}
