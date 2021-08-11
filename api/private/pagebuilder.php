@@ -187,13 +187,12 @@ class pageBuilder
 			}
 			hr {
 				color: #ffffff!important;
-				border: 1!important;
 			}
 		<?php } ?>
 		
 		body {
 			<?php if(!self::$pageConfig["dark"]) { ?>
-				background: #311313 url(/img/bg.svg) no-repeat 50% fixed !important;
+				background: #f0f0f0 url(/img/bg.svg) no-repeat 50% fixed !important;
 			<?php } else { ?>
 				background-color: #22272e;
 				color: #c8c9cb!important;
