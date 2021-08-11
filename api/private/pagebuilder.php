@@ -155,8 +155,9 @@ class pageBuilder
             .footer>.container {
 				background-color: #303030!important;
 			}
-			.table {
-				color: #adb5bd!important;
+			.table-hover tbody tr:hover {
+    			background-color: #0c121a!important;
+    			color: #d4dae0!important;
 			}
 		<?php } ?>
 		
