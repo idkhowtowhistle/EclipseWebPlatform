@@ -165,12 +165,12 @@ class pageBuilder
     			color: #c0c46b!important;
 			}
 			.list-group-item {
-				color: #d4dae0!important;
+				background-color: #d4dae0!important;
 			}
 			.modal-content {
 				background-color: #22272e!important
 			}
-			.pre {
+			pre {
 				color: #ffffff!important;
 			}
 			.card {
