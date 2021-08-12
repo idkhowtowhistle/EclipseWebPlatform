@@ -164,6 +164,16 @@ class pageBuilder
     			border-color: rgba(148, 149, 70, .4)!important;
     			color: #c0c46b!important;
 			}
+			thead {
+    			border: 0px!important;
+			}
+			th {
+    			border: 0px!important;
+			}
+			.table th,
+			.table td {
+    			border-top: 1px solid #1e2831;
+			}
 			.modal-content {
 				background-color: #22272e!important
 			}
