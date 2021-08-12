@@ -167,9 +167,6 @@ class pageBuilder
 			thead {
     			border: 0px!important;
 			}
-			th {
-    			border: 0px!important;
-			}
 			.table th,
 			.table td {
     			border-top: 1px solid #1e2831;
