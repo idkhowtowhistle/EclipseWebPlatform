@@ -152,6 +152,12 @@ class pageBuilder
     			border-color: rgba(70, 146, 149, 0.4)!important;
     			color: #6bc4be!important;
 			}
+			.btn-danger {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(204, 0, 20, 0.1), rgba(204, 0, 20, 0.1))!important;
+    			border-color: rgba(70, 146, 149, 0.4)!important;
+    			color: #6bc4be!important;
+			}
 			.btn-info > .badge.badge-pill.badge-warning {
     			background-color: transparent!important;
     			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
