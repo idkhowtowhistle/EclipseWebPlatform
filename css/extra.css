@@ -23,8 +23,9 @@ b, strong, th {
 
 .join-server {
     background: url("/img/btn/bg-lg-green-play.png");
-    background-repeat: no-repeat;
     background-size: cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
 }
 
 .footer {
