@@ -180,6 +180,19 @@ class pageBuilder
 			.jumbotron {
 				background-color: #303030!important;
 			}
+			.toggle-handle {
+    			background-color: #0c1822!important;
+    			border: 0px!important;
+			}
+			.toggle-off {
+    			background-color: #081017!important;
+    			color: #546271!important;
+			}
+			.toggle.btn.btn-light,
+			.toggle.btn.btn-outline-light {
+    			background-color: #0a151e!important;
+    			border-color: #0a151e!important;
+			}
 			pre {
 				color: #ffffff!important;
 			}
