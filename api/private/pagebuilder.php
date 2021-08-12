@@ -167,7 +167,7 @@ class pageBuilder
 			.modal-content {
 				background-color: #22272e!important
 			}
-			.modal-body {
+			.pre {
 				color: #ffffff!important;
 			}
 			.card {
