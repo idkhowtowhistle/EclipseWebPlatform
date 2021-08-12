@@ -162,7 +162,7 @@ class pageBuilder
     			background-color: transparent!important;
     			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
     			border-color: rgba(148, 149, 70, .4)!important;
-    			color: #c0c46b!important;
+    			color: #c36969!important;
 			}
 
 			.card {
