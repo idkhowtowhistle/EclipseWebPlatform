@@ -160,7 +160,7 @@ class pageBuilder
 			}
 
 			.card {
-    			background-color: transparent!important;
+    			background-color: #343a40!important;
     			color: #d4dae0!important;
     			border-color: #ffffff;
 			}
