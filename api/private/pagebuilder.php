@@ -177,6 +177,9 @@ class pageBuilder
 			.modal-content {
 				background-color: #22272e!important
 			}
+			.jumbotron {
+				background-color: #303030!important;
+			}
 			pre {
 				color: #ffffff!important;
 			}
