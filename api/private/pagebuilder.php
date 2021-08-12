@@ -164,7 +164,9 @@ class pageBuilder
     			border-color: rgba(148, 149, 70, .4)!important;
     			color: #c0c46b!important;
 			}
-
+			.modal-content {
+				background-color: #22272e!important
+			}
 			.card {
     			background-color: #343a40!important;
     			color: #d4dae0!important;
