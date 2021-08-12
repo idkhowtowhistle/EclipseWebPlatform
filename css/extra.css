@@ -21,6 +21,12 @@ b, strong, th {
    text-decoration: underline;
 }
 
+.join-server {
+    background: url("/img/btn/bg-lg-green-play.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .footer {
     margin-top: 20px;
     margin-bottom: 0;
