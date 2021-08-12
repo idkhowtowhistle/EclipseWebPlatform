@@ -122,7 +122,7 @@
 			</div>
 			<hr>
 			<?php } ?>
-			<button type="button" data-control="join-server" data-server-key="<?= $gameInfo->isPrivate ? "$privateKey" : "false" ?>" data-server-id="<?= $gameInfo->id ?>" class="btn btn-block rounded-0 btn-success join-server" <?= SESSION["gameban"] ? "disabled" : "" ?>><i class="fas fa-play"></i> Play</button>
+			<button type="button" data-control="join-server" data-server-key="<?= $gameInfo->isPrivate ? "$privateKey" : "false" ?>" data-server-id="<?= $gameInfo->id ?>" class="btn btn-block rounded-0 btn-success join-server my-1" <?= SESSION["gameban"] ? "disabled" : "" ?>> Play</button>
 			<div class="place-launcher mt-3">
 				<p class="place-launcher-success" style="display:none;"><i class="fas fa-check-circle text-success"></i> Started Client!</p>
 				<p class="place-launcher-error" style="display:none;"><i class="fas fa-times-circle text-danger"></i></p>
