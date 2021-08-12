@@ -156,13 +156,13 @@ class pageBuilder
     			background-color: transparent!important;
     			background-image: linear-gradient(rgba(204, 0, 20, 0.1), rgba(204, 0, 20, 0.1))!important;
     			border-color: rgba(204, 0, 20, 0.4)!important;
-    			color: #6bc4be!important;
+    			color: #c36969!important;
 			}
 			.btn-info > .badge.badge-pill.badge-warning {
     			background-color: transparent!important;
     			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
     			border-color: rgba(148, 149, 70, .4)!important;
-    			color: #c36969!important;
+    			color: #c0c46b!important;
 			}
 
 			.card {
