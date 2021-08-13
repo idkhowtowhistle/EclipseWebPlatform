@@ -20,6 +20,7 @@ $type = $_POST["type"] ?? false;
 if(!$file) api::respond(400, false, "You need to upload a file!");
 if(!in_array($file["type"], ["image/png", "image/jpg", "image/jpeg"])) api::respond(400, false, "Must be a .png or .jpg file");
 if(strlen($name) < 1 || strlen($name) > 128) api::respond(400, false, "Asset name must be between 1-128 characters");
+if(!strlen($desc) < 3 || strlen($desc) > 512) api::respond(400, false, "THe description must be between 3-512 characters");
 if(general::filterText($name, false, false) != $name) api::respond(400, false, "Asset name cannot contain inappropriate text");
 if(!in_array($type, [2, 11, 12, 13])) api::respond(400, false, "You can't upload that type of content");
 

@@ -863,6 +863,7 @@ if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['_ROBLOSECURITY']))
 		$userInfo = users::getUserInfoFromUid($session->userId);
 		//one thing i dislike about globals is that you cant use them as objects, only arrays but /shrug
 		//kjf: use an stdclass then
+		//Daniel: NO
 		define('SESSION', 
 			[
 				"userName" => $userInfo->username, 
