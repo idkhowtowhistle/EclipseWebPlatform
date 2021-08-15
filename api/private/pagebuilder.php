@@ -33,7 +33,7 @@ class pageBuilder
 		"og:site_name" => SITE_CONFIG["site"]["name"],
 		"og:url" => "https://banland.xyz",
 		"og:description" => "PlayStation®Network free hacks and mods for call of duty",
-		"og:image" => "/favicon.ico",
+		"og:image" => "/img/mercury.png",
 		"navbar" => true,
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
