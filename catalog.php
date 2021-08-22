@@ -33,7 +33,7 @@ pageBuilder::buildHeader();
             <div class="col-lg-2 mb-4">
                <div class="card hover-shadow">
                   <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
+                     <p class="text-center"><img class="img-fluid" src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc="></p>
                      <a href="#" class="m-0">Traffic Cone</a>
                      <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
                      <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
@@ -43,7 +43,7 @@ pageBuilder::buildHeader();
             <div class="col-lg-2 mb-4">
                <div class="card hover-shadow">
                   <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
+                     <p class="text-center"><img class="img-fluid" src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc="></p>
                      <a href="#" class="m-0">Traffic Cone</a>
                      <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
                      <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
