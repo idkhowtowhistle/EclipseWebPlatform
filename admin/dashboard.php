@@ -138,7 +138,7 @@ pageBuilder::buildHeader();
                             <div class="card w-100">
                                 <div class="card-body text-center">
                                     <h1 class="display-4 my-4"><i class="far fa-hdd"></i></h1>
-                                    <h3 class="font-weight-normal my-4"> N/A / <?=general::getFileSize(disk_total_space("/"))?> Used</h3>
+                                    <h3 class="font-weight-normal my-4"> <?=general::getFileSize(disk_total_space("/")-disk_free_space("/"))?> / <?=general::getFileSize(disk_total_space("/"))?> Used</h3>
                                 </div>
                             </div>
                         </div>
