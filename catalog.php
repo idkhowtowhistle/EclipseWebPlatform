@@ -1,5 +1,5 @@
-<?php 
-require $_SERVER['DOCUMENT_ROOT'].'/api/private/core.php';
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . '/api/private/core.php';
 users::requireLogin();
 pageBuilder::buildHeader();
 ?>
@@ -30,7 +30,7 @@ pageBuilder::buildHeader();
             <button type="button" class="btn btn-secondary ml-2 px-4">Search</button>
          </p>
          <div class="row">
-            <div class="col-lg-3 mb-4">
+            <div class="col-lg-2 mb-4">
                <div class="card hover-shadow">
                   <div class="card-body">
                      <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
@@ -40,67 +40,7 @@ pageBuilder::buildHeader();
                   </div>
                </div>
             </div>
-            <div class="col-lg-3 mb-4">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3 mb-4">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3 mb-4">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-<p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3">
-               <div class="card hover-shadow">
-                  <div class="card-body">
-                     <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
-                     <a href="#" class="m-0">Traffic Cone</a>
-                     <p class="m-0">By: <a href="#" class="m-0">Multako</a></p>
-                     <p class="m-0 text-success"><i class="far fa-money-bill-alt"></i> 2000</p>
-                  </div>
-               </div>
-            </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2 mb-4">
                <div class="card hover-shadow">
                   <div class="card-body">
                      <p class="text-center"><img src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc=" width="130"></p>
@@ -117,8 +57,8 @@ pageBuilder::buildHeader();
       <button type="button" class="btn btn-light mx-3 back" disabled="">
          <h5 class="mb-0"><i class="fas fa-chevron-left"></i></h5>
       </button>
-      <span>Page</span> 
-      <input value="1" style="width:30px" type="text" class="form-control form-control-sm text-center mx-1 page"> 
+      <span>Page</span>
+      <input value="1" style="width:30px" type="text" class="form-control form-control-sm text-center mx-1 page">
       <span>of 1</span>
       <button type="button" class="btn btn-light mx-3 next" disabled="">
          <h5 class="mb-0"><i class="fas fa-chevron-right"></i></h5>
