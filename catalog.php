@@ -10,7 +10,16 @@ pageBuilder::buildHeader();
          <div class="card mt-3">
             <div class="card-header">Type</div>
             <div class="card-body">
-               <button type="button" class="btn btn-primary btn-block">Hats</button><button type="button" class="btn btn-light btn-block">T-Shirts</button><button type="button" class="btn btn-light btn-block">Shirts</button><button type="button" class="btn btn-light btn-block">Pants</button><button type="button" class="btn btn-light btn-block">Gears</button><button type="button" class="btn btn-light btn-block">Faces</button><button type="button" class="btn btn-light btn-block">Heads</button><button type="button" class="btn btn-light btn-block">Models</button><button type="button" class="btn btn-light btn-block">Decals</button><button type="button" class="btn btn-light btn-block">Audio</button>
+               <button type="button" class="btn btn-primary btn-block">Hats</button>
+               <button type="button" class="btn btn-light btn-block">T-Shirts</button>
+               <button type="button" class="btn btn-light btn-block">Shirts</button>
+               <button type="button" class="btn btn-light btn-block">Pants</button>
+               <button type="button" class="btn btn-light btn-block">Gears</button>
+               <button type="button" class="btn btn-light btn-block">Faces</button>
+               <button type="button" class="btn btn-light btn-block">Heads</button>
+               <button type="button" class="btn btn-light btn-block">Models</button>
+               <button type="button" class="btn btn-light btn-block">Decals</button>
+               <button type="button" class="btn btn-light btn-block">Audio</button>
             </div>
          </div>
       </div>

@@ -2,6 +2,7 @@
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/core.php';
 header("content-type: application/json");
 header("referrer-policy: same-origin");
+// only decals and shirts to be accepted until renders are active
 
 if($_SERVER['REQUEST_METHOD'] != 'POST'){ api::respond(405, false, "Method Not Allowed"); }
 upload::initialize();
