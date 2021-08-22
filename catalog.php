@@ -30,7 +30,7 @@ pageBuilder::buildHeader();
             <button type="button" class="btn btn-secondary ml-2 px-4">Search</button>
          </p>
          <div class="row">
-            <div class="col-lg-3 mb-2">
+            <div class="col-lg-3 col-md-5 mb-2">
                <div class="card hover-shadow">
                   <div class="card-body">
                      <p class="text-center"><img class="img-fluid" src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc="></p>
@@ -39,7 +39,7 @@ pageBuilder::buildHeader();
                   </div>
                </div>
             </div>
-            <div class="col-lg-3 mb-2">
+            <div class="col-lg-3 col-md-5 mb-2">
                <div class="card hover-shadow">
                   <div class="card-body">
                      <p class="text-center"><img class="img-fluid" src="https://media.istockphoto.com/photos/traffic-cone-picture-id504567615?k=6&amp;m=504567615&amp;s=170667a&amp;w=0&amp;h=8dg2yif2eSK74tmJOV-b7Gk-976r2Kgo_ytjTTwnORc="></p>
