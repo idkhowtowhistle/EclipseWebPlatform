@@ -16,23 +16,23 @@ pageBuilder::buildHeader();
 ?>
 <h2 class="font-weight-normal"><?= $selfFriends ? "My " : "$userInfo->username's " ?>Friends</h2>
 <div class="card">
-    <div class="card-body py-1"> 
+    <div class="card-body py-1">
         <ul class="nav nav-pills nav-fill py-1" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="pills-friends-tab" data-toggle="pill" href="#pills-friends" role="tab" aria-controls="pills-friends" aria-selected="true">Friends</a>
             </li>
-            <?php if($selfFriends) { ?>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Requests</a>
-            </li>
+            <?php if ($selfFriends) { ?>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Requests</a>
+                </li>
             <?php } ?>
         </ul>
     </div>
 </div>
 <div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab">...</div>
-  <?php if($selfFriends) { ?>
-  <div class="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">...</div>
-  <?php } ?>
+    <div class="tab-pane fade show active" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab">...</div>
+    <?php if ($selfFriends) { ?>
+        <div class="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">...</div>
+    <?php } ?>
 </div>
 <?php pageBuilder::buildFooter(); ?>

@@ -33,12 +33,13 @@ class pageBuilder
 		"og:site_name" => SITE_CONFIG["site"]["name"],
 		"og:url" => "https://banland.xyz",
 		"og:description" => "PlayStation®Network free hacks and mods for call of duty",
-		"og:image" => "/favicon.ico",
+		"og:image" => "/img/mercury.png",
 		"navbar" => true,
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
 		"nobelium" => SESSION ? SESSION["theme"] == 2 : false,
-		"krypton" => SESSION ? SESSION["theme"] == 3 : false
+		"krypton" => SESSION ? SESSION["theme"] == 3 : false,
+		"dark" => SESSION ? SESSION["theme"] == 4 : false
 	];
 
 	public static string $additionalFooterStuff = "";
@@ -136,6 +137,111 @@ class pageBuilder
 			border-top: none;
 			border-top-left-radius: 0px;
 			border-top-right-radius: 0px;
+		}
+
+		<?php if (self::$pageConfig["dark"]) { ?>
+			.btn-success {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(70, 149, 74, 0.1), rgba(70, 149, 74, 0.1))!important;
+    			border-color: rgba(70, 149, 74, 0.4)!important;
+    			color: #6bc46d!important;
+			}
+			.btn-info {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(70, 146, 149, 0.1), rgba(70, 146, 149, 0.1))!important;
+    			border-color: rgba(70, 146, 149, 0.4)!important;
+    			color: #6bc4be!important;
+			}
+			.btn-danger {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(204, 0, 20, 0.1), rgba(204, 0, 20, 0.1))!important;
+    			border-color: rgba(204, 0, 20, 0.4)!important;
+    			color: #c36969!important;
+			}
+			.btn-info > .badge.badge-pill.badge-warning {
+    			background-color: transparent!important;
+    			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
+    			border-color: rgba(148, 149, 70, .4)!important;
+    			color: #c0c46b!important;
+			}
+			thead {
+    			border: 0px!important;
+			}
+			th {
+    			border: 0px!important;
+			}
+			.table th,
+			.table td {
+    			border-top: 1px solid #1e2831;
+			}
+			.modal-content {
+				background-color: #22272e!important
+			}
+			.jumbotron {
+				background-color: #303030!important;
+			}
+			.toggle-handle {
+    			background-color: #0c1822!important;
+    			border: 0px!important;
+			}
+			.toggle-off {
+    			background-color: #081017!important;
+    			color: #546271!important;
+			}
+			.toggle.btn.btn-light,
+			.toggle.btn.btn-outline-light {
+    			background-color: #0a151e!important;
+    			border-color: #0a151e!important;
+			}
+			pre {
+				color: #ffffff!important;
+			}
+			.card {
+    			background-color: #343a40!important;
+    			color: #d4dae0!important;
+    			border: 0px!important;
+			}
+            .footer>.container {
+				background-color: #303030!important;
+			}
+			.form-control {
+    			background-color: #0d1117!important;
+    			border-color: #1f2b3e!important
+			}
+			.table-hover tbody tr:hover {
+    			background-color: #0c121a!important;
+    			color: #d4dae0!important;
+			}
+			.table > .bg-white {
+    			background-color: #303030!important;
+    			color: #d4dae0!important;
+    			border: 0px!important;
+			}
+			.table-bordered {
+    			background-color: #0c121a!important;
+    			color: #d4dae0!important;
+    			border: 0px solid!important;
+			}
+			.breadcrumb,
+			.table {
+    			background-color: #303030!important;
+    			color: #d4dae0!important;
+    			border: 0px!important;
+			}
+			hr {
+				color: #ffffff!important;
+			}
+		<?php } ?>
+		
+		body {
+			<?php if(!self::$pageConfig["dark"]) { ?>
+				background: #f0f0f0 url(/img/bg.svg) no-repeat 50% fixed !important;
+				-webkit-background-size: cover!important;
+			<?php } else { ?>
+				background-color: #22272e;
+				color: #c8c9cb!important;
+			<?php } ?>
+			
 		}
 
 		<?php if (self::$pageConfig["nobelium"]) { ?>
@@ -244,9 +350,11 @@ class pageBuilder
 		<?php /* navbar */ if (self::$pageConfig["navbar"]) { ?>
 		<?php /* polygon navbar */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
-		<?php /* polygon navbar */ } else { ?>
-		<nav class="navbar navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> bg-<?=self::$pageConfig['nobelium']?"dark":"light"?>">
-		<?php /* polygon navbar */ } ?>
+		<?php /* dark/nobe navbar */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<?php /* light navbar */ } else { ?>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<?php } ?>
 			<div class="container">
 				<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
 				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -313,9 +421,11 @@ class pageBuilder
 		<?php /* session */ if (SESSION) { ?>
 		<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
 		<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
-		<?php /* polygon nav */ } else { ?>
-		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-<?=self::$pageConfig['nobelium']?"dark":"light"?> py-0">
-		<?php /* polygon nav */ } ?>
+		<?php /* dark/nobe nav */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
+		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-dark bg-secondary py-0">
+		<?php /* light nav */ } else { ?>
+			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-light py-0">
+			<?php } ?>
 			<div class="container">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>

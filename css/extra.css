@@ -1,15 +1,4 @@
 
-
-body {
-		background: #f0f0f0 url(/img/bg.svg) no-repeat 50% fixed !important;
-		-webkit-background-size: cover!important;
-	}
-
-.navbar { 
-    background-color: #fff!important; 
-    border-bottom: 1px solid #e6e6e6!important;
-}
-
 .card.hover-shadow,.hover-shadow{-webkit-box-shadow:none;box-shadow:none;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}.card.hover-shadow:hover,.hover-shadow:hover{-webkit-box-shadow:0 10px 20px rgba(0,0,0,.08),0 4px 8px rgba(0,0,0,.06),0 6px 20px 0 rgba(0,0,0,.19);box-shadow:0 10px 20px rgba(0,0,0,.08),0 4px 8px rgba(0,0,0,.09);-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 
 a {
@@ -30,6 +19,10 @@ b, strong, th {
 .t-link:hover {
    color: #6483b3;
    text-decoration: underline;
+}
+
+.join-server {
+    background: url("/img/btn/bg-btn-green.png") repeat-x 0 0;
 }
 
 .footer {
@@ -58,5 +51,5 @@ b, strong, th {
 }
 
 .nav-secondary {
-background-color: #fafbfb!important;
+background-color: #fafbfb;
 }
