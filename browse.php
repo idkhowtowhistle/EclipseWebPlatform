@@ -39,7 +39,8 @@ pageBuilder::buildHeader();
 		//Pagination full
 		$('#usersTable').DataTable({
 			"pagingType": "simple_numbers",
-			"paging": true
+			"paging": true,
+			"sorting": false
 		});
 	});
 </script>

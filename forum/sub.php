@@ -43,4 +43,14 @@ pageBuilder::buildHeader();
         <?php } ?>
     </tbody>
 </table>
+<script>
+        $(document).ready(function() {
+            //Pagination full
+            $('#forumThreads').DataTable({
+                "pagingType": "simple_numbers",
+                "paging": true,
+                "sorting": false
+            });
+        });
+</script>
 <?php pageBuilder::buildFooter(); ?>
