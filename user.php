@@ -162,10 +162,10 @@ pageBuilder::buildHeader();
                	<?php while ($game = $userGames->fetch(PDO::FETCH_OBJ)) { ?>
 				<div class="items mb-2">
                     <div class="item mt-0">
-                    	<a class="btn btn-primary rounded btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a>
+                    	<a class="btn btn-primary rounded-0 btn-block text-left py-1" data-toggle="collapse" href="#gameCol-<?= $game->id ?>"><?= htmlspecialchars($game->serverName) ?></a>
                     </div>
                     <div class="collapse" id="gameCol-<?= $game->id ?>">
-						<div class="card rounded">
+						<div class="card rounded-0">
 							<div class="card-body">
 								<p><?= htmlspecialchars($game->serverDesc) ?></p>
 								<div class="row">
