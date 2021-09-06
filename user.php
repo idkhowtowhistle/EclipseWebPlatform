@@ -12,7 +12,7 @@ if (!$userInfo || users::getUserModeration($userId)) pageBuilder::errorCode(404)
 $onlineInfo = users::getOnlineStatus($userInfo->id);
 $userGames = games::getGamesFromUser($userInfo->id);
 
-if(SESSION && SESSION["adminLevel"]) 
+if(SESSION && SESSION["adminLevel"] > 1) 
 {
 	$alts = [];
 	
