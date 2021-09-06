@@ -21,6 +21,7 @@ class pageBuilder
 		"/css/extra.css",
 		"/css/fontawesome-pro-v5.15.2/css/all.css",
 		"https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css",
+		"https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css",
 		"/css/alert-styles.css",
 		"/css/addons/datatables.min.css",
 		"/css/toastr.css",
