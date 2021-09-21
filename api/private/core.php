@@ -1,4 +1,9 @@
 <?php
+
+header('HTTP/1.1 301 Moved Permanently');
+header('Location: https://polygon.pizzaboxer.xyz');
+exit;
+
 if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && strpos($_SERVER["DOCUMENT_URI"], "/rbxclient/") === false) 
 {
 	header('HTTP/1.1 301 Moved Permanently');
