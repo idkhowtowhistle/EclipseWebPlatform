@@ -48,7 +48,7 @@
                      <?php while($row = $query->fetch(PDO::FETCH_OBJ)) { ?>
                         <tr>
                            <td><a href="/messages/view?messageId=<?=$row->id?>"><?=$row->title?></a></td>
-                           <td><a href="/user?id=<?=users::getUidFromUsername(users::getUsernameFromUid($row->messageFrom))?>"><?=users::getUsernameFromUid($row->messageFrom)?></a></td>
+                           <td><a href="/user/<?=users::getUidFromUsername(users::getUsernameFromUid($row->messageFrom))?>"><?=users::getUsernameFromUid($row->messageFrom)?></a></td>
                            <td><?=date("F j, Y, g:i a", $row->messageDate)?></td>
                         </tr>
                      <?php } ?>
@@ -82,7 +82,7 @@
                      <?php while($row = $sent->fetch(PDO::FETCH_OBJ)) { ?>
                         <tr>
                            <td><a href="/messages/view?messageId=<?=$row->id?>"><?=$row->title?></a></td>
-                           <td><a href="/user?id=<?=users::getUidFromUsername(users::getUsernameFromUid($row->messageTo))?>"><?=users::getUsernameFromUid($row->messageTo)?></a></td>
+                           <td><a href="/user/<?=users::getUidFromUsername(users::getUsernameFromUid($row->messageTo))?>"><?=users::getUsernameFromUid($row->messageTo)?></a></td>
                            <td><?=date("F j, Y, g:i a", $row->messageDate)?></td>
                         </tr>
                      <?php } ?>

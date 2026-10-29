@@ -1,8 +1,8 @@
 <?php
 
-header('HTTP/1.1 301 Moved Permanently');
-header('Location: https://polygon.pizzaboxer.xyz');
-exit;
+// header('HTTP/1.1 301 Moved Permanently');
+// header('Location: https://polygon.pizzaboxer.xyz');
+// exit;
 
 if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "http" && strpos($_SERVER["DOCUMENT_URI"], "/rbxclient/") === false) 
 {
@@ -47,10 +47,10 @@ set_exception_handler("handle_exception");
 // extend basic php functionality like string manipulation or some small 
 // utilities are typically just put here classless
 
-function str_starts_with($haystack, $needle) 
-{
-	return substr($haystack, 0, strlen($needle)) === $needle;
-}
+// function str_starts_with($haystack, $needle) 
+// {
+// 	return substr($haystack, 0, strlen($needle)) === $needle;
+// }
 
 function generateUUID()
 {
@@ -68,7 +68,8 @@ function rgbtohex($rgb)
 
 function redirect($url)
 {
-	die(header("Location: $url"));
+	header("Location: $url");
+	exit;
 }
 
 function getFileSize($bytes, $binaryPrefix = true) 
@@ -139,7 +140,7 @@ class RBX
 {
 	static function GetSignature($data)
 	{
-		openssl_sign($data, $signature, openssl_pkey_get_private("file://".$_SERVER['DOCUMENT_ROOT']."/../mercury_private.pem"));
+		openssl_sign($data, $signature, openssl_pkey_get_private("file://".$_SERVER['DOCUMENT_ROOT']."/mercury_private.pem"));
 		return base64_encode($signature);
 	}
 
@@ -151,6 +152,8 @@ class RBX
 		return $signedScript;
 	}
 }
+
+// echo RBX::SignData("print('hello world')");
 
 class api 
 {
@@ -168,7 +171,7 @@ class api
 		$query->bindParam(":uid", $userid, PDO::PARAM_INT);
 		$query->execute();
 
-		if($query->rowCount()){ self::respond(400, false, "Please wait ".(($query->fetchColumn()+20)-time())." seconds doing another action"); }
+		// if($query->rowCount()){ self::respond(400, false, "Please wait ".(($query->fetchColumn()+20)-time())." seconds doing another action"); }
 
 		$query = $pdo->prepare("UPDATE users SET lastaction = UNIX_TIMESTAMP() WHERE id = :uid");
 		$query->bindParam(":uid", $userid, PDO::PARAM_INT);
@@ -194,8 +197,18 @@ class general
 	    $ago = new DateTime($datetime);
 	    $diff = $now->diff($ago);
 
-	    $diff->w = floor($diff->d / 7);
-	    $diff->d -= $diff->w * 7;
+	    $weeks = floor($diff->d / 7);
+	    $days = $diff->d - ($weeks * 7);
+
+	    $values = array(
+	        'y' => $diff->y,
+	        'm' => $diff->m,
+	        'w' => $weeks,
+	        'd' => $days,
+	        'h' => $diff->h,
+	        'i' => $diff->i,
+	        's' => $diff->s,
+	    );
 
 	    $string = array(
 	        'y' => 'year',
@@ -208,7 +221,7 @@ class general
 	    );
 	    foreach ($string as $k => &$v) 
 	    {
-	        if ($diff->$k) { $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : ''); } 
+	        if ($values[$k]) { $v = $values[$k] . ' ' . $v . ($values[$k] > 1 ? 's' : ''); } 
 	        else { unset($string[$k]); }
 	    }
 
@@ -681,7 +694,7 @@ class users
 	static function requireLogin($adminLevel = false)
 	{
 		if($adminLevel && (!SESSION || SESSION["adminLevel"] < $adminLevel)) pagebuilder::errorCode(404);
-		if(!SESSION) die(header("Location: /login?ReturnUrl=".urlencode($_SERVER['REQUEST_URI'])));
+		if(!SESSION) { header("Location: /login?ReturnUrl=".urlencode($_SERVER['REQUEST_URI'])); exit; }
 	}
 
 	static function getAllUsers()
@@ -711,7 +724,7 @@ class users
 
 	static function getRank($rank)
   	{
-  		return [1 => "Member", 2 => "Moderator", 3 => "Admin"][$rank];
+  		return [1 => "Member", 2 => "Moderator", 3 => "Administration"][$rank];
   	}
 
 	static function undoUserModeration($userId, $admin = false)
@@ -842,7 +855,7 @@ class session //most of the session code here comes from my old roblonium code; 
 		else
 			setcookie("polygon_session", $sesskey, 1, "/");
 
-		if($refresh) die(header("Refresh: 0"));
+		if($refresh) { header("Refresh: 0"); exit; }
 	}
 
 	static function get($sessionkey, $strict = true) 
@@ -900,10 +913,12 @@ if(isset($_COOKIE['polygon_session']) || isset($_COOKIE['_ROBLOSECURITY']))
 			]);
 	    if(users::getUserModeration(SESSION["userId"]) && !isset($bypassModeration))
 		{
-			die(header("Location: /moderation"));
+			header("Location: /moderation");
+			exit;
 		}
         elseif(SESSION["2fa"] && !SESSION["2faVerified"] && !in_array($_SERVER['REQUEST_URI'], ["/auth/twofa", "/logout"])) {
-			die(header("Location: /auth/twofa"));
+			header("Location: /auth/twofa");
+			exit;
 		}
 		//else
 	//	{

@@ -12,6 +12,7 @@ if (isset($_GET['id'])) {
 
 $userInfo = users::getUserInfoFromUid($userid);
 if (!$userInfo) pageBuilder::errorCode(404);
+pageBuilder::$pageConfig["title"] = "Friends";
 pageBuilder::buildHeader();
 ?>
 <h2 class="font-weight-normal"><?= $selfFriends ? "My " : "$userInfo->username's " ?>Friends</h2>

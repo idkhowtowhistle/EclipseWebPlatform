@@ -10,6 +10,7 @@ $markdown->setBreaksEnabled(true);
 $markdown->setSafeMode(true);
 $markdown->setUrlsLinked(true);
 
+pageBuilder::$pageConfig["title"] = "Home";
 pageBuilder::buildHeader();
 ?>
 <style>

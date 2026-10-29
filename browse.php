@@ -6,6 +6,7 @@ users::requireLogin();
 $query = $pdo->prepare("SELECT * FROM users WHERE NOT (SELECT COUNT(*) FROM bans WHERE userId = users.id AND NOT undone) ORDER BY lastonline DESC");
 $query->execute();
 
+pageBuilder::$pageConfig["title"] = "Browse";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
@@ -24,8 +25,8 @@ pageBuilder::buildHeader();
 				$onlineInfo = users::getOnlineStatus($row->id) ?>
 				<tr>
 					<td><?=$row->id?></td>
-					<td><a href="/user?id=<?=$row->id?>"><img src="/thumbnails/avatar?id=<?=$row->id?>&x=75&y=75" title="<?=$row->username?>" alt="<?=$row->username?>" class="img-fluid"></a></td>
-					<td><a href="/user?id=<?= $row->id ?>"><?= $row->username ?></a></td>
+					<td><a href="/user/<?=$row->id?>"><img src="/thumbnails/avatar?id=<?=$row->id?>&x=75&y=75" title="<?=$row->username?>" alt="<?=$row->username?>" class="img-fluid"></a></td>
+					<td><a href="/user/<?= $row->id ?>"><?= $row->username ?></a></td>
 					<td><?= htmlspecialchars($row->blurb) ?></td>
 					<td style="<?= $onlineInfo["online"] ? 'color:green;' : 'color:grey;' ?>"><?= $onlineInfo["online"] ? "Online @ " . $onlineInfo["text"] : "Offline @ " . date("n/j/Y", $row->lastonline) ?></td>
 				</tr>

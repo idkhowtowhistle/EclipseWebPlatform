@@ -1,0 +1,8 @@
+# Perfil do usuário: /user/123 -> /user.php?id=123
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^user/([0-9]+)/?$ user.php?id=$1 [L,QSA]
+	RewriteRule ^asset/characterfetch/([0-9]+)/?$ asset.php?type=characterfetch&id=$1 [L,QSA]
+	RewriteRule ^asset/characterfetch\.ashx$ asset.php?type=characterfetch [L,QSA]
+	RewriteRule ^asset/avataraccoutrements\.ashx$ asset.php?type=avataraccoutrements [L,QSA]
+</IfModule>

@@ -94,7 +94,7 @@
 			<div class="card">
 				<div class="card-body">
 					<h4 class="font-weight-normal"><?= htmlspecialchars($gameInfo->serverName) ?></h4>
-					<span>By: <a href="/user?id=<?= $gameInfo->ownerId ?>"><?= $gameInfo->username ?></a></span>
+					<span>By: <a href="/user/<?= $gameInfo->ownerId ?>"><?= $gameInfo->username ?></a></span>
 					<br>
 					<span>Gears: <i class="fas fa-bomb"></i></span>
 					<br>

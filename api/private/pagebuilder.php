@@ -64,7 +64,7 @@ class pageBuilder
 
 		if(strpos($_SERVER["HTTP_USER_AGENT"], "ROBLOX Android App") !== false) self::$pageConfig["navbar"] = false;
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -72,7 +72,7 @@ class pageBuilder
 		<meta name="polygon-csrf" content="<?= SESSION ? SESSION["csrfToken"] : 'false' ?>">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="theme-color" content="#ED3C12">
-		<link rel="icon" type="image/png" href="https://banland.xyz/img/mercury.png" />
+		<link rel="icon" type="image/png" href="/img/mercury.png" />
 		<title><?= self::$pageConfig["title"] ?? "Mercury" ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
 		<meta property="og:title" content="<?= self::$pageConfig["title"] ?>">
 		<meta property="og:site_name" content="<?= self::$pageConfig["og:site_name"] ?>">
@@ -383,6 +383,10 @@ class pageBuilder
 							<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
 							<div class="dropdown-menu" aria-labelledby="moreDropdown">
 								<a class="dropdown-item" href="/games/new">New Server</a><a class="dropdown-item" href="/status">Site Status</a>
+								<?php if (SESSION && SESSION["adminLevel"] >= 2) { ?>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="/admin/dashboard">Admin Panel</a>
+								<?php } ?>
 							</div>
 						</li>
 						<?php } ?>
@@ -409,7 +413,7 @@ class pageBuilder
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="gamertag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="far fa-user mr-1"></i> <?= SESSION["userName"] ?> </a>
 							<div class="dropdown-menu" aria-labelledby="gamertag">
-								<a href="/user?id=<?= SESSION['userId'] ?>" class="dropdown-item">Profile</a><a class="dropdown-item" href="/settings">Settings</a><a class="dropdown-item" href="/my/character">Character</a>
+								<a href="/user/<?= SESSION['userId'] ?>" class="dropdown-item">Profile</a><a class="dropdown-item" href="/settings">Settings</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="/logout">Logout</a>
 							</div>
@@ -434,10 +438,7 @@ class pageBuilder
 				<div class="collapse navbar-collapse" id="secondaryNavbar">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item mr-1">
-							<a class="nav-link" href="/user?id=<?= SESSION['userId'] ?>">Profile</a>
-						</li>
-						<li class="nav-item mx-1">
-							<a class="nav-link" href="/my/character">Character</a>
+							<a class="nav-link" href="/user/<?= SESSION['userId'] ?>">Profile</a>
 						</li>
 						<li class="nav-item mx-1">
 							<a class="nav-link" href="/friends">Friends</a>
@@ -446,7 +447,7 @@ class pageBuilder
 							<a class="nav-link" href="/create/new">Create</a>
 						</li>
 						<li class="nav-item mx-1">
-							<a class="nav-link" href="/invite">Invite</a>
+							<a class="nav-link" href="/character">Character</a>
 						</li>
 						<?php if (SESSION["adminLevel"] > 1 && SESSION["2fa"]) { ?>
 						<li class="nav-item mx-1">
@@ -475,7 +476,7 @@ class pageBuilder
 		<?php /* footer */ if (self::$pageConfig["navbar"]) { ?>
 		<div class="footer">
 			<div class="container shadow-sm">
-				<p class="my-0"><b>Copyright &copy; <?= SITE_CONFIG["site"]["name"] ?> 2021</b>
+				<p class="my-0"><b>Copyright &copy; <?= SITE_CONFIG["site"]["name"] ?> 2026</b>
 				<div class="d-flex align-items-center mt-1 mb-0">
 					<p class="my-0"><a href="/about">About</a> | <a href="/rules">Rules</a> | <a href="/tos">Terms Of Service</a> | <a href="/policy">Privacy Policy</a></p>
 				</div>
@@ -605,10 +606,14 @@ class pageBuilder
 				500 => ["title" => "Unexpected error with your request", "text" => "Please try again after a few moments"]
 			];
 
+			$code = (int)$code;
+
 			if (is_array($param) && count($param)) $text[200] = $param;
 			else if (!empty($param) && $code == 500) $text[500]["text"] .= " <br> Error ID: <code>$param</code>";
 
-			http_response_code($code);
+			if (!isset($text[$code])) $code = 404;
+
+			if (!headers_sent()) http_response_code($code);
 			self::buildHeader();
 	?>
 		<div class="card mx-auto" style="max-width:640px;">

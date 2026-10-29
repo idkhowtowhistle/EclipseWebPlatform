@@ -87,7 +87,7 @@ pageBuilder::buildHeader();
     <div class="card-body">
         <div class="reply row">
             <div class="col-2 divider-right">
-                <a class="pl-1 <?= $threadInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $threadInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $threadInfo->authorId ?>"><?= $threadInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $threadInfo->username ?></a>
+                <a class="pl-1 <?= $threadInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $threadInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user/<?= $threadInfo->authorId ?>"><?= $threadInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $threadInfo->username ?></a>
                 <br>
                 <img src="/thumbnails/avatar?id=<?= $threadInfo->authorId ?>&amp;x=100&amp;y=100" title="<?= $threadInfo->username ?>" alt="<?= $threadInfo->username ?>" class="img-fluid">
                 <br>
@@ -108,7 +108,7 @@ pageBuilder::buildHeader();
         <div class="card-body">
             <div class="reply row">
                 <div class="col-2 divider-right">
-                    <a class="pl-1 <?= $replierInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $replierInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user?id=<?= $reply->authorId ?>"><?= $replierInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $replierInfo->username ?></a>
+                    <a class="pl-1 <?= $replierInfo->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate" <?= $replierInfo->admin > 2 ? "title='This user is an Administrator'" : "" ?> href="/user/<?= $reply->authorId ?>"><?= $replierInfo->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $replierInfo->username ?></a>
                     <br>
                     <img src="/thumbnails/avatar?id=<?= $reply->authorId ?>&amp;x=100&amp;y=100" title="<?= $replierInfo->username ?>" alt="<?= $replierInfo->username ?>" class="img-fluid">
                     <br>

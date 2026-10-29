@@ -3,11 +3,11 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 if(SESSION) redirect("/");
 
 $ip = getIPAddress();
-$ipCheck = db::run("SELECT COUNT(*) FROM users WHERE ip = :ip", [":ip" => $ip])->fetchColumn();
-if ($ipCheck >= 2) pageBuilder::errorCode(200, ["title" => "Account limit reached", "text" => "You can only create a maximum of two accounts"]);
+// $ipCheck = db::run("SELECT COUNT(*) FROM users WHERE ip = :ip", [":ip" => $ip])->fetchColumn();
+// if ($ipCheck >= 2) pageBuilder::errorCode(200, ["title" => "Account limit reached", "text" => "You can only create a maximum of two accounts"]);
 
-$errors = ["username" => false, "email" => false, "password" => false, "confirmpassword" => false, "invitekey" => false, "captcha" => false];
-$username = $email = $password = $confirmpassword = $invitekey = $captcha = false;
+$errors = ["username" => false, "email" => false, "password" => false, "confirmpassword" => false, "invitekey" => false];//, "captcha" => false];
+$username = $email = $password = $confirmpassword = $invitekey = false;//$captcha = false;
 
 function swearFilter($text)
 {
@@ -34,7 +34,7 @@ function getError($field)
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
 	$username = $_POST['username'] ?? false;
-	$captcha = $_POST["g-recaptcha-response"] ?? false;
+	// $captcha = $_POST["g-recaptcha-response"] ?? false;
 	$email = $_POST['email'] ?? false;
 	$password = $_POST['password'] ?? false;
 	$confirmpassword = $_POST['confirmpassword'] ?? false;
@@ -52,10 +52,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 	elseif (users::getUidFromUsername($username))
 		$errors["username"] = "Seems like someone else already has that username, sorry :(";
 
-	$verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . SITE_CONFIG['captcha']['privateKey'] . "&response=".$_POST['g-recaptcha-response']);
-    $responseData = json_decode($verifyResponse);
-	if(!$responseData->success) 
-		$errors["captcha"] = "Could not verify CAPTCHA, Please try again";
+	// $verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . SITE_CONFIG['captcha']['privateKey'] . "&response=".$_POST['g-recaptcha-response']);
+    // $responseData = json_decode($verifyResponse);
+	// if(!$responseData->success) 
+	// 	$errors["captcha"] = "Could not verify CAPTCHA, Please try again";
 
 	if (!$email)
 		$errors["email"] = "Please enter your e-mail address";
@@ -103,7 +103,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 
 pageBuilder::buildHeader();
 ?>
-<script src="https://www.google.com/recaptcha/api.js"></script>
 <div class="mx-auto" style="max-width:48rem">
 	<div class="alert alert-warning py-2 text-center">Make sure to make your password unique.</div>
 	<div class="card">
@@ -148,13 +147,6 @@ pageBuilder::buildHeader();
 						<input type="text" id="invitekey" name="invitekey" required="required" class="form-control">
 						<small id="invitekey" class="form-text text-muted">Invite Keys are <i>one time</i> only.</small>
 						<?=getError("invitekey")?>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="captcha" class="col-md-3 col-form-label text-md-right">Captcha</label> 
-					<div class="col-md-9">
-						<div class="g-recaptcha" data-sitekey="<?php echo SITE_CONFIG['captcha']['siteKey']?>"></div>
-						<?=getError("captcha")?>
 					</div>
 				</div>
 				<p class="text-center">By registering on this site, <b>you agree to our <a href="/rules">rules</a>.</b></p>

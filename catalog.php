@@ -1,6 +1,8 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/api/private/core.php';
 users::requireLogin();
+
+pageBuilder::$pageConfig["title"] = "Catalog";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">

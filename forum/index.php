@@ -3,6 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 
 $subforums = db::run("SELECT * FROM subforums ORDER BY subImportance DESC");
 
+pageBuilder::$pageConfig["title"] = "Forum";
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
@@ -28,8 +29,12 @@ pageBuilder::buildHeader();
             <td class="table-4-col-2"><?=forum::getPostsInSubForum($subforum->id)?></td>
             <td class="table-4-col-3"><?=forum::getThreadsInSubForum($subforum->id)?></td>
             <td class="table-4-col-4 text-right">
+               <?php if ($thread) { ?>
                <p class="my-0"><a href="/forum/viewPost?id=<?=$thread->id?>"><?=general::filterText($thread->postTitle, true, false)?></a></p>
-               <p class="my-0"><a href="/user?id=<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?=$thread->username?></a></p>
+               <p class="my-0"><a href="/user/<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?=$thread->username?></a></p>
+               <?php } else { ?>
+               <p class="my-0 text-muted">No posts yet</p>
+               <?php } ?>
             </td>
          </tr>
       <?php } ?>

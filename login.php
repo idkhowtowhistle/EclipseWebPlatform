@@ -50,6 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   }
 }
 
+pageBuilder::$pageConfig["title"] = "Login";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">

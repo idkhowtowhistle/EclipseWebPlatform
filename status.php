@@ -1,5 +1,7 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+
+pageBuilder::$pageConfig["title"] = "Status";
 pageBuilder::buildHeader();
 ?>
 <style>
@@ -24,7 +26,7 @@ pageBuilder::buildHeader();
    </div>
    <div class="form-check">
       <div class="custom-control custom-checkbox">
-         <input type="checkbox" class="custom-control-input" id="customCheck1" disabled>
+         <input type="checkbox" class="custom-control-input" id="customCheck1"checked disabled>
          <label class="custom-control-label" for="customCheck1">Render server</label>
       </div>
    </div>

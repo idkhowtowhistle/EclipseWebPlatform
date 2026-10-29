@@ -81,8 +81,8 @@ pageBuilder::buildHeader();
       <?php while ($report = $reports->fetch(PDO::FETCH_OBJ)) { ?>
         <tr>
           <td><?= date('j F Y \a\t g:i A', $report->time) ?></td>
-          <td><a href="/users?id=<?= $report->reporterID ?>"><?= users::getUserNameFromUid($report->reporterID) ?></a></td>
-          <td><a href="/users?id=<?= $report->abuserID ?>"><?= users::getUserNameFromUid($report->abuserID) ?></a></td>
+          <td><a href="/user/<?= $report->reporterID ?>"><?= users::getUserNameFromUid($report->reporterID) ?></a></td>
+          <td><a href="/user/<?= $report->abuserID ?>"><?= users::getUserNameFromUid($report->abuserID) ?></a></td>
           <td><?= htmlspecialchars($report->abuse) ?></td>
           <td><?= htmlspecialchars($report->description) ?: "No description available" ?></td>
           <td><button type="button" class="btn btn-primary btn-sm btn-block" data-logs="<?= constructChatLogs($report) ?>" onclick="showModal('Chat logs', $(this).attr('data-logs'), [{'class':'btn btn-outline-success', 'isDismissButton':true, 'text':'Close'}]);">View</button></td>

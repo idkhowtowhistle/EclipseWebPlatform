@@ -34,7 +34,7 @@ pageBuilder::buildHeader();
                 </td>
                 <td class="table-4-col-3"><?= forum::getReplyCount($thread->id) ?></td>
                 <td>
-                    <p class="my-0"><a href="/user?id=<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $thread->username ?></a></p>
+                    <p class="my-0"><a href="/user/<?= $thread->authorId ?>" <?= $thread->admin > 2 ? "title='This user is an Administrator'" : "" ?> class="pl-1 <?= $thread->admin > 2 ? 'text-danger font-weight-bold' : "" ?> text-truncate"><?= $thread->admin > 2 ? '<i class="fas fa-shield-alt"></i>' : "" ?> <?= $thread->username ?></a></p>
                 </td>
                 <td class="table-4-col-2 text-right">
                     <p class="my-0"><?= general::time_elapsed("@" . $thread->bumpIndex, false, true) ?></p>

@@ -2,7 +2,17 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
 
-if (isset($_GET["id"])) $userId = $_GET["id"];
+$requestPath = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+if (preg_match("#^/users?/([0-9]+)/?$#", $requestPath, $routeMatch)) $userId = (int)$routeMatch[1];
+else if (isset($_GET["id"])) 
+{
+	if (ctype_digit((string)$_GET["id"])) 
+	{
+		header("Location: /user/".(int)$_GET["id"], true, 301);
+		exit;
+	}
+	$userId = $_GET["id"];
+}
 else if (SESSION) $userId = SESSION["userId"];
 else $userId = false;
 
@@ -51,7 +61,7 @@ pageBuilder::buildHeader();
    <div class="card mb-3">
       <div class="card-body py-3">
          <div class="row">
-            <div class="col-sm-2"><img src="/thumbnails/avatar?id=<?=$userInfo->id?>&x=250&y=250" class="img-fluid"></div>
+            <div class="col-sm-2"><img src="/thumbnails/headshot?id=<?=$userInfo->id?>&x=250&y=250" class="img-fluid" alt="<?= htmlspecialchars($userInfo->username) ?>"></div>
             <div class="col-lg-5">
                <h3 class="pl-3 font-weight-normal mb-1"><?= $userInfo->username ?></h3>
                <h5><span class="badge font-weight-normal ml-3 mb-2 badge-danger"><?= users::getRank($userInfo->admin) ?></span> <?php if ($userInfo->ssc) { ?><i style="color: red;" data-toggle="tooltip" data-placement="right" title="Super Safe Chat" class="fas fa-comment-slash"></i><?php } ?></h5>
@@ -82,7 +92,7 @@ pageBuilder::buildHeader();
             <div class="card-body text-center">
                <div class="mb-2">
                   <h5 class="mb-1"><a href="#" class="badge badge-<?= $onlineInfo["online"] ? "success" : "secondary" ?>"><?= $onlineInfo["online"] ? "Online" : "Offline" ?></a> <small data-control="onlineStatus"><?= $onlineInfo["online"] ? $onlineInfo["text"] : "Last Online On ".date("n/j/Y", $userInfo->joined) ?></small></h5>
-                  <a href="https://banland.xyz/user?id=<?= $userInfo->id ?>" class="mb-3">https://banland.xyz/user?id=<?= $userInfo->id ?></a>
+                  <a href="https://idkhowtowhistle.dpdns.org/user/<?= $userInfo->id ?>" class="mb-3">https://idkhowtowhistle.dpdns.org/user/<?= $userInfo->id ?></a>
                </div>
                <img src="/thumbnails/avatar?id=<?=$userInfo->id?>&x=250&y=250" class="mb-3 img-fluid" alt="Player">
                <div class="text-center overflow-auto" style="max-height: 130px">
@@ -146,7 +156,7 @@ pageBuilder::buildHeader();
                <div class="card-header">Alternative Accounts</div>
                <div class="card-body">
                		<?php foreach($alts as $alt) { ?>
-                  	<a class="btn btn-light btn-block text-left py-1 mb-2" href="/user?id=<?=$alt["userid"]?>" title="<?=$alt["ipcensored"]?>" data-toggle="tooltip"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
+                  	<a class="btn btn-light btn-block text-left py-1 mb-2" href="/user/<?=$alt["userid"]?>" title="<?=$alt["ipcensored"]?>" data-toggle="tooltip"><?=$alt["username"]?> <span class="float-right">[<?=date('d/m/Y h:i:s A', $alt["created"])?>]</span></a>
               		<?php } if(!count($alts)) { ?>
               		<p class="mb-0">This user does not have any alternate accounts</p>
               		<?php } ?>
@@ -204,49 +214,49 @@ pageBuilder::buildHeader();
                      <div class="items row px-2">
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover-shadow p-2">
-                              <a href="/user?ID=4" class="text-reset text-decoration-none">
+                              <a href="/user/4" class="text-reset text-decoration-none">
                                  <img class="mt-2 img-fluid" title="Username" alt="Multako" src="/thumbnails/avatar?id=4&x=250&y=250">
-                                 <h5 class="my-2 font-weight-normal" href="/user?ID=4">Username</h5>
+                                 <h5 class="my-2 font-weight-normal" href="/user/4">Username</h5>
                               </a>
                            </div>
                         </div>
@@ -254,8 +264,8 @@ pageBuilder::buildHeader();
                      <div class="template d-none">
                         <div class="friend-card col-lg-4 col-6 px-2 my-2 text-center">
                            <div class="card hover p-2">
-                              <a href="/user?ID=$userid"><img class="card-img-top img-fluid" preload-src="/thumbs/avatar?id=$userid&amp;x=250&amp;y=250" title="$username" alt="$username"></a>
-                              <a href="/user?ID=$userid">$username</a>
+                              <a href="/user/$userid"><img class="card-img-top img-fluid" preload-src="/thumbs/avatar?id=$userid&amp;x=250&amp;y=250" title="$username" alt="$username"></a>
+                              <a href="/user/$userid">$username</a>
                            </div>
                         </div>
                      </div>

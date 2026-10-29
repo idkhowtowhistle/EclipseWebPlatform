@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+pageBuilder::$pageConfig["title"] = "About";
 pageBuilder::buildHeader();
 ?>
 <style>
@@ -21,7 +22,7 @@ pageBuilder::buildHeader();
 <div class="card shadow-sm" style="border-radius: 0px;">
   <div class="card-body">
     <p>Welcome to <?=SITE_CONFIG["site"]["name"]?>, a private server for an old rendition of a popular brickbuilding MMO. 
-       Developed by Multako and taskmanager, we pride ourselves on having the most <strong>secure</strong> and <i>efficient</i> web & client interface,
+       Developed by IdkHowToWx, we pride ourselves on having the most <strong>secure</strong> and <i>efficient</i> web & client interface,
        while maintaining a safe and fun experience for our users.</p>
     <p>We decided to create this private server because we felt the quality of other private servers was not optimal for long term usability.
        While some private servers mention their community, they usually have poorly managed administrators, 

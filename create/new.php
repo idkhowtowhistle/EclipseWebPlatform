@@ -1,6 +1,7 @@
 <?php 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 if(!SESSION) redirect("/");
+pageBuilder::$pageConfig["title"] = "Create";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">

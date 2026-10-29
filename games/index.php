@@ -23,9 +23,10 @@ $games = db::run(
 	[":serverName" => $serverName, ":uid" => $uid]
 );
 
+pageBuilder::$pageConfig["title"] = "Play";
 pageBuilder::buildHeader();
 ?>
-<div class="alert alert-primary" role="alert">Self hosting is NOT final. Read <a href="/games/help">here.</a></div>
+<div class="alert alert-primary" role="alert">Self hosting is NOT working.</div>
 <?php if (SESSION["gameban"]) { ?>
 	<div class="alert alert-danger" role="alert">Your account has been game banned. You cannot host/join any server.</div>
 <?php } ?>
@@ -33,7 +34,7 @@ pageBuilder::buildHeader();
 	<div class="col-lg-3 px-2 mt-3">
 		<div class="card">
 			<div class="card-body">
-				<a href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?= SITE_CONFIG["site"]["name"] ?> 2013." class="btn btn-block btn-success">Download Client</a>
+				<a href="https://setup.idkhowtowhistle.dpdns.org/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?= SITE_CONFIG["site"]["name"] ?> 2013." class="btn btn-block btn-success">Download Client</a>
 				<a href="/games/new" type="button" data-toggle="tooltip" data-placement="top" title="It's easy to get started!" class="btn btn-block btn-info">Host Server <span class="badge badge-pill badge-warning">alpha</span></a>
 				<small><a href="/help/hosting">Hosting help</a></small>
 			</div>
@@ -61,7 +62,7 @@ pageBuilder::buildHeader();
 									<h5 style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($game->serverName) ?></h5>
 								</a></span>
 								<hr>
-								<span><small>By: <a href="/user?id=<?= $game->ownerId ?>"><?= $game->username ?></a></small></span>
+								<span><small>By: <a href="/user/<?= $game->ownerId ?>"><?= $game->username ?></a></small></span>
 								<br>
 								<span><small>Status: <span class="badge badge-<?= $game->serverOnline ? "success" : "danger" ?>"><?= $game->serverOnline ? "Active" : "Offline" ?></span></small></span>
 								<br>

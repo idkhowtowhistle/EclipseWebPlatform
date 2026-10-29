@@ -1,6 +1,7 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"]."/api/private/core.php";
 if(!SESSION) redirect("/");
+pageBuilder::$pageConfig["title"] = "Economy";
 pageBuilder::buildHeader();
 ?>
 

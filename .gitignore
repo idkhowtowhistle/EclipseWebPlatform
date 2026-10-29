@@ -1,3 +1,7 @@
 # todo - add assets to here once catalog uploading is done
 thumbnails/assets/*
 thumbnails/avatars/*
+
+# local render debugging artifacts
+test-render*
+thumbnails/_palette.lua

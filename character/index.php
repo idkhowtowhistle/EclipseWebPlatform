@@ -1,87 +1,149 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/private/avatar.php";
 users::requireLogin();
+
+$userId = (int)SESSION["userId"];
+$appearance = avatarRenderer::get($userId);
+$changed = false;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (($_POST["polygon_csrf"] ?? "") !== SESSION["csrfToken"]) {
+        pageBuilder::showStaticNotification("error", "Invalid CSRF token");
+    } elseif (isset($_POST["regenerate"])) {
+        avatarRenderer::clear($userId);
+        avatarRenderer::unmark($userId);
+        avatarRenderer::spawn($userId);
+        $changed = true;
+        pageBuilder::showStaticNotification("success", "Avatar queued for re-render.");
+    } else {
+        $appearance = [
+            "head"     => $_POST["head"] ?? "",
+            "torso"    => $_POST["torso"] ?? "",
+            "leftArm"  => $_POST["leftArm"] ?? "",
+            "rightArm" => $_POST["rightArm"] ?? "",
+            "leftLeg"  => $_POST["leftLeg"] ?? "",
+            "rightLeg" => $_POST["rightLeg"] ?? "",
+            "face"     => isset($_POST["face"]) ? 1 : 0,
+        ];
+        avatarRenderer::set($userId, $appearance);
+        avatarRenderer::clear($userId);
+        avatarRenderer::unmark($userId);
+        avatarRenderer::spawn($userId);
+        $appearance = avatarRenderer::get($userId);
+        $changed = true;
+        pageBuilder::showStaticNotification("success", "Colors saved. Rendering...");
+    }
+}
+
+$parts = [
+    "head"     => "Head",
+    "torso"    => "Torso",
+    "rightArm" => "Right Arm",
+    "leftArm"  => "Left Arm",
+    "leftLeg"  => "Left Leg",
+    "rightLeg" => "Right Leg",
+];
+
+pageBuilder::$pageConfig["title"] = "Character";
 pageBuilder::buildHeader();
+
+$preview = "/thumbnails/avatar?id=" . $userId . "&x=352&y=352&v=" . time();
 ?>
 <div class="row">
-   <div class="col-md-4 w-75 h-75">
-      <a href="#" class="btn btn-block text-white rounded-0" style="background-color: #d065d0; border-color: #d065d0; border-bottom: 0;"><i class="fas fa-sync-alt"></i> Regenerate</a>
-      <div class="card rounded-0" style="border-top: 0;">
-         <div class="card-body">
-            <img src="https://chef.pizzaboxer.xyz/thumbs/avatar?id=5&amp;x=352&amp;y=352" class="avatar card-img">
-         </div>
-      </div>
-      <br>
-      <h3 class="font-weight-normal">Colors:</h3>
-      <div class="card rounded-0">
-         <div class="card-body">
-         <div class="Mannequin text-center">
-			<p>Click a body part to change its color:</p>
-			<div class="ColorChooserFrame mx-auto" style="height:240px;width:194px;text-align:center;">
-				<div style="position: relative; margin: 11px 4px; height: 1%;">
-					<div style="position: absolute; left: 72px; top: 0px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Head" style="background-color:#E5E4DF;height:44px;width:44px;"></div>
-					</div>
-					<div style="position: absolute; left: 0px; top: 52px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Right Arm" style="background-color:#E5E4DF;height:88px;width:40px;"></div>
-					</div>
-					<div style="position: absolute; left: 48px; top: 52px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Torso" style="background-color:#635F62;height:88px;width:88px;"></div>
-					</div>
-					<div style="position: absolute; left: 144px; top: 52px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Left Arm" style="background-color:#E5E4DF;height:88px;width:40px;"></div>
-					</div>
-					<div style="position: absolute; left: 48px; top: 146px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Left Leg" style="background-color:#6E99CA;height:88px;width:40px;"></div>
-					</div>
-					<div style="position: absolute; left: 96px; top: 146px; cursor: pointer">
-						<div class="ColorChooserRegion" data-body-part="Right Leg" style="background-color:#6E99CA;height:88px;width:40px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-         </div>
-      </div>
-   </div>
-   <div class="col-8">
-   <div class="card w-100">
-      <div class="card-header">
-         <ul class="nav nav-tabs nav-fill card-header-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-               <a class="nav-link" id="hats-tab" data-toggle="tab" href="#hats" role="tab" aria-controls="hats" aria-selected="false">Hats</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="shirts-tab" data-toggle="tab" href="#shirts" role="tab" aria-controls="shirts" aria-selected="false">Shirts</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="tshirts-tab" data-toggle="tab" href="#tshirts" role="tab" aria-controls="tshirts" aria-selected="false">T-Shirts</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="pants-tab" data-toggle="tab" href="#pants" role="tab" aria-controls="pants" aria-selected="false">Pants</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="gears-tab" data-toggle="tab" href="#gears" role="tab" aria-controls="gears" aria-selected="false">Gears</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="faces-tab" data-toggle="tab" href="#faces" role="tab" aria-controls="faces" aria-selected="false">Faces</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" id="heads-tab" data-toggle="tab" href="#heads" role="tab" aria-controls="heads" aria-selected="false">Heads</a>
-            </li>
-         </ul>
-      </div>
-      <div class="card-body">
-         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade" id="hats" role="tabpanel" aria-labelledby="hats-tab">...</div>
-            <div class="tab-pane fade" id="shirts" role="tabpanel" aria-labelledby="shirts-tab">...</div>
-            <div class="tab-pane fade" id="tshirts" role="tabpanel" aria-labelledby="tshirts-tab">...</div>
-            <div class="tab-pane fade" id="pants" role="tabpanel" aria-labelledby="pants-tab">...</div>
-            <div class="tab-pane fade" id="gears" role="tabpanel" aria-labelledby="gears-tab">...</div>
-            <div class="tab-pane fade" id="faces" role="tabpanel" aria-labelledby="faces-tab">...</div>
-            <div class="tab-pane fade" id="heads" role="tabpanel" aria-labelledby="heads-tab">...</div>
-         </div>
-      </div>
-   </div>
-   </div>
+    <div class="col-md-5">
+        <form method="post" class="mb-2">
+            <input type="hidden" name="polygon_csrf" value="<?= htmlspecialchars(SESSION["csrfToken"]) ?>">
+            <button type="submit" name="regenerate" value="1" class="btn btn-block text-white rounded-0" style="background-color: #d065d0; border-color: #d065d0;">
+                <i class="fas fa-sync-alt"></i> Regenerate
+            </button>
+        </form>
+        <div class="card rounded-0">
+            <div class="card-body text-center">
+                <img src="<?= htmlspecialchars($preview) ?>" id="avatarPreview" class="avatar card-img mx-auto" style="max-width:352px;" alt="Avatar">
+            </div>
+        </div>
+        <p class="text-muted small mt-2">
+            This avatar is rendered by RCCService. After saving, it can take a few seconds to appear.
+        </p>
+    </div>
+
+    <div class="col-md-7">
+        <h3 class="font-weight-normal">Colors:</h3>
+        <div class="card rounded-0">
+            <div class="card-body">
+                <form method="post" id="colorsForm">
+                    <input type="hidden" name="polygon_csrf" value="<?= htmlspecialchars(SESSION["csrfToken"]) ?>">
+
+                    <div class="Mannequin text-center">
+                        <p>Click a body part to change its color:</p>
+                        <div class="ColorChooserFrame mx-auto" style="height:240px;width:194px;position:relative;text-align:center;">
+                            <div style="position:absolute;left:72px;top:0;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="head" style="background-color:<?= $appearance["head"] ?>;height:44px;width:44px;"></div>
+                            </div>
+                            <div style="position:absolute;left:0;top:52px;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="rightArm" style="background-color:<?= $appearance["rightArm"] ?>;height:88px;width:40px;"></div>
+                            </div>
+                            <div style="position:absolute;left:48px;top:52px;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="torso" style="background-color:<?= $appearance["torso"] ?>;height:88px;width:88px;"></div>
+                            </div>
+                            <div style="position:absolute;left:144px;top:52px;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="leftArm" style="background-color:<?= $appearance["leftArm"] ?>;height:88px;width:40px;"></div>
+                            </div>
+                            <div style="position:absolute;left:48px;top:146px;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="leftLeg" style="background-color:<?= $appearance["leftLeg"] ?>;height:88px;width:40px;"></div>
+                            </div>
+                            <div style="position:absolute;left:96px;top:146px;cursor:pointer;">
+                                <div class="ColorChooserRegion" data-input="rightLeg" style="background-color:<?= $appearance["rightLeg"] ?>;height:88px;width:40px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <?php foreach ($parts as $key => $label) { ?>
+                            <div class="col-sm-6 mb-2">
+                                <label for="color-<?= $key ?>" class="mb-1"><?= $label ?></label>
+                                <input type="color" class="form-control" id="color-<?= $key ?>" name="<?= $key ?>" value="<?= $appearance[$key] ?>">
+                            </div>
+                        <?php } ?>
+                    </div>
+
+                    <div class="custom-control custom-checkbox my-3">
+                        <input type="checkbox" class="custom-control-input" id="face" name="face" value="1" <?= $appearance["face"] ? "checked" : "" ?>>
+                        <label class="custom-control-label" for="face">Classic face</label>
+                    </div>
+
+                    <button type="submit" class="btn text-white rounded-0" style="background-color:#0d69ac;border-color:#0d69ac;">
+                        Save colors
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script type="text/javascript">
+$(function () {
+    $('.ColorChooserRegion').on('click', function () {
+        var input = $('input[name="' + $(this).data('input') + '"]');
+        if (input.length) {
+            input.trigger('click');
+        }
+    });
+
+    $('input[type="color"]').on('input change', function () {
+        var name = $(this).attr('name');
+        $('.ColorChooserRegion[data-input="' + name + '"]').css('background-color', $(this).val());
+    });
+
+    <?php if ($changed) { ?>
+    setTimeout(function () {
+        var img = document.getElementById('avatarPreview');
+        if (img) {
+            img.src = '/thumbnails/avatar?id=<?= $userId ?>&x=352&y=352&v=' + Date.now();
+        }
+    }, 5000);
+    <?php } ?>
+});
+</script>
 <?php pageBuilder::buildFooter(); ?>

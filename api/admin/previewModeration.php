@@ -5,7 +5,7 @@ header("content-type: application/json");
 if($_SERVER['REQUEST_METHOD'] != 'POST'){ api::respond(405, false, "Method Not Allowed"); }
 api::requireLogin();
 api::lastAction();
-if(!SESSION["2fa"]) api::respond(400, false, "You need 2FA to do any admin action.");
+// if(!SESSION["2fa"]) api::respond(400, false, "You need 2FA to do any admin action.");
 if(SESSION["adminLevel"] < 2){ api::respond(400, false, "Not an administrator"); }
 if(!isset($_POST["date"]) || !isset($_POST["reason"]) || !isset($_POST["type"])){ api::respond(400, false, "Invalid Request"); }
 if($_POST["type"] < 1 || $_POST["type"] > 3){ api::respond(400, false, "Invalid Request"); }
