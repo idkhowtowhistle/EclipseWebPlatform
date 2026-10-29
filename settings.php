@@ -87,6 +87,7 @@ if (isset($_POST["2fa"])) {
   $query->execute();
 }
 pb:
+pageBuilder::$pageConfig["title"] = "Settings";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
@@ -123,17 +124,6 @@ pageBuilder::buildHeader();
                 <label class="form-check-label" for="message">Allow messages</label>
               </div>
               <br>
-              <h4 class="font-weight-normal mb-3">Site Theme</h4>
-              <div class="form-group">
-                <label for="themeSelect">Choose a preferred site theme</label>
-                <select class="form-control" id="themeSelect">
-                  <option value="0" <?=$userInfo->theme == 0?"selected":""?>>Mercury Light (default)</option>
-                  <option value="1" <?=$userInfo->theme == 1?"selected":""?>>Polygon</option>
-                  <option value="2" <?=$userInfo->theme == 2?"selected":""?>>Finobelium</option>
-                  <option value="3" <?=$userInfo->theme == 3?"selected":""?>>Krypton</option>
-                  <option value="4" <?=$userInfo->theme == 4?"selected":""?>>Mercury Dark</option>
-                </select>
-              </div>
             </div>
             <script>
               $("[data-control='updateAccount']").on("click", this, function() {
@@ -142,7 +132,7 @@ pageBuilder::buildHeader();
                 $.post('/api/account/updateBio', {
                   "bio": $("#biotext").val(),
                   "message": $("#message").is(":checked"),
-                  "theme": $("#themeSelect").val()
+                  "theme": "0"
                 }, function(data) {
                   if (data.success) {
                     toastr["success"](data.message);

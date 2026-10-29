@@ -54,11 +54,11 @@ $preview = "/thumbnails/avatar?id=" . $userId . "&x=352&y=352&v=" . time();
     <div class="col-md-5">
         <form method="post" class="mb-2">
             <input type="hidden" name="polygon_csrf" value="<?= htmlspecialchars(SESSION["csrfToken"]) ?>">
-            <button type="submit" name="regenerate" value="1" class="btn btn-block text-white rounded-0" style="background-color: #d065d0; border-color: #d065d0;">
-                <i class="fas fa-sync-alt"></i> Regenerate
+            <button type="submit" name="regenerate" value="1" class="btn btn-block btn-secondary">
+                <i class="fas fa-sync-alt mr-1"></i> Regenerate
             </button>
         </form>
-        <div class="card rounded-0">
+        <div class="card">
             <div class="card-body text-center">
                 <img src="<?= htmlspecialchars($preview) ?>" id="avatarPreview" class="avatar card-img mx-auto" style="max-width:352px;" alt="Avatar">
             </div>
@@ -69,8 +69,8 @@ $preview = "/thumbnails/avatar?id=" . $userId . "&x=352&y=352&v=" . time();
     </div>
 
     <div class="col-md-7">
-        <h3 class="font-weight-normal">Colors:</h3>
-        <div class="card rounded-0">
+        <h3 class="font-weight-normal">Colors</h3>
+        <div class="card">
             <div class="card-body">
                 <form method="post" id="colorsForm">
                     <input type="hidden" name="polygon_csrf" value="<?= htmlspecialchars(SESSION["csrfToken"]) ?>">
@@ -113,7 +113,7 @@ $preview = "/thumbnails/avatar?id=" . $userId . "&x=352&y=352&v=" . time();
                         <label class="custom-control-label" for="face">Classic face</label>
                     </div>
 
-                    <button type="submit" class="btn text-white rounded-0" style="background-color:#0d69ac;border-color:#0d69ac;">
+                    <button type="submit" class="btn btn-primary">
                         Save colors
                     </button>
                 </form>

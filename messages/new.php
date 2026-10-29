@@ -1,6 +1,7 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 users::requireLogin();
+pageBuilder::$pageConfig["title"] = "New Message";
 pageBuilder::buildHeader();
 
 $sendToUserID = $_GET['messageUser'] ?? false;
@@ -26,7 +27,7 @@ if ($replyToID) {
 <?php } ?>
 <div class="row py-4 d-flex justify-content-center ">
    <div class="col-1">
-      <a class="btn btn-dark" style="background-color: purple; border-color: purple;" href="/messages/" role="button">Back</a>
+      <a class="btn btn-secondary" href="/messages/" role="button"><i class="fas fa-arrow-left mr-1"></i>Back</a>
    </div>
    <div class="col-10">
       <div class="card w-75">
@@ -78,5 +79,6 @@ if ($replyToID) {
             </script>
          </div>
       </div>
+   </div>
    </div>
    <?php pageBuilder::buildFooter(); ?>

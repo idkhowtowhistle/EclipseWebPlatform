@@ -4,20 +4,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 pageBuilder::$pageConfig["title"] = "Status";
 pageBuilder::buildHeader();
 ?>
-<style>
-.coolhr {
-    margin: 0;
-    margin-bottom: 10px;
-    border: none;
-    width: 400px;
-    height: 1px;
-    opacity: 0.5;
-    background: linear-gradient( to right, red 20%, yellow 20%, yellow 36%, green 36%, green 60%, blue 60%, blue 100% );
-}
-</style>
 <div class="app py-4 container">
    <h4 class="font-weight-normal"><?=SITE_CONFIG["site"]["name"]?> Status</h4>
-   <hr class="coolhr">
+   <hr class="mb-3">
    <div class="form-check">
       <div class="custom-control custom-checkbox">
          <input type="checkbox" class="custom-control-input" id="customCheck1" checked disabled>

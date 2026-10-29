@@ -1,8 +1,9 @@
 <?php
    require $_SERVER["DOCUMENT_ROOT"]."/api/private/core.php";
    if(!SESSION) redirect("/");
-   pageBuilder::buildHeader();
    $userId = SESSION["userId"];
+   pageBuilder::$pageConfig["title"] = "Messages";
+   pageBuilder::buildHeader();
 
    $query = $pdo->prepare("SELECT * FROM messages WHERE messageTo = :userId ORDER BY messageDate ASC");
    $query->bindParam(":userId", $userId, PDO::PARAM_INT);
@@ -14,7 +15,6 @@
    $sent->execute();
 
 ?> 
-<div class="app py-4 container">
 <?php if(!SESSION["messages"] || SESSION["ssc"]) { ?>
 <div class="alert alert-warning" role="alert">
    Your messages have been disabled. To send and recieve messages please enable messaging in <a href="/settings">Settings</a>
@@ -101,6 +101,7 @@
          </div>
       </div>
    </div>
+</div>
 </div>
 <?php
    pageBuilder::buildFooter();

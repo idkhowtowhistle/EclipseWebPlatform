@@ -4,6 +4,7 @@ if(!SESSION || SESSION["adminLevel"] < 2) pageBuilder::errorCode(404);
 
 $query = $pdo->query("SELECT * FROM audit ORDER BY date ASC");
 
+pageBuilder::$pageConfig["title"] = "Admin";
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">

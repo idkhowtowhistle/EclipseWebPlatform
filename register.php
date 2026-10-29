@@ -101,58 +101,66 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
   	}
 }
 
+pageBuilder::$pageConfig["title"] = "Register";
+pageBuilder::$pageConfig["navbar"] = false;
+pageBuilder::$pageConfig["bodyClass"] = "plain";
 pageBuilder::buildHeader();
 ?>
-<div class="mx-auto" style="max-width:48rem">
-	<div class="alert alert-warning py-2 text-center">Make sure to make your password unique.</div>
-	<div class="card">
-		<div class="card-header">Register</div>
-		<div class="card-body">
+
+<div class="mshell">
+	<div class="mshell-left">
+		<h1><?= SITE_CONFIG["site"]["name"] ?></h1>
+		<h2 class="mshell-tagline">&ndash; Be Anything, Build Anything.</h2>
+		<hr>
+		<div>
+			<h2>Join the community</h2>
+			<p>Create an account to play, build and chat with everyone else on <?= SITE_CONFIG["site"]["name"] ?>.</p>
+		</div>
+		<div>
+			<h2>Invite key required</h2>
+			<p>Registration is invite-only. Ask a friend for a one-time key, or reach out on Discord.</p>
+		</div>
+		<div>
+			<h2>Stay safe</h2>
+			<p>Use a unique password and a valid email &ndash; you will need it to recover your account.</p>
+		</div>
+	</div>
+	<div class="mshell-right">
+		<div class="mshell-form">
+			<h2>Create your account</h2>
+			<p>Already have an account? <a href="/login">Log in</a></p>
 			<form role="form" method="POST" action="/register">
-				<div class="form-group row">
-					<label for="username" class="col-md-3 col-form-label text-md-right">Username</label> 
-					<div class="col-md-9">
-						<input type="text" id="username" name="username" value="<?=htmlspecialchars($username)?>" required="required" autofocus="autofocus" class="form-control"> 
-						<small id="nameHelp" class="form-text text-muted">Your account will be banned if you sign up with an inappropriate name.</small>
-						<?=getError("username")?>
-					</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" value="<?= htmlspecialchars($username ?: "") ?>" required="required" autofocus="autofocus" autocomplete="username" class="form-control<?= getLabel("username") ?>">
+					<small id="nameHelp" class="form-text text-muted">Your account will be banned if you sign up with an inappropriate name.</small>
+					<?= getError("username") ?>
 				</div>
-				<div class="form-group row">
-					<label for="email" class="col-md-3 col-form-label text-md-right">Email Address</label>
-					<div class="col-md-9">
-						<input type="email" id="email" name="email" value="<?=htmlspecialchars($email)?>" required="required" class="form-control"> 
-						<small id="email" class="form-text text-muted">Please give us a valid email, if you use an invalid email you will lose your account.</small>
-						<?=getError("email")?>
-					</div>
+				<div class="form-group">
+					<label for="email">Email Address</label>
+					<input type="email" id="email" name="email" value="<?= htmlspecialchars($email ?: "") ?>" required="required" autocomplete="email" class="form-control<?= getLabel("email") ?>">
+					<small id="email" class="form-text text-muted">Please give us a valid email, if you use an invalid email you will lose your account.</small>
+					<?= getError("email") ?>
 				</div>
-				<div class="form-group row">
-					<label for="password" class="col-md-3 col-form-label text-md-right">Password</label>  
-					<div class="col-md-9">
-						<input type="password" id="password" name="password" required="required" class="form-control"> 
-						<?=getError("password")?>     
-						<small id="nameHelp" class="form-text text-muted">Passwords should be 8 or more characters.</small>
-					</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" required="required" autocomplete="new-password" class="form-control<?= getLabel("password") ?>">
+					<small id="nameHelp" class="form-text text-muted">Passwords should be 8 or more characters.</small>
+					<?= getError("password") ?>
 				</div>
-				<div class="form-group row">
-					<label for="confirmpassword" class="col-md-3 col-form-label text-md-right">Confirm Password</label> 
-					<div class="col-md-9">
-						<input type="password" id="confirmpassword" name="confirmpassword" required="required" class="form-control">
-						<?=getError("confirmpassword")?>
-					</div>
+				<div class="form-group">
+					<label for="confirmpassword">Confirm Password</label>
+					<input type="password" id="confirmpassword" name="confirmpassword" required="required" autocomplete="new-password" class="form-control<?= getLabel("confirmpassword") ?>">
+					<?= getError("confirmpassword") ?>
 				</div>
-				<hr>
-				<div class="form-group row">
-					<label for="invitekey" class="col-md-3 col-form-label text-md-right">Invite Key</label> 
-					<div class="col-md-9">
-						<input type="text" id="invitekey" name="invitekey" required="required" class="form-control">
-						<small id="invitekey" class="form-text text-muted">Invite Keys are <i>one time</i> only.</small>
-						<?=getError("invitekey")?>
-					</div>
+				<div class="form-group">
+					<label for="invitekey">Invite Key</label>
+					<input type="text" id="invitekey" name="invitekey" required="required" class="form-control<?= getLabel("invitekey") ?>">
+					<small id="invitekey" class="form-text text-muted">Invite Keys are <i>one time</i> only.</small>
+					<?= getError("invitekey") ?>
 				</div>
 				<p class="text-center">By registering on this site, <b>you agree to our <a href="/rules">rules</a>.</b></p>
-				<div class="form-group mb-1">
-					<button type="submit" class="btn btn-primary btn-block">Register</button>
-				</div>
+				<button type="submit" class="btn btn-primary">Register</button>
 			</form>
 		</div>
 	</div>

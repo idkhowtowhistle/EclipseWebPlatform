@@ -51,46 +51,43 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 pageBuilder::$pageConfig["title"] = "Login";
+pageBuilder::$pageConfig["navbar"] = false;
+pageBuilder::$pageConfig["bodyClass"] = "plain";
 pageBuilder::buildHeader();
 ?>
-<div class="app py-4 container">
-<div class="row">
-    <div class="col-md-8 my-2 offset-md-2">
-        <div class="alert alert-info py-2 text-center">
-            <b>NOTE:</b> Passwords are hashed with <code>bcrypt</code>
-        </div>
-            <div class="card">
-                <div class="card-header">
-                    Login
-                </div> 
-                <div class="card-body"> 
-                    <form role="form" method="POST" action="/login"> 
-                    <div class="form-group row">
-                        <label for="username" class="col-md-3 col-form-label">Username</label>
-                         <div class="col-md-9"><input type="text" id="username" name="username" value="" required="required" autofocus="autofocus" class="form-control">
-                         <?=getError("username")?>
-                         </div>
-                    </div>
-                     <div class="form-group row">
-                         <label for="password" class="col-md-3 col-form-label">Password</label> 
-                         <div class="col-md-9"><input type="password" id="password" name="password" required="required" class="form-control">
-                        <?=getError("password")?>
-                         </div>
-                    </div>
-                     <div class="form-group row mb-0">
-                         <div class="col-md-9 offset-md-3">
-                </div>
-            </div> 
-                  <div class="form-group row">
-                      <div class="col-md-9 offset-md-3">
-                          <button type="submit" class="btn btn-primary"> Login</button>
-                         </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<div class="mshell">
+	<div class="mshell-left">
+		<h1><?= SITE_CONFIG["site"]["name"] ?></h1>
+		<h2 class="mshell-tagline">&ndash; Be Anything, Build Anything.</h2>
+		<hr>
+		<div>
+			<h2>Welcome back</h2>
+			<p>Log in to keep playing, building and chatting with the community.</p>
+		</div>
+		<div>
+			<h2>Invite key protected</h2>
+			<p><?= SITE_CONFIG["site"]["name"] ?> is invite-only. Ask a friend for a key or reach out on Discord.</p>
+		</div>
+	</div>
+	<div class="mshell-right">
+		<div class="mshell-form">
+			<h2>Log into your account</h2>
+			<p>Don't yet have an account? <a href="/register">Register</a></p>
+			<form role="form" method="POST" action="/login">
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" value="<?= htmlspecialchars($username ?: "") ?>" required="required" autofocus="autofocus" autocomplete="username" class="form-control<?= getLabel("username") ?>">
+					<?= getError("username") ?>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" required="required" autocomplete="current-password" class="form-control<?= getLabel("password") ?>">
+					<?= getError("password") ?>
+				</div>
+				<button type="submit" class="btn btn-primary">Log in</button>
+			</form>
+		</div>
+	</div>
 </div>
-<div>
 <?php pageBuilder::buildFooter(); ?>

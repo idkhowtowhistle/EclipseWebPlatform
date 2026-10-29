@@ -31,9 +31,23 @@ pageBuilder::buildHeader();
     </div>
 </div>
 <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab">...</div>
+    <div class="tab-pane fade show active" id="pills-friends" role="tabpanel" aria-labelledby="pills-friends-tab">
+        <div class="card mt-3">
+            <div class="card-body text-center text-muted py-5">
+                <i class="fas fa-user-group fa-2x mb-3 d-block"></i>
+                <?= $selfFriends ? "You haven't added any friends yet." : "This user hasn't added any friends yet." ?>
+            </div>
+        </div>
+    </div>
     <?php if ($selfFriends) { ?>
-        <div class="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">...</div>
+        <div class="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">
+            <div class="card mt-3">
+                <div class="card-body text-center text-muted py-5">
+                    <i class="fas fa-envelope fa-2x mb-3 d-block"></i>
+                    You don't have any pending friend requests.
+                </div>
+            </div>
+        </div>
     <?php } ?>
 </div>
 <?php pageBuilder::buildFooter(); ?>

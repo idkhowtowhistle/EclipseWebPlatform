@@ -4,57 +4,24 @@ if (SESSION) {
    redirect("/dashboard");
 }
 
-pageBuilder::$pageConfig["title"] = "Landing";
+pageBuilder::$pageConfig["title"] = "Home";
+pageBuilder::$pageConfig["navbar"] = false;
+pageBuilder::$pageConfig["bodyClass"] = "plain";
 pageBuilder::buildHeader();
 ?>
-<style>
-   .jumbotron {
-      background: url("/img/image.png") no-repeat center center;
-      -webkit-background-size: 100% 100%;
-      -moz-background-size: 100% 100%;
-      -o-background-size: 100% 100%;
-      background-size: 100% 100%;
-      color: white;
-   }
-</style>
-<div class="container">
-   <div class="jumbotron" id="bgJumbotron">
-      <div class="row">
-         <div class="col">
-            <h1 class="font-weight-normal">Welcome to <?= SITE_CONFIG["site"]["name"] ?></h1>
-            <h5 class="font-weight-normal">Be Anything, Build Anything.</h5>
-         </div>
-      </div>
-   </div>
-   <div class="row">
-      <div class="col-sm-6">
-         <div class="card hover-shadow rounded-0">
-            <div class="card-body">
-               <h5 class="card-title">Invite Key Protected <i class="fas fa-user-lock"></i></h5>
-               <p class="card-text">We require you have an invite key to gain entry to <?= SITE_CONFIG["site"]["name"] ?>. You can ask your friends for a key!</p>
-               <button class="btn btn-sm btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Read More
-               </button>
-               <div class="collapse" id="collapseExample">
-                  <hr>
-                  <div class="card card-body">
-                     Alternatively you can message me @idkhowtowhistlx on Discord, just mention <?= SITE_CONFIG["site"]["name"] ?> and imply you need a key. Discord is the quickest way to get a response for any question you have about <?= SITE_CONFIG["site"]["name"] ?>. A reminder you must be 13+ to use this service. We are not affiliated with Discord.
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="col-sm-6">
-         <div class="card hover-shadow rounded-0">
-            <div class="card-body">
-               <h5 class="card-title">Social Media <i class="fab fa-discord"></i> <i class="fab fa-youtube"></i> <i class="fab fa-twitter"></i></h5>
-               <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ZRrauyTlT6U?si=_LXXSJQZeFQWuRLB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-               </div>
-               <small class="text-muted">8.5/10 (cred. <a href="https://www.youtube.com/channel/UCzw-myqzUucY0nJfLIAsCZA">pastq)<a></small>
-            </div>
-         </div>
-      </div>
-   </div>
+
+<div class="mlanding">
+	<div class="mlanding-gradient"></div>
+	<div class="mlanding-waves"><div></div><div></div></div>
+	<div class="mlanding-info">
+		<h1><?= SITE_CONFIG["site"]["name"] ?></h1>
+		<p class="mlanding-tagline">Be Anything, Build Anything.</p>
+		<div class="mlanding-actions">
+			<a class="btn btn-sm btn-secondary" href="/login"><b>Login</b> <i class="fas fa-right-to-bracket pl-1"></i></a>
+			<a class="btn btn-sm btn-primary" href="/register"><b>Register</b> <i class="fas fa-plus pl-1"></i></a>
+		</div>
+		<a class="btn btn-sm btn-tertiary" href="/about">About us <i class="fas fa-circle-question pl-1"></i></a>
+		<p class="mlanding-note">Invite key required to join &ndash; ask a friend!</p>
+	</div>
 </div>
 <?php pageBuilder::buildFooter(); ?>

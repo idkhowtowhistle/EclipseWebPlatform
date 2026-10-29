@@ -25,7 +25,8 @@ class pageBuilder
 		"/css/alert-styles.css",
 		"/css/addons/datatables.min.css",
 		"/css/toastr.css",
-		"https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"
+		"https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css",
+		"/css/mercury.css"
 	];
 
 	public static array $pageConfig =
@@ -62,17 +63,25 @@ class pageBuilder
 		global $pdo;
 		$banners = $pdo->query("SELECT * FROM banners WHERE active ORDER BY id DESC");
 
-		if(strpos($_SERVER["HTTP_USER_AGENT"], "ROBLOX Android App") !== false) self::$pageConfig["navbar"] = false;
+		$userAgent = $_SERVER["HTTP_USER_AGENT"] ?? "";
+		if (strpos($userAgent, "ROBLOX Android App") !== false) self::$pageConfig["navbar"] = false;
+
+		$path = strtok($_SERVER["REQUEST_URI"] ?? "/", "?");
+		$isActive = function ($prefix) use ($path) {
+			return strpos($path, $prefix) === 0 ? " active" : "";
+		};
+		$search = htmlspecialchars($_GET["q"] ?? "", ENT_QUOTES);
+		$unread = SESSION ? users::getUnreadMessages(SESSION["userId"]) : 0;
 ?>
 <!doctype html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="polygon-csrf" content="<?= SESSION ? SESSION["csrfToken"] : 'false' ?>">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="theme-color" content="#ED3C12">
-		<link rel="icon" type="image/png" href="/img/mercury.png" />
+		<meta name="theme-color" content="#0f0e11">
+		<link rel="icon" type="image/png" href="/img/mercury-icon.png" />
 		<title><?= self::$pageConfig["title"] ?? "Mercury" ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
 		<meta property="og:title" content="<?= self::$pageConfig["title"] ?>">
 		<meta property="og:site_name" content="<?= self::$pageConfig["og:site_name"] ?>">
@@ -85,404 +94,117 @@ class pageBuilder
 		<?php } foreach (self::$JSdependencies as $url) { ?>
 		<script src="<?= $url ?>"></script>
 		<?php } ?>
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8692690750276881"
-     crossorigin="anonymous"></script>
-		<style>
-		/* body
-		{ 
-			display: flex;
-			min-height: 100vh;
-			flex-direction: column; 
-		}
-
-		.app { flex: 1; }
-
-		@media screen and (-ms-high-contrast:active), screen and (-ms-high-contrast:none) 
-		{
-			.app { flex: none!important; }
-		} */
-
-		.navbar-orange {
-			border-bottom: none !important;
-		}
-
-		.navbar-orange,
-		.navbar-orange .nav-item .dropdown-menu {
-			background-color: #eb4034 !important;
-		}
-
-
-		/* change the brand and text color */
-		.navbar-orange .navbar-brand,
-		.navbar-orange .navbar-text,
-		.navbar-orange .navbar-nav .nav-link,
-		.navbar-orange .nav-item .dropdown-menu .dropdown-item {
-			color: rgba(255, 255, 255, 1) !important;
-		}
-
-		/* change the color of active or hovered links */
-		.navbar-orange .nav-link:hover,
-		.darken {
-			color: rgba(255, 255, 255, 0.75) !important;
-		}
-
-		.navbar-orange .nav-item .dropdown-menu .dropdown-item:hover {
-			background-color: transparent;
-			color: rgba(255, 255, 255, 0.75) !important;
-		}
-
-		.navbar-orange .nav-item .dropdown-menu {
-			margin-top: 0px;
-			min-width: 0;
-			border: 1px solid #343a40;
-			border-top: none;
-			border-top-left-radius: 0px;
-			border-top-right-radius: 0px;
-		}
-
-		<?php if (self::$pageConfig["dark"]) { ?>
-			.btn-success {
-    			background-color: transparent!important;
-    			background-image: linear-gradient(rgba(70, 149, 74, 0.1), rgba(70, 149, 74, 0.1))!important;
-    			border-color: rgba(70, 149, 74, 0.4)!important;
-    			color: #6bc46d!important;
-			}
-			.btn-info {
-    			background-color: transparent!important;
-    			background-image: linear-gradient(rgba(70, 146, 149, 0.1), rgba(70, 146, 149, 0.1))!important;
-    			border-color: rgba(70, 146, 149, 0.4)!important;
-    			color: #6bc4be!important;
-			}
-			.btn-danger {
-    			background-color: transparent!important;
-    			background-image: linear-gradient(rgba(204, 0, 20, 0.1), rgba(204, 0, 20, 0.1))!important;
-    			border-color: rgba(204, 0, 20, 0.4)!important;
-    			color: #c36969!important;
-			}
-			.btn-info > .badge.badge-pill.badge-warning {
-    			background-color: transparent!important;
-    			background-image: linear-gradient(rgba(148, 149, 70, .1), rgba(148, 149, 70, .1))!important;
-    			border-color: rgba(148, 149, 70, .4)!important;
-    			color: #c0c46b!important;
-			}
-			thead {
-    			border: 0px!important;
-			}
-			th {
-    			border: 0px!important;
-			}
-			.table th,
-			.table td {
-    			border-top: 1px solid #1e2831;
-			}
-			.modal-content {
-				background-color: #22272e!important
-			}
-			.jumbotron {
-				background-color: #303030!important;
-			}
-			.toggle-handle {
-    			background-color: #0c1822!important;
-    			border: 0px!important;
-			}
-			.toggle-off {
-    			background-color: #081017!important;
-    			color: #546271!important;
-			}
-			.toggle.btn.btn-light,
-			.toggle.btn.btn-outline-light {
-    			background-color: #0a151e!important;
-    			border-color: #0a151e!important;
-			}
-			pre {
-				color: #ffffff!important;
-			}
-			.card {
-    			background-color: #343a40!important;
-    			color: #d4dae0!important;
-    			border: 0px!important;
-			}
-            .footer>.container {
-				background-color: #303030!important;
-			}
-			.form-control {
-    			background-color: #0d1117!important;
-    			border-color: #1f2b3e!important
-			}
-			.table-hover tbody tr:hover {
-    			background-color: #0c121a!important;
-    			color: #d4dae0!important;
-			}
-			.table > .bg-white {
-    			background-color: #303030!important;
-    			color: #d4dae0!important;
-    			border: 0px!important;
-			}
-			.table-bordered {
-    			background-color: #0c121a!important;
-    			color: #d4dae0!important;
-    			border: 0px solid!important;
-			}
-			.breadcrumb,
-			.table {
-    			background-color: #303030!important;
-    			color: #d4dae0!important;
-    			border: 0px!important;
-			}
-			hr {
-				color: #ffffff!important;
-			}
-		<?php } ?>
-		
-		body {
-			<?php if(!self::$pageConfig["dark"]) { ?>
-				background: #f0f0f0 url(/img/bg.svg) no-repeat 50% fixed !important;
-				-webkit-background-size: cover!important;
-			<?php } else { ?>
-				background-color: #22272e;
-				color: #c8c9cb!important;
-			<?php } ?>
-			
-		}
-
-		<?php if (self::$pageConfig["nobelium"]) { ?>
-		.navbar.navbar-expand-lg.navbar-dark.bg-dark {
-			background: linear-gradient(90deg, #265a7f, #545489) !important;
-			border-bottom: none !important;
-			color: white !important;		
-		}
-
-		.shadow-sm.navbar.nav-secondary.navbar-expand-lg.navbar-dark.py-0 {
-			background: linear-gradient(90deg, #1c425d, #404065);
-			border-bottom: none !important;
-			color: white !important;
-		}
-
-		.navbar-secondary .nav-link {
-			color: white !important;
-		}
-
-		<?php } ?>
-
-		<?php if(self::$pageConfig["krypton"]) {?>
-			.navbar.navbar-expand-lg.navbar-light.bg-light{
-    			background-color:#599159!important;
-    			border-bottom: transparent!important;
-			}
-			.nav-secondary{
-    			background-color: #64a963!important
-			}
-			.nav-link,
-			.navbar-brand{
-    			color:#fff!important;
-			}
-			.alert-primary{
-    			border: solid 1px;
-    			border-radius: 5px;
-    			color: #004085;
-    			background-color: #cce5ff;
-    			border-color: #b8daff;
-    			padding-top: 3px!important;
-    			padding-bottom: 3px!important;
-    			padding-left: 4px!important;
-    			padding-right: 4px!important;
-			}
-			.btn-success{
-    			background-color:#088765!important;
-    			border-color:#088765!important;
-			}
-			.btn-info{
-    			background-color: #dc3545!important;
-    			border-color: #dc3545!important;
-			}
-
-		<?php } ?>
-		.navbar-orange-secondary .nav-item {
-			margin-left: 0px !important;
-			margin-right: 0px !important;
-		}
-
-		.navbar-orange-secondary .nav-link {
-			color: white !important;
-			padding-top: .25rem !important;
-			padding-bottom: .25rem !important;
-		}
-
-		.navbar-toggler {
-			border-color: transparent !important;
-		}
-
-		.divider-top {
-			border-top: 1px solid #ccc;
-		}
-
-		.divider-bottom {
-			border-bottom: 1px solid #ccc;
-		}
-
-		.shadow, .hover:hover {
-			box-shadow: 0 10px 20px rgba(0, 0, 0, .08), 0 4px 8px rgba(0, 0, 0, .06);
-		}
-
-		.disabled-wrapper {
-			display: inline-block;
-		}
-
-		.disabled-wrapper .btn[disabled] {
-			pointer-events: none;
-		}
-
-		.alert p {
-			margin-bottom: 0;
-		}
-
-		.nav-tabs.flex-column {
-			border-bottom: none;
-		}
-
-		.nav-tabs.flex-column .active {
-			border-color: #dee2e6 #ffffff #dee2e6 #dee2e6 !important;
-			border-bottom-left-radius: .25rem;
-			border-top-right-radius: 0;
-		}
-		</style>
 	</head>
-	<body>
+	<body<?= !empty(self::$pageConfig["bodyClass"]) ? ' class="' . self::$pageConfig["bodyClass"] . '"' : '' ?>>
 		<?php /* navbar */ if (self::$pageConfig["navbar"]) { ?>
-		<?php /* polygon navbar */ if (self::$pageConfig["XD"]) { ?>
-		<nav class="navbar navbar-expand-lg navbar-dark navbar-orange py-0">
-		<?php /* dark/nobe navbar */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<?php /* light navbar */ } else { ?>
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<?php } ?>
-			<div class="container">
-				<a class="navbar-brand" href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
-				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
+		<nav class="mnav" id="mercNav">
+			<div class="mnav-inner">
+				<a class="mnav-brand" href="/">
+					<img src="/img/mercury-icon.png" alt="<?= SITE_CONFIG["site"]["name"] ?>" class="d-lg-none">
+					<span class="d-none d-lg-inline"><?= SITE_CONFIG["site"]["name"] ?></span>
+				</a>
+				<button class="mnav-toggle" type="button" aria-label="Toggle navigation" onclick="document.getElementById('mercNav').classList.toggle('open')">
+					<i class="fas fa-bars"></i>
 				</button>
-				<div class="navbar-collapse collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/forum">Forum</a>
-						</li>
-						<?php if (SESSION) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="/games">Games</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/catalog">Catalog</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/browse">Users</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
-							<div class="dropdown-menu" aria-labelledby="moreDropdown">
-								<a class="dropdown-item" href="/games/new">New Server</a><a class="dropdown-item" href="/status">Site Status</a>
-								<?php if (SESSION && SESSION["adminLevel"] >= 2) { ?>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="/admin/dashboard">Admin Panel</a>
-								<?php } ?>
-							</div>
-						</li>
-						<?php } ?>
-					</ul>
-					<ul class="navbar-nav me-auto">
-						<?php /* session */ if (!SESSION) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="/login">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/register">Register</a>
-						</li>
-						<?php /* session */ } else { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="/messages"><i class="fas fa-envelope"></i>
-							<?php if (users::getUnreadMessages(SESSION["userId"])) { ?>
-								<span class="badge badge-danger"><?= users::getUnreadMessages(SESSION["userId"]) ?></span>
+				<div class="mnav-links">
+					<?php if (SESSION) { ?>
+					<a class="nav-item<?= $isActive("/games") ?>" href="/games">Games</a>
+					<a class="nav-item<?= $isActive("/catalog") ?>" href="/catalog">Catalog</a>
+					<a class="nav-item<?= $isActive("/create") ?>" href="/create/new">Create</a>
+					<a class="nav-item<?= $isActive("/forum") ?>" href="/forum">Forum</a>
+					<a class="nav-item<?= $isActive("/browse") ?>" href="/browse">Users</a>
+					<?php } else { ?>
+					<a class="nav-item<?= $isActive("/forum") ?>" href="/forum">Forum</a>
+					<a class="nav-item<?= $isActive("/about") ?>" href="/about">About</a>
+					<?php } ?>
+				</div>
+				<form class="mnav-search" action="/browse" method="get" role="search">
+					<input type="search" name="q" value="<?= $search ?>" placeholder="Search" aria-label="Search" autocomplete="off">
+				</form>
+				<div class="mnav-right">
+					<?php if (!SESSION) { ?>
+					<a class="btn btn-secondary btn-sm" href="/login">Log in</a>
+					<a class="btn btn-primary btn-sm" href="/register">Register</a>
+					<?php } else { ?>
+					<a class="mnav-icon" href="/messages" aria-label="Messages">
+						<i class="far fa-bell"></i>
+						<?php if ($unread) { ?><span class="mnav-alert"><?= $unread > 9 ? "9+" : $unread ?></span><?php } ?>
+					</a>
+					<a class="mnav-icon d-none d-md-inline-flex" href="/economy" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Your next rock mine is in <br> <?= general::time_elapsed("@" . SESSION["nextStipend"], true, false) ?>">
+						<i class="fas fa-gem"></i> <?= SESSION["currency"] ?>
+					</a>
+					<div class="dropdown mnav-user">
+						<a href="/user/<?= SESSION["userId"] ?>" class="d-flex align-items-center text-decoration-none">
+							<img src="/thumbnails/headshot?id=<?= SESSION["userId"] ?>&x=150&y=150" alt="<?= SESSION["userName"] ?>" class="mnav-avatar">
+							<span class="mnav-username d-none d-lg-inline"><?= SESSION["userName"] ?></span>
+						</a>
+						<a class="mnav-icon dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+							<i class="fas fa-caret-down"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="/user/<?= SESSION["userId"] ?>"><i class="far fa-user mr-2"></i>Profile</a>
+							<a class="dropdown-item" href="/character"><i class="fas fa-user-pen mr-2"></i>Character</a>
+							<a class="dropdown-item" href="/friends"><i class="fas fa-user-group mr-2"></i>Friends</a>
+							<a class="dropdown-item" href="/economy"><i class="fas fa-money-bill-transfer mr-2"></i>Economy</a>
+							<a class="dropdown-item" href="/settings"><i class="fas fa-gears mr-2"></i>Settings</a>
+							<?php if (SESSION["adminLevel"] > 1) { ?>
+							<a class="dropdown-item" href="/admin/dashboard"><i class="fas fa-diamond-half-stroke mr-2"></i>Admin</a>
 							<?php } ?>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/economy" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Your next rock mine is in <br> <?= general::time_elapsed("@" . SESSION["nextStipend"], true, false) ?>"><i class="far fa-money-bill-alt"></i> <?= SESSION["currency"] ?></a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="gamertag" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="far fa-user mr-1"></i> <?= SESSION["userName"] ?> </a>
-							<div class="dropdown-menu" aria-labelledby="gamertag">
-								<a href="/user/<?= SESSION['userId'] ?>" class="dropdown-item">Profile</a><a class="dropdown-item" href="/settings">Settings</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="/logout">Logout</a>
-							</div>
-						</li>
-						<?php /* session */ } ?>
-					</ul>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item text-danger" href="/logout"><i class="fas fa-arrow-right-from-bracket mr-2"></i><b>Log out</b></a>
+						</div>
+					</div>
+					<?php } ?>
 				</div>
 			</div>
 		</nav>
-		<?php /* session */ if (SESSION) { ?>
-		<?php /* polygon nav */ if (self::$pageConfig["XD"]) { ?>
-		<nav class="navbar navbar-orange-secondary navbar-expand-lg navbar-dark navbar-top bg-dark py-0" style="background-color: #343a40 !important;">
-		<?php /* dark/nobe nav */ } elseif(self::$pageConfig['nobelium'] || self::$pageConfig['dark']) { ?>
-		<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-dark bg-secondary py-0">
-		<?php /* light nav */ } else { ?>
-			<nav class="shadow-sm navbar nav-secondary navbar-expand-lg navbar-light py-0">
-			<?php } ?>
-			<div class="container">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="secondaryNavbar">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item mr-1">
-							<a class="nav-link" href="/user/<?= SESSION['userId'] ?>">Profile</a>
-						</li>
-						<li class="nav-item mx-1">
-							<a class="nav-link" href="/friends">Friends</a>
-						</li>
-						<li class="nav-item mx-1">
-							<a class="nav-link" href="/create/new">Create</a>
-						</li>
-						<li class="nav-item mx-1">
-							<a class="nav-link" href="/character">Character</a>
-						</li>
-						<?php if (SESSION["adminLevel"] > 1 && SESSION["2fa"]) { ?>
-						<li class="nav-item mx-1">
-							<a class="nav-link" href="/admin/dashboard">Admin</a>
-						</li>
-						<?php } ?>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<?php /* navbar */ } ?>
+		<?php } ?>
 		<noscript>
-			<div class="alert alert-skinny mb-0 text-center" role="alert" style="background-color: red">
+			<div class="alert alert-skinny mb-0 text-center" role="alert" style="background-color: #46161a; color: #f7c6c9">
 				<?= SITE_CONFIG["site"]["name"] ?> requires JavaScript to function properly.
 			</div>
 		</noscript>
-		<?php /* session */ } while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
+		<?php while ($row = $banners->fetch(PDO::FETCH_OBJ)) { ?>
 		<div class="alert alert-skinny mb-0 text-center <?= $row->textcolor ?>" role="alert" style="background-color: <?= $row->color ?>">
 			<?= $row->message ?>
 		</div>
 		<?php } ?>
 		<div class="app py-4 container"<?php if (SESSION) { echo " data-user-id='" . SESSION["userId"] . "'"; } ?>>
-		<?php } static function buildFooter() { ?>
+
+	<?php } static function buildFooter() { ?>
 		<?= self::$additionalFooterStuff ?>
 		</div>
 		<?php /* footer */ if (self::$pageConfig["navbar"]) { ?>
-		<div class="footer">
-			<div class="container shadow-sm">
-				<p class="my-0"><b>Copyright &copy; <?= SITE_CONFIG["site"]["name"] ?> 2026</b>
-				<div class="d-flex align-items-center mt-1 mb-0">
-					<p class="my-0"><a href="/about">About</a> | <a href="/rules">Rules</a> | <a href="/tos">Terms Of Service</a> | <a href="/policy">Privacy Policy</a></p>
+		<?php if (SESSION) { ?>
+		<nav class="mnav-bottom">
+			<a href="/games"><i class="fas fa-mountain-sun"></i>Games</a>
+			<a href="/catalog"><i class="fas fa-book-open-cover"></i>Catalog</a>
+			<a href="/create/new"><i class="fas fa-plus"></i>Create</a>
+			<a href="/forum"><i class="fas fa-messages"></i>Forum</a>
+			<a href="/messages"><i class="fas fa-bell"></i>Messages</a>
+		</nav>
+		<?php } ?>
+		<footer class="mfooter">
+			<div class="mfooter-inner">
+				<div class="mfooter-brand">
+					<img src="/img/mercury-icon.png" alt="<?= SITE_CONFIG["site"]["name"] ?>">
+					<a href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
+					<span class="mfooter-tagline">&ndash; Be Anything, Build Anything.</span>
+				</div>
+				<div class="mfooter-right">
+					<div class="mfooter-links">
+						<a href="/about">About</a>
+						<a href="/status">Statistics</a>
+						<a href="/rules">Rules</a>
+						<a href="/tos">Terms of Service</a>
+						<a href="/policy">Privacy Policy</a>
+					</div>
+					<div class="mfooter-note">&copy; <?= date("Y") ?> <?= SITE_CONFIG["site"]["name"] ?></div>
 				</div>
 			</div>
-		</div>
+		</footer>
 		<?php /* footer */ } ?>
+
 		<div class="global modal fade" id="primaryModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="primaryModal" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="modal-content">

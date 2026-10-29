@@ -55,37 +55,54 @@ if(SESSION && SESSION["adminLevel"] > 1)
 	recurseAlts($userInfo->id);
 }
 
+pageBuilder::$pageConfig["title"] = htmlspecialchars($userInfo->username);
 pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
-   <div class="card mb-3">
-      <div class="card-body py-3">
-         <div class="row">
-            <div class="col-sm-2"><img src="/thumbnails/headshot?id=<?=$userInfo->id?>&x=250&y=250" class="img-fluid" alt="<?= htmlspecialchars($userInfo->username) ?>"></div>
-            <div class="col-lg-5">
-               <h3 class="pl-3 font-weight-normal mb-1"><?= $userInfo->username ?></h3>
-               <h5><span class="badge font-weight-normal ml-3 mb-2 badge-danger"><?= users::getRank($userInfo->admin) ?></span> <?php if ($userInfo->ssc) { ?><i style="color: red;" data-toggle="tooltip" data-placement="right" title="Super Safe Chat" class="fas fa-comment-slash"></i><?php } ?></h5>
-               <div class="col-lg-6 pt-2">
-                  <b class="mb-0">Join Date: <span class="font-weight-normal"><?= date("n/j/Y", $userInfo->joined) ?></span></b>
-               </div>
-            </div>
-            <div class="col-lg-5">
-               <?php if($onlineInfo["online"] && $onlineInfo["playing"]) { $gameInfo = games::getGameInfoFromId($onlineInfo["serverid"]);?>
-                  <?php if(!$gameInfo->isPrivate) { ?>
-                  <a class="btn btn-outline-success mr-1 float-right py-1" role="button" href="/games/view?id=<?=$onlineInfo["serverid"]?>">Join Server</a>
-                  <?php } ?>
-               <?php } ?>
-               <?php if (SESSION["adminLevel"] >= 2 && $userInfo->id !== SESSION["userId"] && $userInfo->admin < 2) { ?>
-                  <a class="btn btn-outline-danger float-right py-1" role="button" href="#"><i class="fas fa-gavel mr-1"></i>Moderate User</a>
-               <?php } ?>
-               <?php if ($userInfo->id !== SESSION["userId"]) { ?>
-                  <a class="btn btn-outline-success mr-1 float-right py-1 disabled" role="button" href="#"><i class="fas fa-users mr-1"></i>Add Friend</a>
-                  <a class="btn btn-outline-primary mr-1 float-right py-1 <?= !$userInfo->messages || SESSION["ssc"] ? "disabled" : "" ?>" role="button" href="/messages/new?messageUser=<?= $userInfo->id ?>"><i class="fas fa-envelope mr-1"></i>Message</a>
-               <?php } ?>
-            </div>
-         </div>
-      </div>
-   </div>
+	<div class="mprofile mb-3">
+		<div class="mprofile-head">
+			<img class="mprofile-avatar" src="/thumbnails/headshot?id=<?=$userInfo->id?>&x=250&y=250" alt="<?= htmlspecialchars($userInfo->username) ?>">
+			<div class="flex-grow-1" style="min-width: 0">
+				<div class="mprofile-name">
+					<h1><?= htmlspecialchars($userInfo->username) ?></h1>
+					<span class="mprofile-rank"><?= users::getRank($userInfo->admin) ?></span>
+					<?php if ($userInfo->ssc) { ?><i style="color: hsl(0 72 61)" data-toggle="tooltip" data-placement="right" title="Super Safe Chat" class="fas fa-comment-slash"></i><?php } ?>
+				</div>
+				<div class="mprofile-stats">
+					<a href="/friends<?=$userInfo->id === SESSION["userId"] ? "" : "?id=" . $userInfo->id?>">
+						<span>Friends</span>
+						<h2>6</h2>
+					</a>
+					<div>
+						<span>Rocks</span>
+						<h2><?= $userInfo->currency ?></h2>
+					</div>
+					<div>
+						<span>Visits</span>
+						<h2><?= games::getTotalVisitsOfUser($userInfo->id) ?></h2>
+					</div>
+					<div>
+						<span>Joined</span>
+						<h2 style="font-size: 1.05rem; padding-top: 0.35rem"><?= date("n/j/Y", $userInfo->joined) ?></h2>
+					</div>
+				</div>
+				<div class="mprofile-actions">
+					<?php if($onlineInfo["online"] && $onlineInfo["playing"]) { $gameInfo = games::getGameInfoFromId($onlineInfo["serverid"]); ?>
+						<?php if(!$gameInfo->isPrivate) { ?>
+						<a class="btn btn-sm btn-success" role="button" href="/games/view?id=<?=$onlineInfo["serverid"]?>"><i class="fas fa-play mr-1"></i>Join Server</a>
+						<?php } ?>
+					<?php } ?>
+					<?php if ($userInfo->id !== SESSION["userId"]) { ?>
+						<a class="btn btn-sm btn-secondary <?= !$userInfo->messages || SESSION["ssc"] ? "disabled" : "" ?>" role="button" href="/messages/new?messageUser=<?= $userInfo->id ?>"><i class="fas fa-envelope mr-1"></i>Message</a>
+						<a class="btn btn-sm btn-secondary disabled" role="button" href="#"><i class="fas fa-users mr-1"></i>Add Friend</a>
+					<?php } ?>
+					<?php if (SESSION["adminLevel"] >= 2 && $userInfo->id !== SESSION["userId"] && $userInfo->admin < 2) { ?>
+						<a class="btn btn-sm btn-outline-danger" role="button" href="#"><i class="fas fa-gavel mr-1"></i>Moderate</a>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
    <div class="row">
       <div class="col-sm-5">
          <div class="card">
@@ -134,22 +151,6 @@ pageBuilder::buildHeader();
                   })
                </script>
             <?php } ?>
-            <div class="card-footer text-center">
-               <div class="row">
-                  <div class="col-lg-4">
-                     <b>Friends</b>
-                     <p class="mb-0">6</p>
-                  </div>
-                  <div class="col-lg-4">
-                     <b class="mb-0">Rocks</b>
-                     <p class="mb-0"><?= $userInfo->currency ?></p>
-                  </div>
-                  <div class="col-lg-4">
-                     <b>Visits</b>
-                     <p class="mb-0"><?=games::getTotalVisitsOfUser($userInfo->id)?></p>
-                  </div>
-               </div>
-            </div>
          </div>
          <?php if (SESSION["adminLevel"] >= 2) { ?>
             <div class="card mt-3">
