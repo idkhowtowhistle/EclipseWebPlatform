@@ -15,7 +15,7 @@ pageBuilder::buildHeader();
 </style>
 <div class="app py-4 container">
    <div class="jumbotron shadow-sm">
-      <h1 class="display-4"><img height="64" width="64" src="/img/mercury.png"> Thank you for downloading <?=SITE_CONFIG["site"]["name"]?></h1>
+      <h1 class="display-4"><img height="56" width="54" src="/img/eclipse.png"> Thank you for downloading <?=SITE_CONFIG["site"]["name"]?></h1>
    </div>
    <h3 class="font-weight-normal">Get started by joining your first <a href="/games">game</a>!</h3>
    <p>Or, have fun in <?=SITE_CONFIG["site"]["name"]?> Studio!</p>

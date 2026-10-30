@@ -5,7 +5,7 @@ pageBuilder::buildHeader();
 ?>
 <div class="app py-4 container">
 <div class="jumbotron shadow-sm">
-  <h1 class="display-4"><img height="64" width="64" src="/img/mercury.png"> Welcome to <?=SITE_CONFIG["site"]["name"]?></h1>
+  <h1 class="display-4"><img height="56" width="54" src="/img/eclipse.png"> Welcome to <?=SITE_CONFIG["site"]["name"]?></h1>
   <p class="lead">we hope you enjoy yo time</p>
 </div>
 <div class="card shadow-sm" style="border-radius: 0px;">

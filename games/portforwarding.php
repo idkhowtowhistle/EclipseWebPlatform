@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 pageBuilder::buildHeader();
 ?>
    <div class="jumbotron shadow-sm">
-      <h1 class="display-4"><img height="64" width="64" src="/img/mercury.png"> Port Forwarding on <?=SITE_CONFIG["site"]["name"]?></h1>
+      <h1 class="display-4"><img height="56" width="54" src="/img/eclipse.png"> Port Forwarding on <?=SITE_CONFIG["site"]["name"]?></h1>
       <p class="lead">An in-depth guide to port forwarding.</p>
    </div>
    <div class="card shadow-sm" style="border-radius: 0px;">

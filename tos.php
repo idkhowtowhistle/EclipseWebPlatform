@@ -16,7 +16,7 @@ pageBuilder::buildHeader();
 </style>
 <div class="app py-4 container">
    <div class="jumbotron shadow-sm">
-      <h1 class="display-4"><img height="64" width="64" src="/img/mercury.png"> <?=SITE_CONFIG["site"]["name"]?> Terms Of Service</h1>
+      <h1 class="display-4"><img height="56" width="54" src="/img/eclipse.png"> <?=SITE_CONFIG["site"]["name"]?> Terms Of Service</h1>
       <p class="lead">All members who have registered to <?=SITE_CONFIG["site"]["name"]?> agree to these terms after they have registered. </p>
    </div>
    <div class="card shadow-sm" style="border-radius: 0px;">

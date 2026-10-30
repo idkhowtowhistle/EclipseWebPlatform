@@ -1014,7 +1014,7 @@ select.form-control {
 	flex-wrap: wrap;
 }
 
-.mfooter-brand img { width: 2rem; height: 2rem; opacity: 0.5; }
+.mfooter-brand img { width: 2rem; height: 2rem; object-fit: contain; opacity: 0.9; }
 
 .mfooter-brand a {
 	color: var(--light-text) !important;

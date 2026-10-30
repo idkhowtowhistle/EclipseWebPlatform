@@ -35,7 +35,7 @@ class pageBuilder
 		"og:site_name" => SITE_CONFIG["site"]["name"],
 		"og:url" => "https://banland.xyz",
 		"og:description" => "PlayStation®Network free hacks and mods for call of duty",
-		"og:image" => "/img/mercury.png",
+		"og:image" => "/img/eclipse-logofull.png",
 		"navbar" => true,
 		"coolBackground" => false,
 		"XD" => SESSION ? SESSION["theme"] == 1 : false,
@@ -81,7 +81,7 @@ class pageBuilder
 		<meta name="polygon-csrf" content="<?= SESSION ? SESSION["csrfToken"] : 'false' ?>">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="theme-color" content="#0f0e11">
-		<link rel="icon" type="image/png" href="/img/mercury-icon.png" />
+		<link rel="icon" type="image/png" href="/img/eclipse.png" />
 		<title><?= self::$pageConfig["title"] ?? SITE_CONFIG["site"]["name"] ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
 		<meta property="og:title" content="<?= self::$pageConfig["title"] ?>">
 		<meta property="og:site_name" content="<?= self::$pageConfig["og:site_name"] ?>">
@@ -100,7 +100,7 @@ class pageBuilder
 		<nav class="mnav" id="mercNav">
 			<div class="mnav-inner">
 				<a class="mnav-brand" href="/">
-					<img src="/img/mercury-icon.png" alt="<?= SITE_CONFIG["site"]["name"] ?>" class="d-lg-none">
+					<img src="/img/eclipse.png" alt="<?= SITE_CONFIG["site"]["name"] ?>" class="d-lg-none">
 					<span class="d-none d-lg-inline"><?= SITE_CONFIG["site"]["name"] ?></span>
 				</a>
 				<button class="mnav-toggle" type="button" aria-label="Toggle navigation" onclick="document.getElementById('mercNav').classList.toggle('open')">
@@ -187,7 +187,7 @@ class pageBuilder
 		<footer class="mfooter">
 			<div class="mfooter-inner">
 				<div class="mfooter-brand">
-					<img src="/img/mercury-icon.png" alt="<?= SITE_CONFIG["site"]["name"] ?>">
+					<img src="/img/eclipse.png" alt="<?= SITE_CONFIG["site"]["name"] ?>">
 					<a href="/"><?= SITE_CONFIG["site"]["name"] ?></a>
 					<span class="mfooter-tagline">&ndash; Be Anything, Build Anything.</span>
 				</div>
