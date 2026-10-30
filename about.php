@@ -3,17 +3,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/private/core.php";
 pageBuilder::$pageConfig["title"] = "About";
 pageBuilder::buildHeader();
 ?>
-<style>
-.coolhr {
-    margin: 0;
-    margin-bottom: 10px;
-    border: none;
-    width: 400px;
-    height: 1px;
-    opacity: 0.5;
-    background: linear-gradient( to right, red 20%, yellow 20%, yellow 36%, green 36%, green 60%, blue 60%, blue 100% );
-}
-</style>
 <div class="app py-4 container">
 <div class="jumbotron shadow-sm">
   <h1 class="display-4"><img height="64" width="64" src="/img/mercury.png"> Welcome to <?=SITE_CONFIG["site"]["name"]?></h1>
@@ -34,7 +23,7 @@ pageBuilder::buildHeader();
        We have a full, feature packed user experience containing: a catalog, user profiles, character customization, and fun games to play!
        Currently, we are planning for self-hosted servers, but we will 100% have dedicated servers for security.
     </p>
-    <hr class="coolhr">
+    <hr class="mb-3">
     <h4 class="font-weight-normal">Enough talk, enjoy your experience! :) </h4>
     <small class="text-muted">- From the <?=SITE_CONFIG["site"]["name"]?> team</small>
   </div>

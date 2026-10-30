@@ -9,7 +9,7 @@ pageBuilder::buildHeader();
    <div class="card shadow-sm" style="border-radius: 0px;">
       <div class="card-body">
          <h4 class="font-weight-normal">Preface</h4>        
-         <p>Before you start hosting a Mercury server, you'll need to know how to port forward. Without it, nobody on your local network will be able to connect to your server.</p>
+         <p>Before you start hosting a <?=SITE_CONFIG["site"]["name"]?> server, you'll need to know how to port forward. Without it, nobody on your local network will be able to connect to your server.</p>
          <p>With that said, there are two ways to host a server. The first way is by using UPnP port forwarding. The second way is by using Router port forwarding. To put it simply, UPnP forwarding is typically much easier and quicker while Router forwarding is a bit more complex. You should only really use Router forwarding if UPnP doesn't work, and there's a number of YouTube tutorials on how to do that. Here, we'll be covering UPnP forwarding.</p>
          <h4 class="font-weight-normal">UPnP forwarding</h4>
          <p>UPnP forwarding is the more simple route to port forwarding. All you'll need to do is download a utility that can handle the stuff for you. We recommend using <a href="https://github.com/kaklakariada/portmapper/releases">portmapper</a>, and is what we'll be using for this example. It does require Java, so go ahead and install that if you don't have it.</p>

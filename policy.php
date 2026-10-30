@@ -21,7 +21,7 @@ pageBuilder::buildHeader();
         We require your IP address to interact with the game client and we may use it as an identifier to prevent unauthorized access. 
         We also require your user agent for account security.
         </p>
-        <p>Mercury does not provide any third party with your information, but services we use on-site may collect analytics (e.g. ads)</p>
+        <p><?=SITE_CONFIG["site"]["name"]?> does not provide any third party with your information, but services we use on-site may collect analytics (e.g. ads)</p>
         <h4 class="font-weight-normal">Additional information</h4>
         <p>
         We require cookies for the main site to function, mainly your session cookie - which helps us identify your account.

@@ -16,7 +16,7 @@ define("SITE_CONFIG",
 
 		"site" =>
 		[
-			"name" => "Mercury",
+			"name" => "Eclipse",
 			"name_secondary" => "banlands",
             // dont remove this \/
             "pwsalt" => "947102f9f0e7d3782e48c6591311efe29cdfb274c7876e703e303816c5683a15" 

@@ -10,7 +10,7 @@ $threads = forum::getSubForumThreads($subForumId);
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
-    <a href="/" class="breadcrumb-item">Mercury</a>
+    <a href="/" class="breadcrumb-item"><?=SITE_CONFIG["site"]["name"]?></a>
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <span class="breadcrumb-item active"><?= $subForumInfo->subName ?></span>
 </nav>

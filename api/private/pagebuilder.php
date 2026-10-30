@@ -82,7 +82,7 @@ class pageBuilder
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="theme-color" content="#0f0e11">
 		<link rel="icon" type="image/png" href="/img/mercury-icon.png" />
-		<title><?= self::$pageConfig["title"] ?? "Mercury" ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
+		<title><?= self::$pageConfig["title"] ?? SITE_CONFIG["site"]["name"] ?> - <?= SITE_CONFIG["site"]["name"] ?></title>
 		<meta property="og:title" content="<?= self::$pageConfig["title"] ?>">
 		<meta property="og:site_name" content="<?= self::$pageConfig["og:site_name"] ?>">
 		<meta property="og:url" content="<?= self::$pageConfig["og:url"] ?>">

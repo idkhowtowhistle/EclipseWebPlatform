@@ -7,7 +7,7 @@ pageBuilder::$pageConfig["title"] = "Forum";
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
-   <a href="/" class="breadcrumb-item">Mercury</a> 
+   <a href="/" class="breadcrumb-item"><?=SITE_CONFIG["site"]["name"]?></a> 
    <span class="breadcrumb-item active">Forum Home</span>
 </nav>
 <table class="table mb-4">

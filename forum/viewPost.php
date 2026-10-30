@@ -23,7 +23,7 @@ pageBuilder::$pageConfig["title"] = general::filterText($threadInfo->postTitle, 
 pageBuilder::buildHeader();
 ?>
 <nav class="breadcrumb">
-    <a href="/" class="breadcrumb-item">Mercury</a>
+    <a href="/" class="breadcrumb-item"><?=SITE_CONFIG["site"]["name"]?></a>
     <a href="/forum/" class="breadcrumb-item">Forum Home</a>
     <a href="/forum/sub?id=<?= $threadInfo->subForumId ?>" class="breadcrumb-item"><?= forum::getSubForumNameFromId($threadInfo->subForumId) ?></a>
     <span class="breadcrumb-item active"><?= general::filterText($threadInfo->postTitle, true, false) ?></span>

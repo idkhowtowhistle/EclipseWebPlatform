@@ -668,7 +668,7 @@ class users
 
 			case 3:
 				$userInfo = self::getUserInfoFromUid(SESSION["userId"]);
-				return "You joined Mercury on " . date("n/j/Y", $userInfo->joined);
+				return "You joined " . SITE_CONFIG["site"]["name"] . " on " . date("n/j/Y", $userInfo->joined);
 				break;
 
 			case 4: 

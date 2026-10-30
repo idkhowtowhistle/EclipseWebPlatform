@@ -192,7 +192,7 @@ pageBuilder::buildHeader();
             <div class="col-md-6">
               <h4 class="font-weight-normal">2FA Setup</h4>
               <p class="mb-2">Open up your 2FA app and scan the QR code below:</p>
-              <img src="<?= $gauth->getURL(SESSION["userName"], "Mercury", $twofaSecret) ?>">
+              <img src="<?= $gauth->getURL(SESSION["userName"], SITE_CONFIG["site"]["name"], $twofaSecret) ?>">
               <br>
               <p class="mb-4 mt-2 mb-md-0">If your 2FA app does not support QR codes, enter in the following authentication code: <code><?= $twofaSecret ?></code></p>
             </div>
@@ -226,9 +226,9 @@ pageBuilder::buildHeader();
           <div class="row">
             <div class="col-sm-6">
               <?php if ($discordInfo->info == NULL) { ?>
-              <h4 class="font-weight-normal">Mercury Discord Verification</h4>
+              <h4 class="font-weight-normal"><?=SITE_CONFIG["site"]["name"]?> Discord Verification</h4>
               <p class="mb-1">Looks like you're not yet verified. If you haven't joined the server yet, you can do so with that handy widget over by the side.</p>
-              <p class="mb-1">Once you join, the Mercury bot should DM you asking for your verification key, which is here:</p>
+              <p class="mb-1">Once you join, the <?=SITE_CONFIG["site"]["name"]?> bot should DM you asking for your verification key, which is here:</p>
               <code class="mb-1">MercuryVerify:<?=$discordInfo->key?></code>
               <p class="mb-1">Just send this to the bot, and you'll be verified!</p> 
               <p class="mb-1">If the bot hasn't DMed you, it may be down. When it comes back online, just send a DM to the bot with your key.</p> 
