@@ -9,6 +9,10 @@ $ticket = $_GET["suggest"] ?? false;
 if(!isset($_SERVER["HTTP_RBXAUTHENTICATIONNEGOTIATION"])) error("Missing custom Roblox header.");
 if(empty($ticket)) error("Authentication ticket was not sent.");
 
+// the launcher starts the client with a fixed "-t test" ticket; identity comes
+// from the signed join script, so there is nothing to negotiate here
+if($ticket === "test") die();
+
 if(str_starts_with($ticket, "DEBUG:"))
 {
 	$username = substr($ticket, 6);

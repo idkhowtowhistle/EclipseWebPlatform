@@ -33,7 +33,7 @@ class pageBuilder
 	[
 		"title" => SITE_CONFIG["site"]["name"],
 		"og:site_name" => SITE_CONFIG["site"]["name"],
-		"og:url" => "https://banland.xyz",
+		"og:url" => "https://" . SITE_CONFIG["site"]["domain"],
 		"og:description" => "PlayStation®Network free hacks and mods for call of duty",
 		"og:image" => "/img/eclipse-logofull.png",
 		"navbar" => true,

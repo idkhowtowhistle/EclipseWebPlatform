@@ -34,7 +34,7 @@ pageBuilder::buildHeader();
 	<div class="col-lg-3 px-2 mt-3">
 		<div class="card">
 			<div class="card-body">
-				<a href="https://setup.idkhowtowhistle.dpdns.org/MercuryPlayerLauncher.exe" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?= SITE_CONFIG["site"]["name"] ?> 2013." class="btn btn-block btn-success">Download Client</a>
+				<a href="/setup/launcher" type="button" data-toggle="tooltip" data-placement="top" title="Completely safe - <?= SITE_CONFIG["site"]["name"] ?> 2013." class="btn btn-block btn-success">Download Client</a>
 				<a href="/games/new" type="button" data-toggle="tooltip" data-placement="top" title="It's easy to get started!" class="btn btn-block btn-info">Host Server <span class="badge badge-pill badge-warning">alpha</span></a>
 				<small><a href="/help/hosting">Hosting help</a></small>
 			</div>

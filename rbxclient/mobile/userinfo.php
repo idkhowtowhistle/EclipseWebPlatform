@@ -9,7 +9,7 @@ $userInfoResponse =
   "RobuxBalance" => SESSION["currency"],
   "TicketsBalance" => 0,
   "IsAnyBuildersClubMember" => false,
-  "ThumbnailUrl" => "http://banland.xyz/thumbnails/avatar?id=".SESSION["userId"]."&x=250&y=250",
+  "ThumbnailUrl" => siteBaseUrl()."/thumbnails/avatar?id=".SESSION["userId"]."&x=250&y=250",
   "UserID" => SESSION["userId"]
 ];
 

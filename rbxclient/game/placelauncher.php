@@ -12,41 +12,20 @@ function respond($params)
 $request = $_GET["request"] ?? false;
 $serverId = $_GET["placeId"] ?? false;
 $privateLink = $_GET["privateLink"] ?? false;
-$response = 
+$response =
 [
 	"jobId" => null,
 	"status" => null,
+	"ticket" => null,
+	"clientVersion" => null,
 	"joinScriptUrl" => null,
 	"authenticationUrl" => null,
 	"authenticationTicket" => null,
 	"message" => null
 ];
 
-if($serverId == 156) //if($_SERVER["REMOTE_ADDR"] == "86.21.64.222" || $_SERVER["REMOTE_ADDR"] == "94.6.93.152")
-{
-	/*$ticket = generateUUID();
-	games::createClientSession($serverId, 27, $ticket);
-	$joinscripturl = "http://www.banland.xyz/game/join.ashx?ticket=$ticket";
-	respond([
-		"jobId" => "$serverId", 
-		"status" => 2, 
-		"joinScriptUrl" => $joinscripturl, 
-		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
-		"authenticationTicket" => "test"
-	]);
-	die();*/
-
-	respond([
-		"jobId" => "$serverId", 
-		"status" => 2, 
-		"joinScriptUrl" => "https://www.banland.xyz/Game/Visit.ashx?PlaceID=50791", 
-		"authenticationUrl" => "https://www.banland.xyz/Login/Negotiate.ashx", 
-		"authenticationTicket" => "test"
-	]);
-}
-
 if ($request != "RequestGame") die(json_encode(["error" => "Invalid request type"]));
-if (!$serverId) respond(["status" => 11, "message" => "Cannot join game wihtout placeId."]);
+if (!$serverId) respond(["status" => 11, "message" => "Cannot join game without a placeId."]);
 if (!SESSION) respond(["status" => 11, "message" => "Cannot join game with no authenticated user."]);
 
 $userId = SESSION["userId"];
@@ -54,25 +33,28 @@ $gameInfo = games::getGameInfoFromId($serverId);
 
 if (!$gameInfo) respond(["status" => 4, "message" => "Unknown Error"]);
 
-if(SESSION["adminLevel"] < 2) 
+if (SESSION["adminLevel"] < 2)
 {
-    if(games::getPlayerCountInServer($serverId) >= $gameInfo->serverSize)
-    	respond(["status" => 6, "message" => "The game you requested is currently full."]);
+	if (games::getPlayerCountInServer($serverId) >= $gameInfo->serverSize)
+		respond(["status" => 6, "message" => "The game you requested is currently full."]);
 
-    if($gameInfo->isPrivate && $privateLink != $gameInfo->privateKey) 
-    	respond(["status" => 11, "message" => "You are not allowed to play this game."]);
+	if ($gameInfo->isPrivate && $privateLink != $gameInfo->privateKey)
+		respond(["status" => 11, "message" => "You are not allowed to play this game."]);
 }
 
 $ticket = generateUUID();
 games::createClientSession($serverId, $userId, $ticket);
-$joinscripturl = "http://banland.xyz/Game/Join.ashx?ticket=$ticket";
 
-if($gameInfo->isPrivate) $joinscripturl .= "&privateKey=$privateLink";
+$base = "http://" . $_SERVER["HTTP_HOST"];
+$joinscripturl = $base . "/game/join?ticket=" . urlencode($ticket);
+if ($gameInfo->isPrivate && $privateLink && $privateLink !== "false") $joinscripturl .= "&privateKey=" . urlencode($privateLink);
 
 respond([
-	"jobId" => "$serverId", 
-	"status" => 2, 
-	"joinScriptUrl" => $joinscripturl, 
-	"authenticationUrl" => "https://banland.xyz/Login/Negotiate.ashx", 
+	"jobId" => (string)$serverId,
+	"status" => 2,
+	"ticket" => $ticket,
+	"clientVersion" => (int)SITE_CONFIG["games"]["clientVersion"],
+	"joinScriptUrl" => $joinscripturl,
+	"authenticationUrl" => $base . "/negotiate",
 	"authenticationTicket" => "test"
 ]);

@@ -21,10 +21,18 @@ if(SESSION["adminLevel"] < 2) {
 
 games::createClientSession($serverId, $userId, $ticket);
 
-$joinscripturl = "http://banland.xyz/Game/Join.ashx?ticket=$ticket";
+$base = "http://" . $_SERVER["HTTP_HOST"];
+$joinscripturl = $base . "/game/join?ticket=" . urlencode($ticket);
 
-if($gameInfo->isPrivate) {
-    $joinscripturl .= "&privateKey=$privateLink";
+if($gameInfo->isPrivate && $privateLink && $privateLink !== "false") {
+    $joinscripturl .= "&privateKey=" . urlencode($privateLink);
 }
 
-die(json_encode(["status" => 200, "success" => true, "message" => "OK", "joinscripturl" => $joinscripturl]));
+die(json_encode([
+    "status" => 200,
+    "success" => true,
+    "message" => "OK",
+    "ticket" => $ticket,
+    "clientVersion" => (int)SITE_CONFIG["games"]["clientVersion"],
+    "joinscripturl" => $joinscripturl
+]));

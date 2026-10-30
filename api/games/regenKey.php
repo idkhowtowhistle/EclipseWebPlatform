@@ -22,4 +22,4 @@ api::lastAction();
 
 db::run("UPDATE games SET privateKey = :privateKey WHERE id = :id", [":privateKey" => $privateKey, ":id" => $gameId]);
 
-api::respond(200, true, "https://banland.xyz/games/view?id=$gameId&privateKey=$privateKey");
+api::respond(200, true, siteBaseUrl() . "/games/view?id=$gameId&privateKey=$privateKey");

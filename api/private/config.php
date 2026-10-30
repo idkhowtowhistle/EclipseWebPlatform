@@ -18,8 +18,21 @@ define("SITE_CONFIG",
 		[
 			"name" => "Eclipse",
 			"name_secondary" => "banlands",
+			"domain" => "idkhowtowhistle.dpdns.org",
             // dont remove this \/
             "pwsalt" => "947102f9f0e7d3782e48c6591311efe29cdfb274c7876e703e303816c5683a15" 
+		],
+
+		"games" =>
+		[
+			// protocol registered by the launcher, e.g. eclipse-launcher:2013<ticket>
+			"launcherScheme" => "eclipse-launcher",
+			"clientVersion" => 2013,
+			// client executables inside the setup package (kept as Mercury-branded builds)
+			"clientExePrefix" => "Mercury",
+			"launcherFile" => "EclipseLauncher_win-x64.exe",
+			// files served by /setup/* (outside the repo, never committed)
+			"setupDir" => "C:/Users/henzo/eclipse-setup"
 		],
 
 		"keys" =>

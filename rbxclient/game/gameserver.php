@@ -9,7 +9,7 @@ $gameInfo = games::getGameInfoFromTicket($ticket);
 if($gameInfo)
 {
 	$abuseReportUrl = "/AbuseReport/InGameChatHandler.ashx?ticket=".$ticket;
-	$pingUrl = "http://banland.xyz/api/games/serverPresence?ticket=" . $ticket;
+	$pingUrl = "http://".$_SERVER["HTTP_HOST"]."/game/serverpresence?ticket=" . $ticket;
 	$serverId = $gameInfo->id;
 	$baseUrl = '"http://'.$_SERVER["HTTP_HOST"].'"';
 	$port = $gameInfo->serverPort;

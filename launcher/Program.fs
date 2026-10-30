@@ -1,0 +1,661 @@
+﻿module Program
+
+open Avalonia
+open Config
+open FSharp.Core.Result
+open System.IO
+open System.Diagnostics
+open System.IO.Compression
+open System.Net
+open System.Net.Http
+open System
+open Window
+open Microsoft.Win32
+
+type ErrorType =
+    | VersionTooLong
+    | VersionMissing
+    | VersionFailedToGet of HttpStatusCode
+    | FailedToGet of string * HttpStatusCode
+    | FailedToDownload of string * exn
+    | FailedToInstall of string * exn
+    | FailedToConnect of exn
+    | FailedToUnpack of exn
+    | ClientNotFound
+    | FailedToRemoveOldVersions of int
+    | FailedToLaunch of exn
+    | FailedToLaunchUmu of exn
+    | FailedToRegister of exn
+
+type Version =
+    | Client2013
+    | Client2016
+
+let versionString =
+    function
+    | Client2013 -> "2013"
+    | Client2016 -> "2016"
+
+let (>>=) f x = bind x f
+
+let log i =
+    printfn $"[LOG] {i}"
+    Ok i
+
+let url = $"https://{domain}"
+// setup artifacts are served from the main domain (/setup/...) instead of a
+// dedicated setup.{domain} host, which keeps the tunnel to a single hostname
+let setupUrl = $"https://{domain}/setup"
+let authUrl = $"{url}/negotiate" // /Login/Negotiate.ashx
+
+let joinUrl ticket year =
+    match year with
+    // the 2013 client fetches its join script through WinInet, which under Wine fails to read the HTTPS response (the client just shows "Unable to join game"), so use plain HTTP there. the 2016 client uses a newer HTTP stack and handles HTTPS fine. use the www host so the request is not redirected to HTTPS first. the join script is signed and the ticket is single-use, so this does not let the client run untrusted code.
+    | Client2013 when Environment.OSVersion.Platform <> PlatformID.Win32NT ->
+        $"http://www.{domain}/game/join?ticket=%s{ticket}"
+    | Client2013 -> $"https://{domain}/game/join?ticket=%s{ticket}"
+    | Client2016 -> $"https://{domain}/game/join/2016?ticket=%s{ticket}"
+
+let versionUrls =
+    [ Client2013, $"{setupUrl}/2013/version"
+      Client2016, $"{setupUrl}/2016/version" ]
+    |> Map.ofList
+
+let setupUrlFor =
+    function
+    | Client2013 -> $"{setupUrl}/2013"
+    | Client2016 -> $"{setupUrl}/2016"
+
+let launcherScheme = $"{name.ToLowerInvariant()}-launcher"
+let authTicket = "test" // LRORL
+
+let requestVersion (client: HttpClient) v =
+    try
+        use response = (client.GetAsync versionUrls[v]).Result
+
+        match response.StatusCode with
+        | HttpStatusCode.OK -> Ok(response.Content.ReadAsStringAsync().Result)
+        | code -> Error(VersionFailedToGet code)
+    with
+    | :? AggregateException as e -> Error(FailedToConnect e.InnerException)
+    | e -> Error(FailedToConnect e)
+
+let validateVersion (v: string) =
+    if v.Length > 20 then Error VersionTooLong
+    elif v.Length = 0 then Error VersionMissing
+    else Ok v
+
+// add the versions directory to the path
+let versionsPath s = Path.Combine(s, "Versions")
+
+// add the year (2013 / 2016) directory to the path
+let yearPath s =
+    function
+    | Client2013 -> Path.Combine(versionsPath s, "2013")
+    | Client2016 -> Path.Combine(versionsPath s, "2016")
+
+// add the version to the path
+let versionPath s year v = Path.Combine(yearPath s year, $"version-%s{v}")
+
+let launcherFilename () =
+    if Environment.OSVersion.Platform = PlatformID.Win32NT then
+        $"{name}Launcher_win-x64.exe"
+    else
+        $"{name}Launcher_linux-x64"
+
+let launcherPath s year v =
+    Path.Combine(versionPath s year v, launcherFilename ())
+
+let playerPath s year v =
+    Path.Combine(versionPath s year v, $"{clientPrefix}PlayerBeta.exe")
+
+let studioPath s year v =
+    Path.Combine(versionPath s year v, $"{clientPrefix}StudioBeta.exe")
+
+let appData () =
+    if Environment.OSVersion.Platform = PlatformID.Win32NT then
+        Environment.GetFolderPath Environment.SpecialFolder.LocalApplicationData
+    else
+        // there is probably a better way but this works
+        let home =
+            Environment.GetEnvironmentVariable "HOME"
+            |> fun h ->
+                if String.IsNullOrWhiteSpace h then
+                    Environment.GetFolderPath Environment.SpecialFolder.UserProfile
+                else
+                    h
+
+        System.IO.Path.Combine(home, ".local/share")
+
+let getPath year (v: string) =
+    let path = [| appData (); name |]
+
+    Ok(path |> Path.Combine, year, v)
+
+let downloadBuffer = 8192
+
+let rec readStream (write: byte[] -> int -> unit) (s: Stream) =
+    let buffer = Array.zeroCreate<byte> downloadBuffer
+    let r = s.Read(buffer, 0, buffer.Length)
+
+    if r > 0 then
+        write buffer r
+        readStream write s
+    else
+        ()
+
+let download (client: HttpClient) (u: Event<Update list>) (baseUrl: string) thing path =
+    try
+        use response =
+            client.GetAsync($"{baseUrl}/{path}", HttpCompletionOption.ResponseHeadersRead).Result
+
+        u.Trigger [ Indeterminate false ]
+
+        match response.StatusCode with
+        | HttpStatusCode.OK ->
+            let contentLength = response.Content.Headers.ContentLength
+
+            let upd =
+                match Option.ofNullable contentLength with
+                | Some length ->
+                    fun (r: int64) ->
+                        // THE MEMORY LEAK IS GONE
+                        u.Trigger [
+                            Progress(float (r * 100L) / float length)
+                            Text $"Downloading {thing}... ({r / 1000L}k / {length / 1000L}k)"
+                        ]
+                | None -> fun (_: int64) -> ()
+
+            use stream = response.Content.ReadAsStreamAsync().Result
+            use ms = new MemoryStream()
+
+            let write (b: byte[]) (r: int) =
+                ms.Write(b, 0, r)
+                upd ms.Length
+
+            readStream write stream
+
+            Ok(ms.ToArray())
+        | code -> Error(FailedToGet(thing, code))
+    with
+    | :? AggregateException as e -> Error(FailedToDownload(thing, e.InnerException))
+    | e -> Error(FailedToDownload(thing, e))
+
+let ungzipClient (data: byte array) =
+    // we have the data, we'd like to un-gzip it
+    try
+        let tar = new MemoryStream()
+
+        (new GZipStream(new MemoryStream(data), CompressionMode.Decompress)).CopyTo tar
+
+        tar.Seek(0, SeekOrigin.Begin) |> ignore
+        Ok tar
+    with e ->
+        Error(FailedToUnpack e)
+
+let untarClient p year v (tar: MemoryStream) =
+    let path = versionPath p year v
+
+    try
+        let tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName())
+        Directory.CreateDirectory tempDir |> ignore
+
+        printfn $"Extracting to temp dir: {tempDir}"
+
+        // extract the tar file
+        Formats.Tar.TarFile.ExtractToDirectory(tar, tempDir, true)
+
+        printfn $"Moving to final dir {path}"
+
+        // move the temp directory to the final location
+        if Directory.Exists path then
+            Directory.Delete(path, true)
+
+        if not (Directory.Exists tempDir) then
+            Error(FailedToInstall("client", Exception "Temporary extraction directory does not exist"))
+        else
+            printfn $"Moving directory from {tempDir}"
+
+            // copy directory contents
+            Directory.CreateDirectory path |> ignore
+
+            for p in Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories) do
+                let relativePath = p.Substring(tempDir.Length).TrimStart Path.DirectorySeparatorChar
+                let destPath = Path.Combine(path, relativePath)
+
+                // get what parent of the dest path would be
+                let destDir = Path.GetDirectoryName destPath
+
+                if not (Directory.Exists destDir) then
+                    Directory.CreateDirectory destDir |> ignore
+
+                File.Copy(p, destPath)
+
+            // delete the temp directory
+            Directory.Delete(tempDir, true)
+
+            printfn $"Client installed to {path}"
+
+            Ok(p, year, v)
+
+    with e ->
+        Error(FailedToInstall("client", e))
+
+let ensurePath fn (p, year, v) = Ok(File.Exists(fn p year v), p, year, v)
+
+let startProcess (exePath: string) (args: string array) = Process.Start(exePath, args)
+
+let startProcessUmu (exePath: string) (args: string array) =
+    // pass the arguments directly instead of building a shell command, so characters in the join URL (e.g. '?' or '&') are not interpreted by bash
+    let psi =
+        ProcessStartInfo(FileName = "umu-run", UseShellExecute = false)
+
+    psi.ArgumentList.Add exePath
+    args |> Array.iter psi.ArgumentList.Add
+
+    if File.Exists "/proc/driver/nvidia/version" then
+        psi.Environment["__NV_PRIME_RENDER_OFFLOAD"] <- "1"
+        psi.Environment["__GLX_VENDOR_LIBRARY_NAME"] <- "nvidia"
+
+    Process.Start psi
+
+
+
+let launch ticket year (p, _, v) =
+    let procArgs = [| $"--play"; "-a"; authUrl; "-t"; authTicket; "-j"; joinUrl ticket year |]
+
+    if Environment.OSVersion.Platform = PlatformID.Win32NT then
+        try
+            Ok(startProcess (playerPath p year v) procArgs)
+        with e ->
+            Error(FailedToLaunch e)
+    else
+        try
+            Ok(startProcessUmu (playerPath p year v) procArgs)
+        with e ->
+            Error(FailedToLaunchUmu e)
+
+// Register the protocol handler to this application
+let registerURIWindows (p, year, v) =
+    try
+        let key =
+            Registry.CurrentUser.CreateSubKey($"Software\\Classes\\{launcherScheme}", true)
+
+        // same as reg structure created by 2016 launcher
+        key.SetValue("", $"URL: {name} Protocol")
+        key.SetValue("URL Protocol", "")
+
+        let shellKey = key.CreateSubKey "shell"
+        let openKey = shellKey.CreateSubKey "open"
+        let commandKey = openKey.CreateSubKey "command"
+
+        let exePath = launcherPath p year v
+        commandKey.SetValue("", $"\"{exePath}\" %%1")
+
+        Ok(p, year, v)
+    with e ->
+        Error(FailedToRegister e)
+
+let addToMimeapps (dir: string) (filename: string) =
+    let mimeappsList = Path.Combine(dir, "mimeapps.list")
+
+    if File.Exists mimeappsList then
+        File.AppendAllText(mimeappsList, $"\nx-scheme-handler/{launcherScheme}={filename};\n")
+    else
+        File.WriteAllText(
+            mimeappsList,
+            $"[Default Applications]\n\
+            x-scheme-handler/{launcherScheme}={filename};\n"
+        )
+
+let chmodExec execPath =
+    // chmod the exec
+    let psi =
+        ProcessStartInfo(
+            FileName = "chmod",
+            Arguments = $"+x \"{execPath}\"",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        )
+
+    try
+        use proc = Process.Start psi
+        proc.WaitForExit()
+
+        if proc.ExitCode <> 0 then
+            let err = proc.StandardError.ReadToEnd()
+            Error(FailedToRegister(Exception $"chmod failed: {err}"))
+        else
+            Ok()
+    with e ->
+        Error(FailedToRegister e)
+
+let registerURILinux (p, year, v) =
+    // let applicationsDir =
+    //     Path.Combine(Environment.GetFolderPath Environment.SpecialFolder.LocalApplicationData, "share/applications")
+
+    let home = Environment.GetFolderPath Environment.SpecialFolder.UserProfile
+
+    let applicationsDir = System.IO.Path.Combine(home, ".local/share/applications")
+
+    printfn "%s" applicationsDir
+
+    Directory.CreateDirectory applicationsDir |> ignore
+
+    let execPath = launcherPath p year v
+    let desktopFilename = $"{name.ToLowerInvariant()}-launcher.desktop"
+    let desktopPath = Path.Combine(applicationsDir, desktopFilename)
+
+    let desktopContents =
+        $"""
+[Desktop Entry]
+Name={name} Launcher
+Comment=Handle {launcherScheme} links
+Exec="{execPath}" %%U
+Type=Application
+Terminal=false
+NoDisplay=false
+Categories=Utility;Application;
+MimeType=x-scheme-handler/{launcherScheme};
+"""
+
+    try
+        File.WriteAllText(desktopPath, desktopContents)
+
+        let chmod =
+            ProcessStartInfo(FileName = "chmod", Arguments = $"+x \"{execPath}\"", UseShellExecute = false)
+
+        Process.Start(chmod).WaitForExit()
+
+        let mime =
+            ProcessStartInfo(
+                FileName = "xdg-mime",
+                Arguments = $"default {desktopFilename} x-scheme-handler/{launcherScheme}",
+                UseShellExecute = false
+            )
+
+        Process.Start(mime).WaitForExit()
+
+        Ok(p, year, v)
+
+    with e ->
+        Error(FailedToRegister e)
+
+let checkThatItLaunchedCorrectly (p: Process) =
+    if p.HasExited then Error ClientNotFound else Ok()
+
+// clear old versions of this client year only, leaving the other year's
+// installation (e.g. 2013 alongside 2016) untouched
+let clearOldVersions (p: string) year v () =
+    let path = yearPath p year
+
+    if Directory.Exists path then
+        let failedVersions =
+            Directory.GetDirectories path
+            |> Array.filter (fun d ->
+                printfn "comparing %s to %s" d (versionPath p year v)
+                d <> versionPath p year v)
+            |> Array.map (fun d ->
+                try
+                    Directory.Delete(d, true)
+                    Ok()
+                with e ->
+                    Error e)
+            |> Array.filter _.IsError
+            |> _.Length
+
+        if failedVersions = 0 then
+            Ok()
+        else
+            Error(FailedToRemoveOldVersions failedVersions)
+    else
+        Error ClientNotFound
+
+let handleError (c: Event<Control>) =
+    function
+    | VersionTooLong ->
+        c.Trigger(
+            ErrorMessage
+                $"There was an error when trying to get the version from {name}.\n\
+                The version string for {name} is too long."
+        )
+    | VersionMissing ->
+        c.Trigger(
+            ErrorMessage
+                $"There was an error when trying to get the version from {name}.\n\
+                The version string for {name} is missing."
+        )
+    | VersionFailedToGet code ->
+        c.Trigger(
+            ErrorMessage
+                $"There was an error when trying to get the version from {name}.\n\
+                The server returned a {code} status code."
+        )
+    | FailedToGet(thing, code) ->
+        c.Trigger(
+            ErrorMessage
+                $"There was an error when trying to download the {name} {thing}.\n\
+                The server returned a {code} status code."
+        )
+    | FailedToDownload(thing, ex) ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to download the {name} {thing}.\n\
+                Please check your internet connection and try again.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | FailedToInstall(thing, ex) ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to install the {name} {thing}.\n\
+                Please make sure write permissions are given to the installation directory, and there are no existing files with the same name.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | FailedToConnect ex ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to connect to {name}.\n\
+                Please check your internet connection and try again.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | FailedToUnpack ex ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to unpack the {name} client.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | ClientNotFound ->
+        c.Trigger(
+            ErrorMessage
+                $"The {name} client was not found.\n\
+                Please make sure that the client is installed and try again."
+        )
+    | FailedToRemoveOldVersions n ->
+        let ex = if n = 1 then "" else "s"
+
+        c.Trigger(
+            ErrorMessage
+                $"Failed to remove {n} old version{ex} of the {name} client.\n\
+                Please make sure write permissions are given to the versions directory."
+        )
+    | FailedToLaunch ex ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to launch {name}.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | FailedToLaunchUmu ex ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to launch {name}.\n\
+                Make sure you have umu-run installed and configured correctly.\n\
+                \n\
+                https://github.com/Open-Wine-Components/umu-launcher\n\
+                \n\
+                Details: {ex.Message}"
+        )
+    | FailedToRegister ex ->
+        c.Trigger(
+            ErrorMessage
+                $"Failed to register the {name} protocol handler.\n\
+                \n\
+                Details: {ex.Message}"
+        )
+
+let trigger (u: Event<Update list>) updates d =
+    u.Trigger updates
+    Ok d
+
+let saveLauncher (p, year, v) (data: byte array) =
+    let path = launcherPath p year v
+
+    try
+        File.WriteAllBytes(path, data)
+        Ok(p, year, v)
+    with e ->
+        Error(FailedToInstall("launcher", e))
+
+let yes x a =
+    x ()
+    Ok a
+
+let downloadAndInstallClient (client: HttpClient) (u: Event<Update list>) (d, p, year, v) =
+    if d then
+        Ok(p, year, v)
+    else
+        download client u (setupUrlFor year) "client" v
+        >>= trigger u [ Indeterminate true; Text "Unpacking client..." ]
+        >>= ungzipClient
+        >>= trigger u [ Text "Installing client..." ]
+        >>= untarClient p year v
+
+let downloadAndInstallLauncher (client: HttpClient) (u: Event<Update list>) (d, p, year, v) =
+    if d then
+        Ok(p, year, v)
+    else
+        download client u setupUrl "launcher" (launcherFilename ())
+        >>= trigger u [ Text "Installing launcher..." ]
+        >>= saveLauncher (p, year, v)
+
+let launchAndComplete (c: Event<Control>) (u: Event<Update list>) ticket year (p, _, v) =
+    if ticket = "" then
+        u.Trigger [ Text $"Clearing old versions..." ]
+        let r = clearOldVersions p year v ()
+
+        if r.IsOk then
+            u.Trigger [ Progress 100; Indeterminate false; Text "Done!" ]
+
+            c.Trigger(SuccessMessage $"{name} has been successfully installed and is ready to use!")
+
+        // TODO: redirect to site
+        r
+    else
+        u.Trigger [ Text $"Starting {name}..." ]
+
+        launch ticket year (p, year, v)
+        >>= trigger u [ Text $"Finishing up..." ]
+        >>= checkThatItLaunchedCorrectly
+        >>= trigger u [ Text $"Clearing old versions..." ]
+        >>= clearOldVersions p year v
+
+let init ticket year (c: Event<Control>) (u: Event<Update list>) =
+    u.Trigger [ Text $"Connecting to {name}..."; Indeterminate false ]
+
+    use client = new HttpClient()
+
+    let result =
+        requestVersion client year
+        >>= log
+        >>= validateVersion
+        >>= getPath year
+        >>= log
+        >>= trigger u [ Text "Getting client..." ]
+        >>= ensurePath playerPath
+        >>= log
+        >>= trigger u [ Text "Downloading client..." ]
+        >>= downloadAndInstallClient client u
+        >>= ensurePath launcherPath
+        >>= log
+        >>= trigger u [ Text "Downloading launcher..." ]
+        >>= downloadAndInstallLauncher client u
+        >>= log
+        >>= yes (fun () -> log "register time" |> ignore)
+        >>= trigger u [ Text "Registering protocol..." ]
+        >>= (if Environment.OSVersion.Platform = PlatformID.Win32NT then
+                 registerURIWindows
+             else
+                 registerURILinux)
+        >>= yes (fun () -> log "registered" |> ignore)
+        >>= launchAndComplete c u ticket year
+
+    match result with
+    | Ok _ ->
+        u.Trigger [ Text "Done!"; Indeterminate false; Progress 100 ]
+        c.Trigger Shutdown
+    | Error e -> handleError c e // this will trigger the shutdown itself
+
+    printfn "done"
+
+let startApp xfn =
+    AppBuilder
+        .Configure(fun () -> App xfn)
+        .UsePlatformDetect()
+        .UseSkia()
+        .UseHarfBuzz()
+        .WithInterFont()
+        .StartWithClassicDesktopLifetime
+        [||]
+
+[<EntryPoint; STAThread>]
+let main args =
+    printfn "Starting application"
+
+    let ticketAndVersion =
+        if args = [||] then
+            ""
+        else
+            let mainArg = args[0]
+
+            if not (mainArg.StartsWith launcherScheme) then
+                // control.Trigger(ErrorMessage $"The first argument must be a {launcherScheme} URL.")
+                printfn $"The first argument must be a {launcherScheme} URL." |> ignore
+
+                Environment.Exit 1
+
+            mainArg.Substring(launcherScheme.Length + 1)
+
+    // parse the "2013" / "2016" client version prefix from the start of the
+    // URL, e.g. "mercury-launcher:2016<rest>" -> ticket "<rest>".
+    // Without a URL argument this is a plain install run and there is no ticket.
+    let ticket, version =
+        match ticketAndVersion with
+        | "" -> "", Version.Client2013
+        | value when value.Length >= 4 ->
+            let version =
+                match value.Substring(0, 4) with
+                | "2013" -> Version.Client2013
+                | "2016" -> Version.Client2016
+                | _ ->
+                    // control.Trigger(ErrorMessage $"The ticket must start with 2013 or 2016.")
+                    printfn $"The ticket must start with 2013 or 2016." |> ignore
+
+                    Environment.Exit 1
+                    Version.Client2013
+
+            value.Substring 4, version
+        | _ ->
+            // control.Trigger(ErrorMessage $"The ticket must start with 2013 or 2016.")
+            printfn $"The ticket must start with 2013 or 2016." |> ignore
+
+            Environment.Exit 1
+            "", Version.Client2013
+
+    // start app as a thread
+    startApp (init ticket version)

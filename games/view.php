@@ -10,7 +10,7 @@
 	if ($gameInfo->isPrivate && $privateKey !== $gameInfo->privateKey) pageBuilder::errorCode(404);
 	
 	$players = games::getPlayersInServer($gameInfo->id);
-	$hostScriptUrl = "http://banland.xyz/Game/Gameserver.ashx?ticket=".$gameInfo->serverTicket;
+	$hostScriptUrl = "http://".$_SERVER["HTTP_HOST"]."/game/host?ticket=".$gameInfo->serverTicket;
 	
 	pageBuilder::buildHeader();
 ?>
@@ -62,8 +62,8 @@
 		        <div class="col-sm-9">
 		            <div class="tab-content" id="nav-tabContent">
 		                <div class="tab-pane fade active show" id="autopilot" role="tabpanel" aria-labelledby="autopilot-tab">
-		                	<p>Autopilot handles most of the initial studio stuff for you. All you need to do is type in a map that's in the map folder, and start the server.</p>
-		                	<p>Place your maps in <a href="#" onclick="mercury_games.launch('mercury-player:1+launchmode:maps')">Mercury Studio's maps folder</a>. For example, entering <code>CoolMap.rbxl</code> will point to <code>content\maps\CoolMap.rbxl</code>.</p>
+		                	<p>Autopilot needs the legacy Mercury launcher installed (it opens Studio with the host script already loaded). If you don't have it, use the Manual tab.</p>
+		                	<p>Place your maps in Studio's maps folder. For example, entering <code>CoolMap.rbxl</code> will point to <code>content\maps\CoolMap.rbxl</code>.</p>
 		                	<div class="input-group mb-3">
 								<input type="text" class="filepath form-control" placeholder="CoolMap.rbxl">
 								<div class="input-group-append">
@@ -162,7 +162,7 @@
 			<div class="modal-body">
 				It seems like you dont have the <?=SITE_CONFIG["site"]["name"]?> Client installed. If you do, just ignore this message.
 				<hr>
-				<a class="btn btn-success btn-block" href="https://setup.banland.xyz/MercuryPlayerLauncher.exe" role="button">Install</a>
+				<a class="btn btn-success btn-block" href="/setup/launcher" role="button">Install</a>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -170,6 +170,7 @@
 		</div>
 	</div>
 </div>
+<script>window.eclipseLauncherScheme = "<?= SITE_CONFIG["games"]["launcherScheme"] ?>";</script>
 <script src="/js/serverLaunch.js<?= '?t=' . time() ?>"></script>
 <script>
 	$("button[data-control$='join-server']").on("click", function() {

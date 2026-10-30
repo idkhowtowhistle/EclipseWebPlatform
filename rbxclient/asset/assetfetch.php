@@ -10,7 +10,7 @@ if(file_exists("./corescripts/$id.lua"))
 	header('Content-Disposition: attachment; filename="'.md5_file("./corescripts/$id.lua").'"'); 
 	
 	$data = file_get_contents("./corescripts/$id.lua");
-	$data = str_ireplace("roblox.com/asset", "banland.xyz/asset", $data);
+	$data = str_ireplace("roblox.com/asset", $_SERVER["HTTP_HOST"]."/asset", $data);
 	if($id != 38037265) $data = RBX::SignData($data, $id);
 
 	die($data);

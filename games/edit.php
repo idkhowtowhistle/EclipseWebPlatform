@@ -73,7 +73,7 @@ pageBuilder::buildHeader();
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                 <h4>Private Key</h4>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" data-control="privateKey" value="https://banland.xyz/games/view?id=<?= $gameInfo->id ?>&privateKey=<?= $gameInfo->privateKey ?>" placeholder="Private key" id="privKey" aria-label="Private Key" aria-describedby="basic-addon2" disabled>
+                    <input type="text" class="form-control" data-control="privateKey" value="<?= siteBaseUrl() ?>/games/view?id=<?= $gameInfo->id ?>&privateKey=<?= $gameInfo->privateKey ?>" placeholder="Private key" id="privKey" aria-label="Private Key" aria-describedby="basic-addon2" disabled>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" data-control="regenKey" type="button"><i class="fas fa-sync"></i></button>
                     </div>

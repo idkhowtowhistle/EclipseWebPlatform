@@ -63,9 +63,9 @@ pageBuilder::buildHeader();
    </ol>
    <p>There will be images in the carousel to accompany the tutorial, so don't worry about visual problems. If you cannot see the image properly, right click and open the image in a new tab.</p>
    <h3 class="font-weight-normal">Step 1 - Installation (Slide 1)</h3>
-   <p>To install our client, go ahead and go to the <a href="/games">games page</a> and click "Install client" (fig 1). </p>
-   <p>Shortly after that, it should let your browser install our launcher (fig 2).  </p>
-   <p>Go ahead and run the launcher and it will install the full client in your local AppData folder. (fig 3).</p>
+   <p>To install our client, go ahead and go to the <a href="/games">games page</a> and click "Download Client" (fig 1). </p>
+   <p>That downloads the <?= SITE_CONFIG["site"]["name"] ?> launcher. Run it once and it will install the full 2013 client in your local AppData folder and register its protocol (fig 2/3).</p>
+   <p>After that, the "Play" button on any server page opens the game straight from your browser.</p>
    <h3 class="font-weight-normal">Step 2 - Getting your IP Address</h3>
    <p>You need to know your own IP address to allow users to connect to your server. There are a multitude of websites that allow you to get your IP address such as <a href="https://whatismyipaddress.com/">whatismyipaddress.com</a>. Alternatively you can just Google "my ip address" and it should give you the IP.</p>
    <p>A reminder that your IP address needs to be a IPv4 type, so make sure there are 3 dots seperating the numbers. (xxx.xxx.xxx.xxx)</p>

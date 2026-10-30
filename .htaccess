@@ -5,4 +5,15 @@
 	RewriteRule ^asset/characterfetch/([0-9]+)/?$ asset.php?type=characterfetch&id=$1 [L,QSA]
 	RewriteRule ^asset/characterfetch\.ashx$ asset.php?type=characterfetch [L,QSA]
 	RewriteRule ^asset/avataraccoutrements\.ashx$ asset.php?type=avataraccoutrements [L,QSA]
+	# Cliente/launcher do jogo
+	RewriteRule ^game/join/?$ rbxclient/game/join.php [L,QSA]
+	RewriteRule ^game/host/?$ rbxclient/game/gameserver.php [L,QSA]
+	RewriteRule ^game/serverpresence/?$ api/games/serverPresence.php [L,QSA]
+	RewriteRule ^game/clientpresence/?$ api/games/clientPresence.php [L,QSA]
+	RewriteRule ^negotiate/?$ auth/negotiate.php [L,QSA]
+	# Artefatos do setup (versao do cliente, pacote e launcher)
+	RewriteRule ^setup/([0-9]{4})/version/?$ setup.php?type=version&year=$1 [L,QSA]
+	RewriteRule ^setup/([0-9]{4})/([A-Za-z0-9._-]+)/?$ setup.php?type=client&year=$1&version=$2 [L,QSA]
+	RewriteRule ^setup/launcher/?$ setup.php?type=launcher [L,QSA]
+	RewriteRule ^setup/([A-Za-z0-9._-]+)/?$ setup.php?type=launcher&filename=$1 [L,QSA]
 </IfModule>

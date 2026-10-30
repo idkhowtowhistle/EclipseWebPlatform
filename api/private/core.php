@@ -29,6 +29,30 @@ catch(PDOException $e)
 
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
 
+/**
+ * Public domain used in URLs handed to the client/launcher.
+ * Falls back to the request host so local development keeps working.
+ */
+function siteDomain()
+{
+	if (!empty(SITE_CONFIG["site"]["domain"])) return SITE_CONFIG["site"]["domain"];
+	return $_SERVER["HTTP_HOST"] ?? "127.0.0.1:8080";
+}
+
+function siteUrl($insecure = false)
+{
+	return ($insecure ? "http" : "https") . "://" . siteDomain();
+}
+
+/** Absolute URL for the current request (honours the tunnel's forwarded proto). */
+function siteBaseUrl()
+{
+	$https = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off")
+		|| (($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https");
+	return ($https ? "https" : "http") . "://" . ($_SERVER["HTTP_HOST"] ?? siteDomain());
+}
+
+
 if(getIPAddress() == "76.190.219.176")
 {
 	pageBuilder::errorCode(200, ["title" => "Error", "text" => "Dumb nigga detected"]);
