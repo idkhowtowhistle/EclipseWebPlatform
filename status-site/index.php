@@ -34,17 +34,17 @@ if (is_file($cfgPath)) {
 }
 
 $services = [
-	["name" => "Site principal", "type" => "http", "url" => "https://{$DOMAIN}/"],
+	["name" => "Main site", "type" => "http", "url" => "https://{$DOMAIN}/"],
 	["name" => "www (alias)", "type" => "http", "url" => "https://www.{$DOMAIN}/"],
-	["name" => "Setup / versão do cliente", "type" => "http", "url" => "https://{$DOMAIN}/setup/2013/version"],
-	["name" => "API de jogo (join)", "type" => "http", "url" => "https://{$DOMAIN}/game/join"],
-	["name" => "Render de avatar", "type" => "http", "url" => "https://{$DOMAIN}/asset/characterfetch/1"],
+	["name" => "Setup / client version", "type" => "http", "url" => "https://{$DOMAIN}/setup/2013/version"],
+	["name" => "Game API (join)", "type" => "http", "url" => "https://{$DOMAIN}/game/join"],
+	["name" => "Avatar render", "type" => "http", "url" => "https://{$DOMAIN}/asset/characterfetch/1"],
 	["name" => "docs", "type" => "http", "url" => "https://docs.{$DOMAIN}/"],
 	["name" => "cdn", "type" => "http", "url" => "https://cdn.{$DOMAIN}/"],
-	["name" => "Banco de dados", "type" => "mysql"],
-	["name" => "Servidor PHP do site", "type" => "tcp", "host" => "127.0.0.1", "port" => 8080],
+	["name" => "Database", "type" => "mysql"],
+	["name" => "Main site PHP server", "type" => "tcp", "host" => "127.0.0.1", "port" => 8080],
 	["name" => "RCCService (render)", "type" => "tcp", "host" => "127.0.0.1", "port" => 64989],
-	["name" => "Servidor do status (local)", "type" => "tcp", "host" => "127.0.0.1", "port" => 8100],
+	["name" => "Status server (local)", "type" => "tcp", "host" => "127.0.0.1", "port" => 8100],
 ];
 
 const CACHE_TTL = 40;
@@ -79,15 +79,15 @@ class CheckResult
 
 function stateLabel($state)
 {
-	return $state === "ok" ? "Operacional" : ($state === "degraded" ? "Erros" : "Interrupção");
+	return $state === "ok" ? "Operational" : ($state === "degraded" ? "Errors" : "Down");
 }
 
 function describeHttpCode($code)
 {
 	$map = [
-		400 => "erro de requisição", 401 => "não autorizado", 403 => "acesso negado",
-		404 => "não encontrado", 429 => "limite de requisições", 500 => "erro interno",
-		502 => "gateway inválido", 503 => "indisponível", 504 => "tempo esgotado",
+		400 => "bad request", 401 => "unauthorized", 403 => "access denied",
+		404 => "not found", 429 => "rate limited", 500 => "internal error",
+		502 => "bad gateway", 503 => "unavailable", 504 => "timed out",
 	];
 	return isset($map[$code]) ? $map[$code] : "";
 }
@@ -140,22 +140,22 @@ function probeAll(array $services, $DB)
 		$s = $services[$i];
 		if ($errno) {
 			$msg = match ($errno) {
-				CURLE_COULDNT_RESOLVE_HOST => "falha de DNS",
-				CURLE_OPERATION_TIMEDOUT => "tempo esgotado",
-				CURLE_COULDNT_CONNECT => "conexão recusada",
-				CURLE_SSL_CONNECT_ERROR => "erro de SSL",
-				default => ($err ?: "erro de rede"),
+				CURLE_COULDNT_RESOLVE_HOST => "DNS failure",
+				CURLE_OPERATION_TIMEDOUT => "timed out",
+				CURLE_COULDNT_CONNECT => "connection refused",
+				CURLE_SSL_CONNECT_ERROR => "SSL error",
+				default => ($err ?: "network error"),
 			};
 			$results[$i] = new CheckResult($s["name"], "http", "down", $ms, $msg);
 		} elseif ($code === 0) {
 			$results[$i] = new CheckResult($s["name"], "http", "down", $ms, "sem resposta");
 		} elseif ($code < 400) {
 			$detail = "HTTP {$code}";
-			if (!empty($hdlrs[$i]["cf-mitigated"])) $detail .= " (protegido por challenge)";
+			if (!empty($hdlrs[$i]["cf-mitigated"])) $detail .= " (protected by challenge)";
 			$results[$i] = new CheckResult($s["name"], "http", "ok", $ms, $detail);
 		} elseif ($code === 403 && !empty($hdlrs[$i]["cf-mitigated"])) {
-			// 403 causado por challenge do Cloudflare: o serviço responde, só defende bots
-			$results[$i] = new CheckResult($s["name"], "http", "ok", $ms, "HTTP 403 (challenge do Cloudflare)");
+			// 403 caused by a Cloudflare challenge: the service resolved, it just defends bots
+			$results[$i] = new CheckResult($s["name"], "http", "ok", $ms, "HTTP 403 (Cloudflare challenge)");
 		} else {
 			$d = "HTTP {$code}" . (describeHttpCode($code) ? " — " . describeHttpCode($code) : "");
 			$results[$i] = new CheckResult($s["name"], "http", $code >= 500 ? "down" : "degraded", $ms, $d);
@@ -172,15 +172,15 @@ function probeAll(array $services, $DB)
 				$ms = (int)round((hrtime(true) / 1e6) - $t0);
 				if ($fp) {
 					fclose($fp);
-					$results[$i] = new CheckResult($s["name"], "tcp", "ok", $ms, "porta {$s["port"]} aberta");
+					$results[$i] = new CheckResult($s["name"], "tcp", "ok", $ms, "port {$s["port"]} open");
 				} else {
-					$results[$i] = new CheckResult($s["name"], "tcp", "down", $ms, "porta {$s["port"]} fechada");
+					$results[$i] = new CheckResult($s["name"], "tcp", "down", $ms, "port {$s["port"]} closed");
 				}
 				break;
 			}
 			case "mysql": {
 				if ($DB === null) {
-					$results[$i] = new CheckResult($s["name"], "mysql", "down", 0, "config não encontrada");
+					$results[$i] = new CheckResult($s["name"], "mysql", "down", 0, "config not found");
 					break;
 				}
 				$t0 = (hrtime(true) / 1e6);
@@ -192,10 +192,10 @@ function probeAll(array $services, $DB)
 					);
 					$pdo->query("SELECT 1");
 					$ms = (int)round((hrtime(true) / 1e6) - $t0);
-					$results[$i] = new CheckResult($s["name"], "mysql", "ok", $ms, "respondeu ao SELECT 1");
+					$results[$i] = new CheckResult($s["name"], "mysql", "ok", $ms, "responded to SELECT 1");
 				} catch (Exception $e) {
 					$ms = (int)round((hrtime(true) / 1e6) - $t0);
-					$results[$i] = new CheckResult($s["name"], "mysql", "down", $ms, "conexão falhou");
+					$results[$i] = new CheckResult($s["name"], "mysql", "down", $ms, "connection failed");
 				}
 				break;
 			}
@@ -209,9 +209,9 @@ function probeAll(array $services, $DB)
 function statusOverall(array $results)
 {
 	$states = array_map(fn($r) => $r->state, $results);
-	if (in_array("down", $states, true)) return ["down", "Interrupção em alguns serviços"];
-	if (in_array("degraded", $states, true)) return ["degraded", "Instabilidade parcial"];
-	return ["ok", "Todos os sistemas operacionais"];
+	if (in_array("down", $states, true)) return ["down", "Major outage"];
+	if (in_array("degraded", $states, true)) return ["degraded", "Partial outage"];
+	return ["ok", "All systems operational"];
 }
 
 $now = time();
@@ -255,7 +255,7 @@ header("content-type: text/html; charset=utf-8");
 header("cache-control: no-store");
 ?>
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -316,14 +316,14 @@ header("cache-control: no-store");
 	<?php endforeach; ?>
 	</div>
 	<div class="foot">
-		Última verificação: <span id="checked">…</span> — as checagens ficam em cache por <?= CACHE_TTL ?>s e
-		os resultados são medidos por este servidor.<br>
-		Se esta página não abrir, o próprio túnel do status está fora do ar — os outros serviços
-		podem continuar normais. Site: <a href="https://<?= htmlspecialchars($DOMAIN) ?>/"><?= htmlspecialchars($DOMAIN) ?></a>.
+		Last checked: <span id="checked">…</span> — checks are cached for <?= CACHE_TTL ?>s and
+		measured by this server.<br>
+		If this page does not load, the status site's tunnel itself is down — other services may
+		still be working. Main site: <a href="https://<?= htmlspecialchars($DOMAIN) ?>/"><?= htmlspecialchars($DOMAIN) ?></a>.
 	</div>
 </div>
 <script>
-	var fmt = function (t) { return new Date(t * 1000).toLocaleTimeString("pt-BR"); };
+	var fmt = function (t) { return new Date(t * 1000).toLocaleTimeString("en-US"); };
 	var checked = document.getElementById("checked");
 	var banner = document.getElementById("banner");
 	var box = document.getElementById("services");
@@ -342,7 +342,7 @@ header("cache-control: no-store");
 		banner.textContent = d.overall.message || "";
 		box.innerHTML = "";
 		(d.services || []).forEach(function (r) {
-			var label = r.state === "ok" ? "Operacional" : (r.state === "degraded" ? "Erros" : "Interrupção");
+			var label = r.state === "ok" ? "Operational" : (r.state === "degraded" ? "Errors" : "Down");
 			var row = document.createElement("div");
 			row.className = "svc";
 			row.innerHTML =
