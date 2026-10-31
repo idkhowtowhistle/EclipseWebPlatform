@@ -19,12 +19,17 @@ require $_SERVER['DOCUMENT_ROOT'].'/api/private/vendors/Parsedown.php';
 
 try
 {
-	$pdo = new PDO('mysql:host='.SITE_CONFIG["database"]["host"].';dbname='.SITE_CONFIG["database"]["schema"], SITE_CONFIG["database"]["username"], SITE_CONFIG["database"]["password"]);
+	$pdo = new PDO('mysql:host='.SITE_CONFIG["database"]["host"].';dbname='.SITE_CONFIG["database"]["schema"], SITE_CONFIG["database"]["username"], SITE_CONFIG["database"]["password"], array(PDO::ATTR_TIMEOUT => 3));
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch(PDOException $e)
 {
-	die("Connection to ".SITE_CONFIG["site"]["name"]." terminated: Database connection to '".SITE_CONFIG["database"]["schema"]."' at ".SITE_CONFIG["database"]["host"]." failed: ".$e->getMessage());
+	// database offline: respond with a real 502 so Cloudflare/load balancers and
+	// the status site see the site as down instead of a 200 with an error text
+	http_response_code(502);
+	header("content-type: text/html; charset=utf-8");
+	header("retry-after: 30");
+	die("502 Bad Gateway\n\nConnection to ".SITE_CONFIG["site"]["name"]." terminated: Database connection to '".SITE_CONFIG["database"]["schema"]."' at ".SITE_CONFIG["database"]["host"]." failed: ".$e->getMessage());
 }
 
 require $_SERVER['DOCUMENT_ROOT'].'/api/private/pagebuilder.php';
