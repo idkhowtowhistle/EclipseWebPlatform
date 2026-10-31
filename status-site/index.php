@@ -88,6 +88,9 @@ function describeHttpCode($code)
 		400 => "bad request", 401 => "unauthorized", 403 => "access denied",
 		404 => "not found", 429 => "rate limited", 500 => "internal error",
 		502 => "bad gateway", 503 => "unavailable", 504 => "timed out",
+		// retornado pelo origin-guard quando o PHP do site principal está fora
+		521 => "web server is down", 522 => "connection timed out",
+		523 => "unreachable origin",
 	];
 	return isset($map[$code]) ? $map[$code] : "";
 }
